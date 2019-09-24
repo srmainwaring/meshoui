@@ -42,6 +42,8 @@ option(MESHOUI_BUILD_TESTS "Activate build tests" ON)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/URL.conf.cmake)
 
+include(Add_OpenMesh)
+
 #=============================================================================
 # Adding the MESHOUI project sources
 #=============================================================================
