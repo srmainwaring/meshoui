@@ -1,7 +1,7 @@
 
 # TODO : ajouter les fichiers source cpp dans la variable suivante :
 set(MESHOUI_SRC_FILES
-    loader.cpp
+    mesh.cpp
         )
 
 

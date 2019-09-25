@@ -8,6 +8,6 @@
 #ifndef MESHOUI_MESHOUI_H
 #define MESHOUI_MESHOUI_H
 
-#include "loader.h"
+#include "mesh.h"
 
 #endif //MESHOUI_MESHOUI_H

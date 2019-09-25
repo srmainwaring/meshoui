@@ -41,7 +41,6 @@ namespace meshoui {
         /// Extended from Eberly... https://d-ice.gitlab.host/common/technical_reports/mesh-integrals
         void CalcFacePolynomialIntegrals(const mesh::FaceHandle &fh);
 
-
     };
 
 } // end namespace meshoui

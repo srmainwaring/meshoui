@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-#include "loader.h"
+#include "mesh.h"
 
 namespace meshoui {
 
