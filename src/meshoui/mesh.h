@@ -44,6 +44,7 @@ namespace meshoui {
         /// Extended from Eberly... https://d-ice.gitlab.host/common/technical_reports/mesh-integrals
         void CalcFacePolynomialIntegrals(const mesh::FaceHandle &fh);
 
+    public:
         /// Convert an OpenMesh point into a vector.
         template <class Vector>
         inline Vector OpenMeshPointToVector3d(const mesh::Point &point) {
