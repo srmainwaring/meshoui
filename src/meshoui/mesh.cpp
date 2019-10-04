@@ -11,14 +11,14 @@
 
 namespace meshoui {
 
-    mesh::mesh(std::string meshfile) {
+    Mesh::Mesh(std::string meshfile) {
 
         // Constructor of the class.
 
         Load(std::move(meshfile));
     }
 
-    void mesh::Load(std::string meshfile) {
+    void Mesh::Load(std::string meshfile) {
 
         // This function loads the mesh file.
 
@@ -30,7 +30,7 @@ namespace meshoui {
         UpdateAllProperties();
     }
 
-    void mesh::UpdateAllProperties() {
+    void Mesh::UpdateAllProperties() {
 
         // This function updates all properties of faces and vertices (normals, centroids, surface integrals).
 
@@ -42,7 +42,7 @@ namespace meshoui {
 
     }
 
-    void mesh::UpdateBaseProperties() {
+    void Mesh::UpdateBaseProperties() {
 
         // This function computes the normal vectors everywhere and the centroid of faces.
 
@@ -57,7 +57,7 @@ namespace meshoui {
 
     }
 
-    void mesh::UpdateFacesPolynomialIntegrals() {
+    void Mesh::UpdateFacesPolynomialIntegrals() {
 
         // This function updates the computations of the polynomial surface integrals.
 
@@ -66,7 +66,7 @@ namespace meshoui {
         }
     }
 
-    void mesh::CalcFacePolynomialIntegrals(const mesh::FaceHandle &fh) {
+    void Mesh::CalcFacePolynomialIntegrals(const Mesh::FaceHandle &fh) {
 
         // This function computes the polynomial surface integrals over the faces.
 
