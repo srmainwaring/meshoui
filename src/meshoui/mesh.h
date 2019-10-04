@@ -48,7 +48,7 @@ namespace meshoui {
     };
 
   /// Convert an OpenMesh point into a vector.
-  inline mathutils::Vector3d<double> OpenMeshPointToVector3d(const mesh::Point &point) {
+  inline mathutils::Vector3d<double> OpenMeshPointToVector3d(const Mesh::Point &point) {
     return {point[0], point[1], point[2]}; // Always gives a FRyDoM vector expressed in NWU
   }
 
