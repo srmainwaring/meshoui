@@ -15,15 +15,15 @@ namespace meshoui {
     /**
     * Class for dealing with OpenMesh structures.
     */
-    class mesh : public OpenMesh::TriMesh_ArrayKernelT<meshTraits> { // Mesh must be a triangular mesh.
+    class Mesh : public OpenMesh::TriMesh_ArrayKernelT<meshTraits> { // Mesh must be a triangular mesh.
 
     public:
 
         /// Constructor of the class.
-        mesh() = default;
+        Mesh() = default;
 
         /// Constructor of the class.
-        explicit mesh(std::string meshfile);
+        explicit Mesh(std::string meshfile);
 
         /// This function loads the mesh file.
         void Load(std::string meshfile);
@@ -42,12 +42,13 @@ namespace meshoui {
         /// Computes triangular faces surface integration of some polynomial integrands using analytical formulas
         /// established by transforming surface integrals into contour integrals and deriving analytical expressions.
         /// Extended from Eberly... https://d-ice.gitlab.host/common/technical_reports/mesh-integrals
-        void CalcFacePolynomialIntegrals(const mesh::FaceHandle &fh);
+        void CalcFacePolynomialIntegrals(const Mesh::FaceHandle &fh);
 
     public:
+
         /// Convert an OpenMesh point into a vector.
         template <class Vector>
-        inline Vector OpenMeshPointToVector3d(const mesh::Point &point) {
+        inline Vector OpenMeshPointToVector3d(const Mesh::Point &point) {
             return Vector(point[0], point[1], point[2]); // Always gives a FRyDoM vector expressed in NWU
         }
 

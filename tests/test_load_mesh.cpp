@@ -7,7 +7,7 @@ using namespace meshoui;
 
 int main() {
 
-    meshoui::mesh mesh("../../docs/Input_files/Sphere_6200_faces.obj");
+    meshoui::Mesh mesh("../../docs/Input_files/Sphere_6200_faces.obj");
 
     return 0;
 }
