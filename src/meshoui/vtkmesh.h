@@ -21,6 +21,16 @@
 #include <vtkPointData.h>
 #include <vtkMath.h>
 #include <vtkDoubleArray.h>
+#include <vtkRenderer.h>
+#include <vtkRenderWindow.h>
+#include <vtkRenderWindowInteractor.h>
+#include <vtkInteractorStyleSwitch.h>
+#include <vtkAxesActor.h>
+#include <vtkOrientationMarkerWidget.h>
+#include <vtkCornerAnnotation.h>
+#include <vtkTextProperty.h>
+#include <vtkPolyDataMapper.h>
+#include "vtkProperty.h"
 
 namespace meshoui {
 
@@ -44,6 +54,9 @@ namespace meshoui {
 
     /// This function writes the ouput *.vtp file.
     void Write(const std::string &meshfile);
+
+    /// This function displays the mesh in a window.
+    void Visualize();
 
     /// Getter for m_polydata.
     const vtkSmartPointer<vtkPolyData>& polydata();
