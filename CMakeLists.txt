@@ -35,7 +35,6 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 #=============================================================================
 option(MESHOUI_BUILD_TESTS "Activate build tests" ON)
 
-
 # =============================================================================
 # MESHOUI DEPENDENCIES
 # =============================================================================
@@ -43,6 +42,10 @@ option(MESHOUI_BUILD_TESTS "Activate build tests" ON)
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/URL.conf.cmake)
 
 include(Add_OpenMesh)
+include(Add_MathUtils)
+
+find_package(VTK 6.0 REQUIRED NO_MODULE)
+include(${VTK_USE_FILE})
 
 #=============================================================================
 # Adding the MESHOUI project sources
