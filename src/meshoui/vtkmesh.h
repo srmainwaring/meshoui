@@ -58,9 +58,6 @@ namespace meshoui {
     /// This function displays the mesh in a window.
     void Visualize();
 
-    /// Getter for m_polydata.
-    const vtkSmartPointer<vtkPolyData>& polydata();
-
    private:
 
     /// This function fills the polydata.

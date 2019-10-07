@@ -194,12 +194,4 @@ namespace meshoui {
 
   }
 
-  const vtkSmartPointer<vtkPolyData> &VTKMesh::polydata(){
-
-    // Getter for m_polydata.
-
-    return m_polydata;
-
-  }
-
 } // end namespace meshoui
