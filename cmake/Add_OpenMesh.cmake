@@ -7,7 +7,7 @@ if (NOT OpenMesh_FOUND)
     set(OpenMesh_URL "https://www.graphics.rwth-aachen.de:9000/OpenMesh/OpenMesh.git")
     FetchContent_Declare(OpenMesh
             GIT_REPOSITORY ${OpenMesh_URL}
-            GIT_TAG "OpenMesh-7.0"
+            GIT_TAG "OpenMesh-8.0"
             )
 
     FetchContent_GetProperties(OpenMesh)
