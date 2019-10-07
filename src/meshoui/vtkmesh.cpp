@@ -101,9 +101,6 @@ namespace meshoui {
 
     if (where == VERTEX) {
       m_polydata->GetPointData()->AddArray(field);
-
-      m_polydata->GetPointData()->SetScalars(colors);
-
     } else if (where == CELL) {
       m_polydata->GetCellData()->AddArray(field);
     }
