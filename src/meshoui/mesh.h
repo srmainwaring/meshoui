@@ -44,15 +44,13 @@ namespace meshoui {
         /// Extended from Eberly... https://d-ice.gitlab.host/common/technical_reports/mesh-integrals
         void CalcFacePolynomialIntegrals(const Mesh::FaceHandle &fh);
 
-    public:
-
-        /// Convert an OpenMesh point into a vector.
-        template <class Vector>
-        inline Vector OpenMeshPointToVector3d(const Mesh::Point &point) {
-            return Vector(point[0], point[1], point[2]); // Always gives a FRyDoM vector expressed in NWU
-        }
-
     };
+
+  /// Convert an OpenMesh point into a vector.
+  template <class Vector>
+  inline Vector OpenMeshPointToVector3d(const Mesh::Point &point) {
+    return Vector(point[0], point[1], point[2]); // Always gives a FRyDoM vector expressed in NWU
+  }
 
 } // end namespace meshoui
 
