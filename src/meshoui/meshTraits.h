@@ -19,7 +19,7 @@ namespace meshoui {
         // TODO: voir http://www.drdobbs.com/when-enum-just-isnt-enough-enumeration-c/184403955 pour une meilleure
         // gestion des enums
         UNDEFINED_INTEGRAND,
-        POLY_1
+        AREA
     };
 
 struct meshTraits : public OpenMesh::DefaultTraits {
@@ -82,7 +82,7 @@ struct meshTraits : public OpenMesh::DefaultTraits {
             /// This function gives the surface integral of a face.
             const double GetSurfaceIntegral(IntegrandType type) const { // TODO: abandonner les enums pour les integrandes et preferer les accessors voir mieux, des fonctors...
                 switch (type) {
-                    case POLY_1:
+                    case AREA:
                         return m_integrals.m_int_1; // This is the surface area...
                     case UNDEFINED_INTEGRAND:
                         std::cerr << "Cannot return value of an UNDEFINED_INTEGRAND" << std::endl;
@@ -94,7 +94,7 @@ struct meshTraits : public OpenMesh::DefaultTraits {
 
             void SetSurfaceIntegral(IntegrandType type, const double &val) {
                 switch (type) {
-                    case POLY_1:
+                    case AREA:
                         m_integrals.m_int_1 = val;
                         break;
                     case UNDEFINED_INTEGRAND:

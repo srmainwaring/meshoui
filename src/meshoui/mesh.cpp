@@ -96,7 +96,7 @@ namespace meshoui {
 
         // My Extended Eberly's Formulas.
         // Surface integrals are transformed into contour integrals.
-        data(fh).SetSurfaceIntegral(POLY_1, delta / 2.);
+        data(fh).SetSurfaceIntegral(AREA, delta / 2.);
         // FIXME : si on a seulement besoin de l'aire, autant l'appeler AREA. POLY_1 c'etait parcequ'on avait une liste
         // d'integrales de polynomes. Pas dans ce cas ...
 
