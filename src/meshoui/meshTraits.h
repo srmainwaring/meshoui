@@ -12,6 +12,7 @@
 
 #include "OpenMesh/Core/IO/MeshIO.hh"
 #include "OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh"
+#include <OpenMesh/Core/Geometry/EigenVectorT.hh>
 
 namespace meshoui {
 

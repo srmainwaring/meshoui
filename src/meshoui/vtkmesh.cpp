@@ -81,17 +81,14 @@ namespace meshoui {
       assert(data.size() == m_polydata->GetNumberOfCells());
     }
 
-
     auto field = vtkSmartPointer<vtkDoubleArray>::New();
     field->SetNumberOfComponents(1);
     field->SetName(name.c_str());
-
 
     vtkSmartPointer<vtkUnsignedCharArray> colors =
         vtkSmartPointer<vtkUnsignedCharArray>::New();
     colors->SetNumberOfComponents(3);
     colors->SetName("Colors");
-
 
     for (const auto &val : data) {
       field->InsertNextValue(val);
@@ -108,7 +105,7 @@ namespace meshoui {
 
   void VTKMesh::Write(const std::string &meshfile) {
 
-    // This function writes the ouput *.vtp file.
+    // This function writes the output *.vtp file.
 
     auto writer = vtkSmartPointer<vtkXMLPolyDataWriter>::New();
     writer->SetFileName(meshfile.c_str());
@@ -176,7 +173,6 @@ namespace meshoui {
     // Building actor.
     vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
     actor->SetMapper(mapper);
-
 
     // Property settings.
 //    actor->GetProperty()->SetColor(1, 1, 0); // Yellow.
