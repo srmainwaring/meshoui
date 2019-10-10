@@ -49,8 +49,11 @@ namespace meshoui {
     /// Constructor of the class.
     explicit VTKMesh(meshoui::Mesh &mesh);
 
-    /// This function adds a field to the polydata.
+    /// This function adds a field made of double to the polydata.
     void AddField(const std::string &name, const std::vector<double> &data, WHERE where);
+
+    /// This function adds a field made of Vector 3d to the polydata.
+    void AddField(const std::string &name, const std::vector<Vector3d> &data, WHERE where);
 
     /// This function writes the ouput *.vtp file.
     void Write(const std::string &meshfile);

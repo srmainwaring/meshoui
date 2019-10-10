@@ -85,14 +85,34 @@ namespace meshoui {
     field->SetNumberOfComponents(1);
     field->SetName(name.c_str());
 
-    vtkSmartPointer<vtkUnsignedCharArray> colors =
-        vtkSmartPointer<vtkUnsignedCharArray>::New();
-    colors->SetNumberOfComponents(3);
-    colors->SetName("Colors");
-
     for (const auto &val : data) {
       field->InsertNextValue(val);
-      colors->InsertNextValue(val);
+    }
+
+    if (where == VERTEX) {
+      m_polydata->GetPointData()->AddArray(field);
+    } else if (where == CELL) {
+      m_polydata->GetCellData()->AddArray(field);
+    }
+
+  }
+
+  void VTKMesh::AddField(const std::string &name, const std::vector<Vector3d> &data, WHERE where) {
+
+    // This function adds a field to the polydata.
+
+    if (where == VERTEX) {
+      assert(data.size() == m_polydata->GetNumberOfPoints());
+    } else if (where == CELL) {
+      assert(data.size() == m_polydata->GetNumberOfCells());
+    }
+
+    auto field = vtkSmartPointer<vtkDoubleArray>::New();
+    field->SetNumberOfComponents(3);
+    field->SetName(name.c_str());
+
+    for (const auto &val : data) {
+      field->InsertNextTuple(val.data());
     }
 
     if (where == VERTEX) {
