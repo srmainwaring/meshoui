@@ -16,6 +16,12 @@
 
 namespace meshoui {
 
+  struct EigenTraits : OpenMesh::DefaultTraits {
+    using Point = Eigen::Vector3d;
+    using Normal = Eigen::Vector3d;
+    using TexCoord2D = Eigen::Vector2d;
+  };
+
     enum IntegrandType {
         // TODO: voir http://www.drdobbs.com/when-enum-just-isnt-enough-enumeration-c/184403955 pour une meilleure
         // gestion des enums
