@@ -9,6 +9,7 @@
 #define MESHOUI_LOADER_H
 
 #include "meshTraits.h"
+#include <OpenMesh/Core/Utils/PropertyManager.hh>
 
 namespace meshoui {
 
