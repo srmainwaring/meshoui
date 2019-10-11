@@ -31,7 +31,7 @@ namespace meshoui {
     for (; v_it != mesh.vertices_end(); ++v_it) {
 
       // Conversion from OpenMesh::point to Vector3d.
-      Vector3d vertex = OpenMeshPointToVector3d<Vector3d>(mesh.point(*v_it));
+      Vector3d vertex = mesh.point(*v_it);
 
       // Add a point to the structure the array of points.
       points->InsertNextPoint(vertex(0), vertex(1), vertex(2));
