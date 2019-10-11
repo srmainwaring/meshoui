@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "mesh.h"
+#include "math.h"
 
 namespace meshoui {
 
@@ -72,8 +73,8 @@ namespace meshoui {
 
         typedef OpenMesh::Vec3d Point;
 
-        Point P0, P1, P2;
-        Point e1, e2, cp;
+        Vector3d P0, P1, P2;
+        Vector3d e1, e2, cp;
 
         double delta;
 
