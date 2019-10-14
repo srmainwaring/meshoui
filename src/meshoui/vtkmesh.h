@@ -63,7 +63,7 @@ namespace meshoui {
 
     /// This function adds data of type T to either the faces or the vertices of the vtk mesh.
     template<typename T>
-    void AddFieldAtFacesOrVertices(Mesh* mesh, const char* PropertyName, WHERE where){
+    void AddDynamicField(Mesh* mesh, const char* PropertyName, WHERE where){
 
       std::vector<T> data;
 
@@ -87,6 +87,15 @@ namespace meshoui {
       AddField(PropertyName, data, where);
 
     }
+
+    /// This function adds the field of the face normals to the vtk mesh.
+    void AddFaceNormalField(meshoui::Mesh* mesh);
+
+    /// This function adds the field of the vertex normals to the vtk mesh.
+    void AddVertexNormalField(meshoui::Mesh* mesh);
+
+    /// This function adds the field of the edge lengths to the vtk mesh.
+    void AddEdgeLengthField(meshoui::Mesh* mesh);
 
    private:
 

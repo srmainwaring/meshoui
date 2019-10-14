@@ -123,6 +123,60 @@ namespace meshoui {
 
   }
 
+  void VTKMesh::AddFaceNormalField(meshoui::Mesh* mesh){
+
+    // This function adds the field of the face normals to the vtk mesh.
+
+    std::vector<Vector3d> face_normal;
+    face_normal.reserve(mesh->n_faces());
+    auto f_iter = mesh->faces_begin();
+    for (; f_iter != mesh->faces_end(); ++f_iter) {
+      face_normal.push_back(mesh->normal(*f_iter));
+    }
+    AddField("face_normal", face_normal, meshoui::VTKMesh::CELL);
+
+  }
+
+  void VTKMesh::AddVertexNormalField(meshoui::Mesh* mesh){
+
+    // This function adds the field of the vertex normals to the vtk mesh.
+
+    std::vector<Vector3d> vertex_normal;
+    vertex_normal.reserve(mesh->n_vertices());
+    auto v_iter = mesh->vertices_begin();
+    for (; v_iter != mesh->vertices_end(); ++v_iter) {
+      vertex_normal.push_back(mesh->normal(*v_iter));
+    }
+    AddField("vertex_normal", vertex_normal, meshoui::VTKMesh::VERTEX);
+
+  }
+
+  void VTKMesh::AddEdgeLengthField(meshoui::Mesh* mesh){
+
+    // This function adds the field of the edge lengths to the vtk mesh.
+
+    auto edge_length = OpenMesh::getProperty<OpenMesh::EdgeHandle, double>(*mesh, "edge_length");
+
+    std::vector<double> edge_length_tmp;
+    edge_length_tmp.reserve(mesh->n_vertices());
+    auto v_iter = mesh->vertices_begin();
+    for (; v_iter != mesh->vertices_end(); ++v_iter) {
+
+      // Mean of the edge lenthes linked to the vertex.
+      double mean_edge_length = 0;
+      int nb_edge = 0;
+      for (meshoui::Mesh::VertexEdgeIter ve_it = mesh->ve_iter(*v_iter); ve_it.is_valid(); ++ve_it){
+
+        mean_edge_length += mesh->property(*edge_length, *ve_it);
+        nb_edge += 1;
+      }
+      mean_edge_length /= nb_edge;
+      edge_length_tmp.push_back(mean_edge_length);
+    }
+    AddField("edge_length", edge_length_tmp, meshoui::VTKMesh::VERTEX);
+
+  }
+
   void VTKMesh::Write(const std::string &meshfile) {
 
     // This function writes the output *.vtp file.
