@@ -84,7 +84,7 @@ namespace meshoui {
         }
       }
 
-      AddField(PropertyName, data, meshoui::VTKMesh::CELL);
+      AddField(PropertyName, data, where);
 
     }
 
