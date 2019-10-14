@@ -61,6 +61,23 @@ namespace meshoui {
     /// This function displays the mesh in a window.
     void Visualize();
 
+    /// This function adds data of type T to either the faces or the vertices of the vtk mesh.
+    template<typename T>
+    void AddFieldAtFaces(Mesh* mesh, const char* PropertyName){
+
+      auto property = OpenMesh::getProperty<OpenMesh::FaceHandle, T>(*mesh, PropertyName);
+
+      std::vector<T> data;
+      data.reserve(mesh->n_faces());
+      auto f_iter = mesh->faces_begin();
+      for (; f_iter != mesh->faces_end(); ++f_iter) {
+        data.push_back(mesh->property(*property,*f_iter));
+      }
+
+      AddField(PropertyName, data, meshoui::VTKMesh::CELL);
+
+    }
+
    private:
 
     /// This function fills the polydata.
