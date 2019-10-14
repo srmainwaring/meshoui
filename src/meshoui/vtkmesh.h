@@ -63,7 +63,7 @@ namespace meshoui {
 
     /// This function adds data of type T to either the faces or the vertices of the vtk mesh.
     template<typename T>
-    void AddFieldAtFacesorVertices(Mesh* mesh, const char* PropertyName, WHERE where){
+    void AddFieldAtFacesOrVertices(Mesh* mesh, const char* PropertyName, WHERE where){
 
       std::vector<T> data;
 
