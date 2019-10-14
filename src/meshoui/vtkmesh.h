@@ -63,15 +63,25 @@ namespace meshoui {
 
     /// This function adds data of type T to either the faces or the vertices of the vtk mesh.
     template<typename T>
-    void AddFieldAtFaces(Mesh* mesh, const char* PropertyName){
-
-      auto property = OpenMesh::getProperty<OpenMesh::FaceHandle, T>(*mesh, PropertyName);
+    void AddFieldAtFacesorVertices(Mesh* mesh, const char* PropertyName, WHERE where){
 
       std::vector<T> data;
-      data.reserve(mesh->n_faces());
-      auto f_iter = mesh->faces_begin();
-      for (; f_iter != mesh->faces_end(); ++f_iter) {
-        data.push_back(mesh->property(*property,*f_iter));
+
+      if(where == CELL) {
+        auto property = OpenMesh::getProperty<OpenMesh::FaceHandle, T>(*mesh, PropertyName);
+        data.reserve(mesh->n_faces());
+        auto f_iter = mesh->faces_begin();
+        for (; f_iter != mesh->faces_end(); ++f_iter) {
+          data.push_back(mesh->property(*property,*f_iter));
+        }
+      }
+      else if(where == VERTEX){
+        auto property = OpenMesh::getProperty<OpenMesh::VertexHandle, T>(*mesh, PropertyName);
+        data.reserve(mesh->n_vertices());
+        auto v_iter = mesh->vertices_begin();
+        for (; v_iter != mesh->vertices_end(); ++v_iter) {
+          data.push_back(mesh->property(*property,*v_iter));
+        }
       }
 
       AddField(PropertyName, data, meshoui::VTKMesh::CELL);
