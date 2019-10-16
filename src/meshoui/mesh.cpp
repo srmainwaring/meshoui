@@ -102,5 +102,5 @@ namespace meshoui {
         // d'integrales de polynomes. Pas dans ce cas ...
 
     }
-
+    
 } // end namespace meshoui

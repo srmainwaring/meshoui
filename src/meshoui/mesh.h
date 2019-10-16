@@ -13,6 +13,12 @@
 
 namespace meshoui {
 
+    // OpenMesh handles.
+    using FaceHandle = OpenMesh::FaceHandle;
+    using VertexHandle = OpenMesh::VertexHandle;
+    using HalfedgeHandle = OpenMesh::HalfedgeHandle;
+    using EdgeHandle = OpenMesh::EdgeHandle;
+
     /**
     * Class for dealing with OpenMesh structures.
     */
