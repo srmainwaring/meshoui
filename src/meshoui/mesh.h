@@ -58,8 +58,8 @@ namespace meshoui {
 
       /// This function creates a property about the faces of the mesh.
       template<typename T>
-      void CreateFaceProperty(const char* name){
-        OpenMesh::getOrMakeProperty<meshoui::FaceHandle, T>(*this, name);
+      OpenMesh::PropertyManager<OpenMesh::FPropHandleT<T>, meshoui::Mesh> CreateFaceProperty(const char* name){
+        return OpenMesh::getOrMakeProperty<meshoui::FaceHandle, T>(*this, name);
       }
 
     private:
