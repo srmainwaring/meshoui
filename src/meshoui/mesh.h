@@ -20,6 +20,7 @@ namespace meshoui {
     using EdgeHandle = OpenMesh::EdgeHandle;
     using FPropHandleTDouble = OpenMesh::FPropHandleT<double>;
     using VPropHandleTDouble = OpenMesh::VPropHandleT<double>;
+    using EPropHandleTDouble = OpenMesh::EPropHandleT<double>;
 
     /**
     * Class for dealing with OpenMesh structures.
