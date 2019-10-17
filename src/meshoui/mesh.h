@@ -18,6 +18,8 @@ namespace meshoui {
     using VertexHandle = OpenMesh::VertexHandle;
     using HalfedgeHandle = OpenMesh::HalfedgeHandle;
     using EdgeHandle = OpenMesh::EdgeHandle;
+    using FPropHandleTDouble = OpenMesh::FPropHandleT<double>;
+    using VPropHandleTDouble = OpenMesh::VPropHandleT<double>;
 
     /**
     * Class for dealing with OpenMesh structures.
