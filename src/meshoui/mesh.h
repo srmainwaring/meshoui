@@ -49,6 +49,13 @@ namespace meshoui {
         OpenMesh::PropertyManager<OpenMesh::VPropHandleT<T>, meshoui::Mesh> GetVertexProperty(const char* name){
           return OpenMesh::getProperty<meshoui::VertexHandle, T>(*this, name);
         }
+
+        /// This function returns a property about the edges of the mesh.
+        template<typename T>
+        OpenMesh::PropertyManager<OpenMesh::EPropHandleT<T>, meshoui::Mesh> GetEdgeProperty(const char* name){
+          return OpenMesh::getProperty<meshoui::EdgeHandle, T>(*this, name);
+        }
+
     private:
 
         /// This function computes the normal vectors everywhere and the centroid of faces.
