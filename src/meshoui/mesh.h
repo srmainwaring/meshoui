@@ -76,20 +76,20 @@ namespace meshoui {
 
       /// This function creates a temporary property about the faces of the mesh.
       template<typename T>
-      OpenMesh::PropertyManager<OpenMesh::FPropHandleT<T>, meshoui::Mesh> CreateTemporaryFaceProperty(const char* name){
-        return OpenMesh::makeTemporaryProperty<meshoui::FaceHandle, T>(*this, name);
+      OpenMesh::PropertyManager<OpenMesh::FPropHandleT<T>, meshoui::Mesh> CreateTemporaryFaceProperty(){
+        return OpenMesh::makeTemporaryProperty<meshoui::FaceHandle, T>(*this);
       }
 
       /// This function creates a temporary property about the vertices of the mesh.
       template<typename T>
-      OpenMesh::PropertyManager<OpenMesh::VPropHandleT<T>, meshoui::Mesh> CreateTemporaryVertexProperty(const char* name){
-        return OpenMesh::makeTemporaryProperty<meshoui::VertexHandle, T>(*this, name);
+      OpenMesh::PropertyManager<OpenMesh::VPropHandleT<T>, meshoui::Mesh> CreateTemporaryVertexProperty(){
+        return OpenMesh::makeTemporaryProperty<meshoui::VertexHandle, T>(*this);
       }
 
       /// This function creates a temporary property about the edges of the mesh.
       template<typename T>
-      OpenMesh::PropertyManager<OpenMesh::EPropHandleT<T>, meshoui::Mesh> CreateTemporaryEdgeProperty(const char* name){
-        return OpenMesh::makeTemporaryProperty<meshoui::EdgeHandle, T>(*this, name);
+      OpenMesh::PropertyManager<OpenMesh::EPropHandleT<T>, meshoui::Mesh> CreateTemporaryEdgeProperty(){
+        return OpenMesh::makeTemporaryProperty<meshoui::EdgeHandle, T>(*this);
       }
 
     private:
