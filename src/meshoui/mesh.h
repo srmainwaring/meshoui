@@ -56,11 +56,17 @@ namespace meshoui {
           return OpenMesh::getProperty<meshoui::EdgeHandle, T>(*this, name);
         }
 
-      /// This function creates a property about the faces of the mesh.
-      template<typename T>
-      OpenMesh::PropertyManager<OpenMesh::FPropHandleT<T>, meshoui::Mesh> CreateFaceProperty(const char* name){
-        return OpenMesh::getOrMakeProperty<meshoui::FaceHandle, T>(*this, name);
-      }
+        /// This function creates a property about the faces of the mesh.
+        template<typename T>
+        OpenMesh::PropertyManager<OpenMesh::FPropHandleT<T>, meshoui::Mesh> CreateFaceProperty(const char* name){
+          return OpenMesh::getOrMakeProperty<meshoui::FaceHandle, T>(*this, name);
+        }
+
+        /// This function creates a property about the vertices of the mesh.
+        template<typename T>
+        OpenMesh::PropertyManager<OpenMesh::VPropHandleT<T>, meshoui::Mesh> CreateVertexProperty(const char* name){
+          return OpenMesh::getOrMakeProperty<meshoui::VertexHandle, T>(*this, name);
+        }
 
     private:
 
