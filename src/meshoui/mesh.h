@@ -56,6 +56,12 @@ namespace meshoui {
           return OpenMesh::getProperty<meshoui::EdgeHandle, T>(*this, name);
         }
 
+      /// This function creates a property about the faces of the mesh.
+      template<typename T>
+      void CreateFaceProperty(const char* name){
+        OpenMesh::getOrMakeProperty<meshoui::FaceHandle, T>(*this, name);
+      }
+
     private:
 
         /// This function computes the normal vectors everywhere and the centroid of faces.
