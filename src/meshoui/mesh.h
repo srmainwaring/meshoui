@@ -74,6 +74,24 @@ namespace meshoui {
           return OpenMesh::getOrMakeProperty<meshoui::EdgeHandle, T>(*this, name);
         }
 
+      /// This function creates a temporary property about the faces of the mesh.
+      template<typename T>
+      OpenMesh::PropertyManager<OpenMesh::FPropHandleT<T>, meshoui::Mesh> CreateTemporaryFaceProperty(const char* name){
+        return OpenMesh::makeTemporaryProperty<meshoui::FaceHandle, T>(*this, name);
+      }
+
+      /// This function creates a temporary property about the vertices of the mesh.
+      template<typename T>
+      OpenMesh::PropertyManager<OpenMesh::VPropHandleT<T>, meshoui::Mesh> CreateTemporaryVertexProperty(const char* name){
+        return OpenMesh::makeTemporaryProperty<meshoui::VertexHandle, T>(*this, name);
+      }
+
+      /// This function creates a temporary property about the edges of the mesh.
+      template<typename T>
+      OpenMesh::PropertyManager<OpenMesh::EPropHandleT<T>, meshoui::Mesh> CreateTemporaryEdgeProperty(const char* name){
+        return OpenMesh::makeTemporaryProperty<meshoui::EdgeHandle, T>(*this, name);
+      }
+
     private:
 
         /// This function computes the normal vectors everywhere and the centroid of faces.
