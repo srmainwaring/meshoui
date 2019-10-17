@@ -71,8 +71,6 @@ namespace meshoui {
 
         // This function computes the polynomial surface integrals over the faces.
 
-        typedef OpenMesh::Vec3d Point;
-
         Vector3d P0, P1, P2;
         Vector3d e1, e2, cp;
 
@@ -102,5 +100,5 @@ namespace meshoui {
         // d'integrales de polynomes. Pas dans ce cas ...
 
     }
-    
+
 } // end namespace meshoui

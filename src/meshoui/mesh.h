@@ -38,6 +38,12 @@ namespace meshoui {
         /// This function updates all properties of faces and vertices (normals, centroids, surface integrals).
         void UpdateAllProperties();
 
+        /// This function returns a property about the faces of the mesh.
+        template<typename T>
+        OpenMesh::PropertyManager<OpenMesh::FPropHandleT<T>, meshoui::Mesh> GetFaceProperty(const char* name){
+          return OpenMesh::getProperty<meshoui::FaceHandle, T>(*this, name);
+        }
+
     private:
 
         /// This function computes the normal vectors everywhere and the centroid of faces.
