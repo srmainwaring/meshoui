@@ -29,6 +29,13 @@ namespace meshoui {
 
     public:
 
+      // OpenMesh property managers.
+      template <typename T>
+      using FaceProperty = OpenMesh::PropertyManager<OpenMesh::FPropHandleT<T>, meshoui::Mesh>;
+      template <typename T>
+      using VertexProperty = OpenMesh::PropertyManager<OpenMesh::VPropHandleT<T>, meshoui::Mesh>;
+      template <typename T>
+      using EdgeProperty = OpenMesh::PropertyManager<OpenMesh::EPropHandleT<T>, meshoui::Mesh>;
         /// Constructor of the class.
         Mesh() = default;
 
@@ -38,83 +45,77 @@ namespace meshoui {
         /// This function loads the mesh file.
         void Load(std::string meshfile);
 
-        /// This function updates all properties of faces and vertices (normals, centroids, surface integrals).
-        void UpdateAllProperties();
+      /// This function updates all properties of faces and vertices (normals, centroids, surface integrals).
+      void UpdateAllProperties();
 
-        /// This function returns a property about the faces of the mesh.
-        template<typename T>
-        OpenMesh::PropertyManager<OpenMesh::FPropHandleT<T>, meshoui::Mesh> GetFaceProperty(const char* name){
-          return OpenMesh::getProperty<meshoui::FaceHandle, T>(*this, name);
-        }
+      /// This function returns a property about the faces of the mesh.
+      template<typename T>
+      FaceProperty<T> GetFaceProperty(const char* name){
+        return OpenMesh::getProperty<meshoui::FaceHandle, T>(*this, name);
+      }
 
-        /// This function returns a property about the vertices of the mesh.
-        template<typename T>
-        OpenMesh::PropertyManager<OpenMesh::VPropHandleT<T>, meshoui::Mesh> GetVertexProperty(const char* name){
-          return OpenMesh::getProperty<meshoui::VertexHandle, T>(*this, name);
-        }
+      /// This function returns a property about the vertices of the mesh.
+      template<typename T>
+      VertexProperty<T> GetVertexProperty(const char* name){
+        return OpenMesh::getProperty<meshoui::VertexHandle, T>(*this, name);
+      }
 
-        /// This function returns a property about the edges of the mesh.
-        template<typename T>
-        OpenMesh::PropertyManager<OpenMesh::EPropHandleT<T>, meshoui::Mesh> GetEdgeProperty(const char* name){
-          return OpenMesh::getProperty<meshoui::EdgeHandle, T>(*this, name);
-        }
+      /// This function returns a property about the edges of the mesh.
+      template<typename T>
+      EdgeProperty<T> GetEdgeProperty(const char* name){
+        return OpenMesh::getProperty<meshoui::EdgeHandle, T>(*this, name);
+      }
 
-        /// This function creates a property about the faces of the mesh.
-        template<typename T>
-        OpenMesh::PropertyManager<OpenMesh::FPropHandleT<T>, meshoui::Mesh> CreateFaceProperty(const char* name){
-          return OpenMesh::getOrMakeProperty<meshoui::FaceHandle, T>(*this, name);
-        }
+      /// This function creates a property about the faces of the mesh.
+      template<typename T>
+      FaceProperty<T> CreateFaceProperty(const char* name){
+        return OpenMesh::getOrMakeProperty<meshoui::FaceHandle, T>(*this, name);
+      }
 
-        /// This function creates a property about the vertices of the mesh.
-        template<typename T>
-        OpenMesh::PropertyManager<OpenMesh::VPropHandleT<T>, meshoui::Mesh> CreateVertexProperty(const char* name){
-          return OpenMesh::getOrMakeProperty<meshoui::VertexHandle, T>(*this, name);
-        }
+      /// This function creates a property about the vertices of the mesh.
+      template<typename T>
+      VertexProperty<T> CreateVertexProperty(const char* name){
+        return OpenMesh::getOrMakeProperty<meshoui::VertexHandle, T>(*this, name);
+      }
 
-        /// This function creates a property about the edges of the mesh.
-        template<typename T>
-        OpenMesh::PropertyManager<OpenMesh::EPropHandleT<T>, meshoui::Mesh> CreateEdgeProperty(const char* name){
-          return OpenMesh::getOrMakeProperty<meshoui::EdgeHandle, T>(*this, name);
-        }
+      /// This function creates a property about the edges of the mesh.
+      template<typename T>
+      EdgeProperty<T> CreateEdgeProperty(const char* name){
+        return OpenMesh::getOrMakeProperty<meshoui::EdgeHandle, T>(*this, name);
+      }
 
       /// This function creates a temporary property about the faces of the mesh.
       template<typename T>
-      OpenMesh::PropertyManager<OpenMesh::FPropHandleT<T>, meshoui::Mesh> CreateTemporaryFaceProperty(){
+      FaceProperty<T> CreateTemporaryFaceProperty(){
         return OpenMesh::makeTemporaryProperty<meshoui::FaceHandle, T>(*this);
       }
 
       /// This function creates a temporary property about the vertices of the mesh.
       template<typename T>
-      OpenMesh::PropertyManager<OpenMesh::VPropHandleT<T>, meshoui::Mesh> CreateTemporaryVertexProperty(){
+      VertexProperty<T> CreateTemporaryVertexProperty(){
         return OpenMesh::makeTemporaryProperty<meshoui::VertexHandle, T>(*this);
       }
 
       /// This function creates a temporary property about the edges of the mesh.
       template<typename T>
-      OpenMesh::PropertyManager<OpenMesh::EPropHandleT<T>, meshoui::Mesh> CreateTemporaryEdgeProperty(){
+      EdgeProperty<T> CreateTemporaryEdgeProperty(){
         return OpenMesh::makeTemporaryProperty<meshoui::EdgeHandle, T>(*this);
       }
 
     private:
 
-        /// This function computes the normal vectors everywhere and the centroid of faces.
-        void UpdateBaseProperties();
+      /// This function computes the normal vectors everywhere and the centroid of faces.
+      void UpdateBaseProperties();
 
-        /// This function updates the computations of the polynomial surface integrals.
-        void UpdateFacesPolynomialIntegrals();
+      /// This function updates the computations of the polynomial surface integrals.
+      void UpdateFacesPolynomialIntegrals();
 
-        /// Computes triangular faces surface integration of some polynomial integrands using analytical formulas
-        /// established by transforming surface integrals into contour integrals and deriving analytical expressions.
-        /// Extended from Eberly... https://d-ice.gitlab.host/common/technical_reports/mesh-integrals
-        void CalcFacePolynomialIntegrals(const Mesh::FaceHandle &fh);
+      /// Computes triangular faces surface integration of some polynomial integrands using analytical formulas
+      /// established by transforming surface integrals into contour integrals and deriving analytical expressions.
+      /// Extended from Eberly... https://d-ice.gitlab.host/common/technical_reports/mesh-integrals
+      void CalcFacePolynomialIntegrals(const Mesh::FaceHandle &fh);
 
     };
-
-  /// Convert an OpenMesh point into a vector.
-  template <class Vector>
-  inline Vector OpenMeshPointToVector3d(const Mesh::Point &point) {
-    return Vector(point[0], point[1], point[2]); // Always gives a FRyDoM vector expressed in NWU
-  }
 
 } // end namespace meshoui
 
