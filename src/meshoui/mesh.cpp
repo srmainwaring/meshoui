@@ -33,38 +33,20 @@ namespace meshoui {
 
     void Mesh::UpdateAllProperties() {
 
-        // This function updates all properties of faces and vertices (normals, centroids, surface integrals).
-
-        // Computation of normal vectors and centroids.
-        UpdateBaseProperties();
-
-        // Computation of surface polynomial integrals.
-        UpdateFacesPolynomialIntegrals();
-
-    }
-
-    void Mesh::UpdateBaseProperties() {
-
-        // This function computes the normal vectors everywhere and the centroid of faces.
+        // This function updates some properties of faces and vertices (normals, centroids, face areas).
 
         // Computation of the normal vectors of faces, vertices and half edges.
-        update_normals(); // Update normals for both faces and vertices
+        update_normals();
 
-        // Update face's center properties.
-        Point center;
         for (FaceIter f_iter = faces_begin(); f_iter != faces_end(); ++f_iter) {
+
+            // Face centroids.
             data(*f_iter).SetCenter(calc_face_centroid(*f_iter));
-        }
 
-    }
-
-    void Mesh::UpdateFacesPolynomialIntegrals() {
-
-        // This function updates the computations of the polynomial surface integrals.
-
-        for (FaceIter f_iter = faces_begin(); f_iter != faces_end(); ++f_iter) {
+            // Face areas.
             CalcFacePolynomialIntegrals(*f_iter);
         }
+
     }
 
     void Mesh::CalcFacePolynomialIntegrals(const Mesh::FaceHandle &fh) {
@@ -96,8 +78,6 @@ namespace meshoui {
         // My Extended Eberly's Formulas.
         // Surface integrals are transformed into contour integrals.
         data(fh).SetSurfaceIntegral(AREA, delta / 2.);
-        // FIXME : si on a seulement besoin de l'aire, autant l'appeler AREA. POLY_1 c'etait parcequ'on avait une liste
-        // d'integrales de polynomes. Pas dans ce cas ...
 
     }
 

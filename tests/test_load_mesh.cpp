@@ -42,5 +42,5 @@ int main() {
   // Visualization.
   vtkmesh.Visualize();
 
-    return 0;
+  return 0;
 }

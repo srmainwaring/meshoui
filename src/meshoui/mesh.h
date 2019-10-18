@@ -43,7 +43,7 @@ namespace meshoui {
       /// This function loads the mesh file.
       void Load(const std::string &meshfile);
 
-      /// This function updates all properties of faces and vertices (normals, centroids, surface integrals).
+      /// This function updates some properties of faces and vertices (normals, centroids, face areas).
       void UpdateAllProperties();
 
       /// This function returns a property about the faces of the mesh.
@@ -101,12 +101,6 @@ namespace meshoui {
       }
 
     private:
-
-      /// This function computes the normal vectors everywhere and the centroid of faces.
-      void UpdateBaseProperties();
-
-      /// This function updates the computations of the polynomial surface integrals.
-      void UpdateFacesPolynomialIntegrals();
 
       /// Computes triangular faces surface integration of some polynomial integrands using analytical formulas
       /// established by transforming surface integrals into contour integrals and deriving analytical expressions.
