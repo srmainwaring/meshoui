@@ -12,20 +12,20 @@
 
 namespace meshoui {
 
-    Mesh::Mesh(std::string meshfile) {
+    Mesh::Mesh(const std::string &meshfile) {
 
         // Constructor of the class.
 
-        Load(std::move(meshfile));
+        Load(meshfile);
     }
 
-    void Mesh::Load(std::string meshfile) {
+    void Mesh::Load(const std::string &meshfile) {
 
         // This function loads the mesh file.
 
         if (!OpenMesh::IO::read_mesh(*this, meshfile)) {
             std::cerr << "Meshfile " << meshfile << " could not be read\n";
-            exit(1);
+            exit(EXIT_FAILURE);
         }
 
         UpdateAllProperties();
