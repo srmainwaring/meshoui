@@ -21,7 +21,7 @@ namespace meshoui {
     using FPropHandleTDouble = OpenMesh::FPropHandleT<double>;
     using VPropHandleTDouble = OpenMesh::VPropHandleT<double>;
     using EPropHandleTDouble = OpenMesh::EPropHandleT<double>;
-    using VertexInter = OpenMesh::PolyConnectivity::VertexIter;
+    using VertexIter = OpenMesh::PolyConnectivity::VertexIter;
 
     /**
     * Class for dealing with OpenMesh structures.
