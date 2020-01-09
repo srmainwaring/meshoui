@@ -73,7 +73,7 @@ namespace meshoui {
 
   void VTKMesh::AddField(const std::string &name, const std::vector<double> &data, WHERE where) {
 
-    // This function adds a field to the polydata.
+    // This function adds a field made of double to the polydata.
 
     if (where == VERTEX) {
       assert(data.size() == m_polydata->GetNumberOfPoints());
@@ -99,7 +99,7 @@ namespace meshoui {
 
   void VTKMesh::AddField(const std::string &name, const std::vector<Vector3d> &data, WHERE where) {
 
-    // This function adds a field to the polydata.
+    // This function adds a field made of Vector 3d to the polydata.
 
     if (where == VERTEX) {
       assert(data.size() == m_polydata->GetNumberOfPoints());

@@ -10,6 +10,7 @@
 
 #include "meshTraits.h"
 #include <OpenMesh/Core/Utils/PropertyManager.hh>
+#include <unordered_map>
 
 namespace meshoui {
 
@@ -19,6 +20,7 @@ namespace meshoui {
     using HalfedgeHandle = OpenMesh::HalfedgeHandle;
     using EdgeHandle = OpenMesh::EdgeHandle;
     using FPropHandleTDouble = OpenMesh::FPropHandleT<double>;
+    using FPropHandleTMap = OpenMesh::FPropHandleT<std::unordered_map<VertexHandle, std::array<double, 2>>>;
     using VPropHandleTDouble = OpenMesh::VPropHandleT<double>;
     using EPropHandleTDouble = OpenMesh::EPropHandleT<double>;
     using VertexIter = OpenMesh::PolyConnectivity::VertexIter;
