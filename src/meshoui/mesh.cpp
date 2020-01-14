@@ -53,27 +53,22 @@ namespace meshoui {
 
         // This function computes the polynomial surface integrals over the faces.
 
-        Vector3d P0, P1, P2;
-        Vector3d e1, e2, cp;
-
-        double delta;
-
         // Getting one half-edge handle of the current face
         auto heh = halfedge_handle(fh);
 
         // Getting the origin vertex of heh
-        P0 = point(from_vertex_handle(heh));
+        Vector3d P0 = point(from_vertex_handle(heh));
 
         heh = next_halfedge_handle(heh);
-        P1 = point(from_vertex_handle(heh));
+        Vector3d P1 = point(from_vertex_handle(heh));
 
         heh = next_halfedge_handle(heh);
-        P2 = point(from_vertex_handle(heh));
+        Vector3d P2 = point(from_vertex_handle(heh));
 
-        e1 = P1 - P0;
-        e2 = P2 - P0;
-        cp = cross(e1, e2);
-        delta = cp.norm();
+        Vector3d e1 = P1 - P0;
+        Vector3d e2 = P2 - P0;
+        Vector3d cp = cross(e1, e2);
+        double delta = cp.norm();
 
         // My Extended Eberly's Formulas.
         // Surface integrals are transformed into contour integrals.

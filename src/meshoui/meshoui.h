@@ -11,5 +11,6 @@
 #include "math.h"
 #include "mesh.h"
 #include "vtkmesh.h"
+#include "Integration.h"
 
 #endif // MESHOUI_MESHOUI_H
