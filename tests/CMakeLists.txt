@@ -4,3 +4,6 @@
 
 add_executable(test_load_mesh test_load_mesh.cpp)
 target_link_libraries(test_load_mesh meshoui)
+
+add_executable(test_integration test_integration.cpp)
+target_link_libraries(test_integration meshoui)

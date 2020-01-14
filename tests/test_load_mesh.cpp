@@ -7,7 +7,6 @@ using namespace meshoui;
 
 int main() {
 
-//    meshoui::Mesh mesh("../../docs/Input_files/Sphere_6200_faces.obj");
   meshoui::Mesh mesh("../../../Helios/docs/input_files/Sphere.obj");
 
   // VTKMesh.
