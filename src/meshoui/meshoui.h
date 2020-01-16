@@ -12,5 +12,6 @@
 #include "mesh.h"
 #include "vtkmesh.h"
 #include "Integration.h"
+#include "IntegrandOnFace.h"
 
 #endif // MESHOUI_MESHOUI_H

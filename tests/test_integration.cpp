@@ -5,10 +5,6 @@ using namespace meshoui;
 
 // Test for checking the surface integration.
 
-double myFunction(Vector3d x){
-  return(2 - x(0) - 2*x(1)); // f(x,y,z) = 2 - x - 2y.
-}
-
 int main() {
 
   // Mesh.
@@ -17,8 +13,17 @@ int main() {
   // Order of the integration.
   int order = 2;
 
+  // Definition of a function to integration.
+  class IntegrandTest : public IntegrandOnFace<double> {
+   public:
+    double Evaluate(const Vector3d &x) const override {
+      return(2 - x(0) - 2 * x(1)); // f(x,y,z) = 2 - x - 2y.
+    }
+  };
+
   // Integrator.
-  auto myIntegrator = Integration<double>(myFunction, order, &mesh);
+  IntegrandTest myFunction;
+  auto myIntegrator = Integration<double>(&myFunction, order, &mesh);
 
   // Analytical integration.
   double analytical_result = 1./3.;
