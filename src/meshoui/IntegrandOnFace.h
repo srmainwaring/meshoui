@@ -23,14 +23,6 @@ namespace meshoui {
     /// This function evalutes the integrand at the point x.
     virtual T Evaluate(const Vector3d &x) const = 0;
 
-  private:
-
-   /// Face handle to the face where the integrand is integrated.
-   FaceHandle m_fh;
-
-   /// Meshoui mesh.
-   meshoui::Mesh* m_mesh;
-
   };
 
 
