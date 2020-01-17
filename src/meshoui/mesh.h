@@ -104,7 +104,7 @@ namespace meshoui {
       }
 
       /// This function applies a symmetry by a plane of equation z = h.
-      void SymmetryHorizontalPlane(double height);
+      void SymmetryHorizontalPlane(const double &height);
 
     private:
 

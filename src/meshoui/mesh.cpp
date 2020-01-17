@@ -76,12 +76,12 @@ namespace meshoui {
 
     }
 
-    void Mesh::SymmetryHorizontalPlane(double height){
+    void Mesh::SymmetryHorizontalPlane(const double &height) {
 
         // This function applies a symmetry by a plane of equation z = h.
 
         for (VertexIter v_iter = vertices_begin(); v_iter != vertices_end(); ++v_iter) {
-          point(*v_iter)[2] = 2*height - point(*v_iter)[2];
+            point(*v_iter)[2] = 2 * height - point(*v_iter)[2];
         }
 
     }
