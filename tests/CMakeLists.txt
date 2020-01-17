@@ -7,3 +7,6 @@ target_link_libraries(test_load_mesh meshoui)
 
 add_executable(test_integration test_integration.cpp)
 target_link_libraries(test_integration meshoui)
+
+add_executable(test_symmetry_horizontal_plane test_symmetry_horizontal_plane.cpp)
+target_link_libraries(test_symmetry_horizontal_plane meshoui)
