@@ -103,6 +103,9 @@ namespace meshoui {
         return OpenMesh::makeTemporaryProperty<meshoui::EdgeHandle, T>(*this);
       }
 
+      /// This function applies a symmetry by a plane of equation z = h.
+      void SymmetryHorizontalPlane(double height);
+
     private:
 
       /// Computes triangular faces surface integration of some polynomial integrands using analytical formulas
