@@ -20,10 +20,12 @@ namespace meshoui {
     using HalfedgeHandle = OpenMesh::HalfedgeHandle;
     using EdgeHandle = OpenMesh::EdgeHandle;
     using FPropHandleTDouble = OpenMesh::FPropHandleT<double>;
-    using FPropHandleTMap = OpenMesh::FPropHandleT<std::unordered_map<VertexHandle, std::array<double, 2>>>;
     using VPropHandleTDouble = OpenMesh::VPropHandleT<double>;
     using EPropHandleTDouble = OpenMesh::EPropHandleT<double>;
     using VertexIter = OpenMesh::PolyConnectivity::VertexIter;
+
+    template<class T>
+    using FPropHandleTMap = OpenMesh::FPropHandleT<std::unordered_map<VertexHandle, std::array<T, 2>>>;
 
     /**
     * Class for dealing with OpenMesh structures.
