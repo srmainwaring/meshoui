@@ -12,6 +12,8 @@ int main() {
 
   // VTKMesh.
   VTKMesh vtkmesh(mesh);
+  vtkmesh.AddFaceNormalField(&mesh);
+  vtkmesh.AddVertexNormalField(&mesh);
 
   // Writing.
   vtkmesh.Write("Mesh.vtp");
@@ -22,6 +24,8 @@ int main() {
 
   // VTKMesh.
   VTKMesh vtkmesh_symmetrized(mesh);
+  vtkmesh_symmetrized.AddFaceNormalField(&mesh);
+  vtkmesh_symmetrized.AddVertexNormalField(&mesh);
 
   // Writing.
   vtkmesh_symmetrized.Write("Mesh_symmetrized.vtp");
