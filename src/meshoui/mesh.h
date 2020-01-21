@@ -108,6 +108,18 @@ namespace meshoui {
       /// This function applies a symmetry by a plane of equation z = h.
       void SymmetryHorizontalPlane(const double &height);
 
+      /// This function flips the face normals.
+      void FlipFaceNormals();
+
+      /// This function flips the vertex normals.
+      void FlipVertexNormals();
+
+      /// This function flips the halfegde normals.
+      void FlipHalfedgeNormals();
+
+      /// This function flips the normals (face, vertice, halfedge).
+      void FlipAllNormals();
+
     private:
 
       /// Computes triangular faces surface integration of some polynomial integrands using analytical formulas

@@ -85,23 +85,48 @@ namespace meshoui {
             point(*v_iter)[2] = 2 * height - point(*v_iter)[2];
         }
 
-        // Update the normals (face, vertex, halfedge).
-        update_normals();
+    }
 
-        // Flipping of the face normals.
+    void Mesh::FlipFaceNormals(){
+
+        // This function flips the face normals.
+
         for (FaceIter f_iter = faces_begin(); f_iter != faces_end(); ++f_iter) {
-          Vector3d face_normal = normal(*f_iter);
-          set_normal(*f_iter, -face_normal);
+            Vector3d face_normal = normal(*f_iter);
+            set_normal(*f_iter, -face_normal);
         }
 
-        // Flipping of the vertex normals
+    }
+
+    void Mesh::FlipVertexNormals(){
+
+        // This function flips the vertex normals.
+
         for (VertexIter v_iter = vertices_begin(); v_iter != vertices_end(); ++v_iter) {
-          Vector3d vertex_normal = normal(*v_iter);
-          set_normal(*v_iter, -vertex_normal);
+            Vector3d vertex_normal = normal(*v_iter);
+            set_normal(*v_iter, -vertex_normal);
         }
 
-        //TODO: Is it necessary to flip the halfedge normals?
+    }
 
+    void Mesh::FlipHalfedgeNormals(){
+
+        // This function flips the halfegde normals.
+
+        for (HalfedgeIter he_iter = halfedges_begin(); he_iter != halfedges_end(); ++he_iter) {
+            Vector3d halfedge_normal = normal(*he_iter);
+            set_normal(*he_iter, -halfedge_normal);
+        }
+
+    }
+
+    void Mesh::FlipAllNormals(){
+
+        // This function flips the normals (face, vertice, halfedge).
+
+        FlipFaceNormals();
+        FlipVertexNormals();
+        FlipHalfedgeNormals();
     }
 
 } // end namespace meshoui

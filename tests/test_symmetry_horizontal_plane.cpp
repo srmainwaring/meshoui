@@ -22,6 +22,13 @@ int main() {
   double height = 0;
   mesh.SymmetryHorizontalPlane(height);
 
+  // Update properties.
+  mesh.UpdateAllProperties();
+
+  // Flipping both the face and vertex normals.
+  mesh.FlipFaceNormals();
+  mesh.FlipVertexNormals();
+
   // VTKMesh.
   VTKMesh vtkmesh_symmetrized(mesh);
   vtkmesh_symmetrized.AddFaceNormalField(&mesh);
