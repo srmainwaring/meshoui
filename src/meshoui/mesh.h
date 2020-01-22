@@ -23,6 +23,7 @@ namespace meshoui {
     using VPropHandleTDouble = OpenMesh::VPropHandleT<double>;
     using EPropHandleTDouble = OpenMesh::EPropHandleT<double>;
     using VertexIter = OpenMesh::PolyConnectivity::VertexIter;
+    using FaceIter = OpenMesh::PolyConnectivity::FaceIter;
 
     template<class T>
     using FPropHandleTMap = OpenMesh::FPropHandleT<std::unordered_map<VertexHandle, std::array<T, 2>>>;
