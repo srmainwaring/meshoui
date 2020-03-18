@@ -9,3 +9,7 @@ set(mathutils_TAG develop)
 # OpenMesh
 set(OpenMesh_URL "https://www.graphics.rwth-aachen.de:9000/OpenMesh/OpenMesh.git")
 set(OpenMesh_TAG "OpenMesh-8.0")
+
+# mmg
+set(mmg_URL "https://github.com/MmgTools/mmg.git")
+set(mmg_TAG "v5.4.3")

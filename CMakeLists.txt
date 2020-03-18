@@ -43,6 +43,7 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/URL.conf.cmake)
 
 include(Add_OpenMesh)
 include(Add_MathUtils)
+include(Add_mmg)
 
 find_package(VTK 6.0 REQUIRED NO_MODULE)
 include(${VTK_USE_FILE})
