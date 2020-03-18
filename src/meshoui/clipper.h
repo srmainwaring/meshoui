@@ -282,6 +282,6 @@ namespace meshoui {
 
 }  // end namespace meshoui
 
-#include "meshoui/clipper.cpp"
+#include "meshoui/clipper.hxx"
 
 #endif //MESHOUI_CLIPPER_H
