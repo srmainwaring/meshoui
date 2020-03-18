@@ -16,7 +16,7 @@ namespace meshoui {
   * Class for handling the function (integrand) to be integrated on a face.
   */
   template<typename T>
- class IntegrandOnFace : public mathutils::Integrand<T> {
+  class IntegrandOnFace : public mathutils::Integrand<T> {
 
    public:
 

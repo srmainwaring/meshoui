@@ -7,7 +7,7 @@ using namespace meshoui;
 
 int main() {
 
-  meshoui::Mesh mesh("../../../Helios/docs/input_files/Sphere.obj");
+  meshoui::Mesh mesh("data/Sphere.obj");
 
   // VTKMesh.
   VTKMesh vtkmesh(mesh);

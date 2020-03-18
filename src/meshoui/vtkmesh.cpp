@@ -123,7 +123,7 @@ namespace meshoui {
 
   }
 
-  void VTKMesh::AddFaceNormalField(meshoui::Mesh* mesh){
+  void VTKMesh::AddFaceNormalField(meshoui::Mesh *mesh) {
 
     // This function adds the field of the face normals to the vtk mesh.
 
@@ -137,7 +137,7 @@ namespace meshoui {
 
   }
 
-  void VTKMesh::AddVertexNormalField(meshoui::Mesh* mesh){
+  void VTKMesh::AddVertexNormalField(meshoui::Mesh *mesh) {
 
     // This function adds the field of the vertex normals to the vtk mesh.
 
@@ -151,7 +151,7 @@ namespace meshoui {
 
   }
 
-  void VTKMesh::AddEdgeLengthField(meshoui::Mesh* mesh){
+  void VTKMesh::AddEdgeLengthField(meshoui::Mesh *mesh) {
 
     // This function adds the field of the edge lengths to the vtk mesh.
 
@@ -165,7 +165,7 @@ namespace meshoui {
       // Mean of the edge lenthes linked to the vertex.
       double mean_edge_length = 0;
       int nb_edge = 0;
-      for (meshoui::Mesh::VertexEdgeIter ve_it = mesh->ve_iter(*v_iter); ve_it.is_valid(); ++ve_it){
+      for (meshoui::Mesh::VertexEdgeIter ve_it = mesh->ve_iter(*v_iter); ve_it.is_valid(); ++ve_it) {
 
         mean_edge_length += mesh->property(*edge_length, *ve_it);
         nb_edge += 1;
@@ -187,7 +187,7 @@ namespace meshoui {
     writer->Write();
   }
 
-  void VTKMesh::Visualize(){
+  void VTKMesh::Visualize() {
 
     // This function displays the mesh in a window.
 
@@ -204,7 +204,7 @@ namespace meshoui {
     // Building interactor.
     vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
     renderWindowInteractor->SetRenderWindow(renderWindow);
-    dynamic_cast<vtkInteractorStyleSwitch*>(
+    dynamic_cast<vtkInteractorStyleSwitch *>(
         renderWindowInteractor->GetInteractorStyle())->SetCurrentStyleToTrackballCamera();
 
     // Building axes view.
