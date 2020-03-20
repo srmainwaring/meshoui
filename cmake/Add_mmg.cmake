@@ -14,7 +14,7 @@ if(NOT mmg)
     FetchContent_Populate(mmg)
 
     # mmg BUILD OPTIONS
-    set(BUILD_SHARED_LIBS ON CACHE BOOL "" FORCE)
+    set(LIBMMG_SHARED ON CACHE BOOL "" FORCE)
 
     add_subdirectory(${mmg_SOURCE_DIR} ${mmg_BINARY_DIR})
 

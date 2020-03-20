@@ -106,6 +106,14 @@ namespace meshoui {
 
   };
 
+  void Show(Mesh &mesh);
+
+  void Write_VTK(Mesh &mesh, const std::string &vtp_filename);
+
+
+  void Write_OBJ(Mesh &mesh, const std::string &obj_filename);
+
+
 }  // end namespace meshoui
 
 #endif // MESHOUI_VTKMESH_H

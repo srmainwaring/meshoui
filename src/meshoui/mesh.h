@@ -43,6 +43,9 @@ namespace meshoui {
     template<typename T>
     using EdgeProperty = OpenMesh::PropertyManager<OpenMesh::EPropHandleT<T>, meshoui::Mesh>;
 
+    /// Default constructor.
+    Mesh() = default;
+
     /// Constructor of the class.
     explicit Mesh(const std::string &meshfile);
 

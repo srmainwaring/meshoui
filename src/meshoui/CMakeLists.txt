@@ -3,7 +3,7 @@
 set(MESHOUI_SRC_FILES
         mesh.cpp
         vtkmesh.cpp
-        mmgs_wrapper.cpp
+        remesher.cpp
         )
 
 

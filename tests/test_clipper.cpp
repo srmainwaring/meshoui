@@ -8,18 +8,33 @@ using namespace meshoui;
 
 int main () {
 
-  Mesh mesh("data/Sphere.obj");
+  Mesh mesh("data/Aker.obj");
+//  Show(mesh);
+  Write_VTK(mesh, "initial.vtp");
 
+  // Remesh
+  Remesher remesher;
+
+  remesher.SetAngleDetectionThreshold(3);
+  remesher.SetHausdorffParam(0.05);
+  remesher.SetConstantEdgeSize(1.);
+
+  remesher.Apply(&mesh, 1);
+//  Show(mesh);
+  Write_VTK(mesh, "remeshed_full.vtp");
+
+  // Clip
   Clipper<ClippingPlane> clipper;
-
   clipper.Apply(&mesh);
+//  Show(mesh);
+  Write_VTK(mesh, "clipped.vtp");
 
+  // Remesh after clipping
+  remesher.Apply(&mesh, 1);
+  remesher.Apply(&mesh, 1);
+  Show(mesh);
+  Write_VTK(mesh, "clipped_remeshed.vtp");
 
-
-
-  VTKMesh vtk_mesh(mesh);
-
-  vtk_mesh.Write("essai.vtp");
-
+  Write_OBJ(mesh, "final.obj");
 
 }

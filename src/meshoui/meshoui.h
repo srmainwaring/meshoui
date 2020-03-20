@@ -14,5 +14,6 @@
 #include "Integration.h"
 #include "IntegrandOnFace.h"
 #include "clipper.h"
+#include "remesher.h"
 
 #endif // MESHOUI_MESHOUI_H
