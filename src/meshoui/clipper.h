@@ -9,25 +9,10 @@
 
 #include "maths.h"
 #include "mesh.h"
+#include "plane.h"
 
 
 namespace meshoui {
-
-  class Plane {
-
-   public:
-    Plane() : m_origin(0., 0., 0.), m_normal(0., 0., 1.) {}
-
-    Plane(const Vector3d &origin, const Vector3d &normal) : m_origin(origin), m_normal(normal) {}
-
-    Vector3d origin() const { return m_origin; }
-
-    Vector3d normal() const { return m_normal; }
-
-   private:
-    Vector3d m_origin;
-    Vector3d m_normal;
-  };
 
 
   /**
@@ -79,7 +64,7 @@ namespace meshoui {
     /// This function gives the intersection node position between an edge and the plane.
     Mesh::Point GetIntersection(const Mesh::Point &p0, const Mesh::Point &p1) override;
 //
-//    geom::FrPlane *GetPlane() const;
+//    geom::Plane *GetPlane() const;
 
   };
 

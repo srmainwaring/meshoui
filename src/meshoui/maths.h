@@ -21,6 +21,7 @@
 namespace meshoui {
 
   // Vectors.
+  using Vector2d = Eigen::Vector2d;
   using Vector3d = mathutils::Vector3d<double>;
   using Vector6d = mathutils::Vector6d<double>;
   using VectorN = mathutils::VectorN<double>;

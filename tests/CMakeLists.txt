@@ -8,6 +8,7 @@ set(TESTS
         test_symmetry_horizontal_plane
         test_clipper
         test_mmg
+        test_plane
         )
 
 foreach (test ${TESTS})

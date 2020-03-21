@@ -15,5 +15,7 @@
 #include "IntegrandOnFace.h"
 #include "clipper.h"
 #include "remesher.h"
+#include "plane.h"
+#include "polygon.h"
 
 #endif // MESHOUI_MESHOUI_H
