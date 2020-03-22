@@ -25,7 +25,7 @@ int main () {
 
   // Clip
   Clipper<ClippingPlane> clipper;
-  clipper.Apply(&mesh);
+  mesh = clipper.Apply(mesh);
 //  Show(mesh);
   Write_VTK(mesh, "clipped.vtp");
 

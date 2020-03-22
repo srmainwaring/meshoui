@@ -95,10 +95,10 @@ namespace meshoui {
 
    public:
 
-    Clipper() : m_clippingSurface(std::make_unique<ClippingSurfaceType>()), m_mesh(nullptr) {}
+    Clipper() : m_clippingSurface(std::make_unique<ClippingSurfaceType>()) {} // FIXME: plutot shared_ptr pour clipping surface !!
 
     /// Performs the clipping on the specified mesh
-    void Apply(Mesh *mesh); // FIXME: on veut une copie
+    Mesh Apply(const Mesh &mesh); // FIXME: on veut une copie
 
 //    /// Set the threshold used for crossing and classifying computations
 //    /// \param eps threshold
@@ -110,78 +110,78 @@ namespace meshoui {
 
    private:
     /// Initialize the mesh clipper
-    void Initialize();
+    void Initialize(Mesh &clipped_mesh);
 
     /// Clear the mesh
-    void Clear();
+    void Clear(Mesh &clipped_mesh);
 
     /// This function classify the vertices wrt the clipping surface.
-    void ClassifyVertices();
+    void ClassifyVertices(Mesh &clipped_mesh);
 
     /// This function computes the distance wrt the clipping surface and classifies the nodes.
     /// \param vh vertex to be classified
     /// \return vertex position with respect to the clipping surface
-    VertexPositionWRTClippingSurface ClassifyVertex(const Mesh::VertexHandle &vh) const;
+    VertexPositionWRTClippingSurface ClassifyVertex(Mesh &clipped_mesh, const Mesh::VertexHandle &vh) const;
 
     /// This function classfies faces wrt the incident clipping surface.
     /// \param fh face to be classified
     /// \return face position with respect to the clipping surface
-    FacePositionType ClassifyFace(const Mesh::FaceHandle &fh);
+    FacePositionType ClassifyFace(Mesh &clipped_mesh, const Mesh::FaceHandle &fh);
 
     /// Clip the mesh with the given clipping surface
-    void Clip();
+    void Clip(Mesh &clipped_mesh);
 
-    void UpdateModifiedFaceProperties(Mesh::FaceHandle fh);
+    void UpdateModifiedFaceProperties(Mesh &clipped_mesh, Mesh::FaceHandle fh);
 
-    void ClipFace(const Mesh::FaceHandle &fh);
+    void ClipFace(Mesh &clipped_mesh, const Mesh::FaceHandle &fh);
 
-    bool HasProjection(const Mesh::FaceHandle &fh);
+    bool HasProjection(Mesh &clipped_mesh, const Mesh::FaceHandle &fh);
 
     /// Performs the clipping of a halfedge, the computation of the intersection node,
     /// the creation of new panels and the deletion of useless panels and vertices.
-    void ProcessHalfEdge(Mesh::HalfedgeHandle heh);
+    void ProcessHalfEdge(Mesh &clipped_mesh, Mesh::HalfedgeHandle heh);
 
     /// Prepare face for deletion at the end of clipping procedure
     void FlagFaceToBeDeleted(const Mesh::FaceHandle &fh);
 
-    void FlagVertexAdjacentFacesToBeDeleted(const Mesh::VertexHandle &vh);
+    void FlagVertexAdjacentFacesToBeDeleted(Mesh &clipped_mesh, const Mesh::VertexHandle &vh);
 
     /// Tells if the input edge is crossing the clipping surface
-    bool IsEdgeCrossing(const Mesh::EdgeHandle &eh);
+    bool IsEdgeCrossing(Mesh &clipped_mesh, const Mesh::EdgeHandle &eh);
 
     /// Tells if the input half-edge is crossing the clipping surface
-    bool IsHalfEdgeCrossing(const Mesh::HalfedgeHandle &heh);
+    bool IsHalfEdgeCrossing(Mesh &clipped_mesh, const Mesh::HalfedgeHandle &heh);
 
     /// Tells if the input half-edge is crossing the clipping surface from above to below
-    bool IsHalfEdgeDownCrossing(const Mesh::HalfedgeHandle &heh);
+    bool IsHalfEdgeDownCrossing(Mesh &clipped_mesh, const Mesh::HalfedgeHandle &heh);
 
     /// Tells if the input half-edge is crossing the clipping surface from below to above
-    bool IsHalfEdgeUpCrossing(const Mesh::HalfedgeHandle &heh);
+    bool IsHalfEdgeUpCrossing(Mesh &clipped_mesh, const Mesh::HalfedgeHandle &heh);
 
     /// Finds the first half-edge that is crossing the clipping surface from below to above
-    Mesh::HalfedgeHandle FindUpcrossingHalfEdge(const Mesh::FaceHandle &fh);
+    Mesh::HalfedgeHandle FindUpcrossingHalfEdge(Mesh &clipped_mesh, const Mesh::FaceHandle &fh);
 
     /// Finds the first half-edge that is crossing the clipping surface from above to below
-    Mesh::HalfedgeHandle FindDowncrossingHalfEdge(const Mesh::FaceHandle &fh);
+    Mesh::HalfedgeHandle FindDowncrossingHalfEdge(Mesh &clipped_mesh, const Mesh::FaceHandle &fh);
 
     /// Insert a new vertex in the mesh that is intersection between the clipping surface and the input half-edge
-    Mesh::VertexHandle InsertIntersectionVertex(const Mesh::HalfedgeHandle &heh);
+    Mesh::VertexHandle InsertIntersectionVertex(Mesh &clipped_mesh, const Mesh::HalfedgeHandle &heh);
 
 //    double GetVertexDistanceToSurface(const Mesh::VertexHandle &vh) const;
 
-    void ApplyFaceDeletion();
+    void ApplyFaceDeletion(Mesh &clipped_mesh);
 
     /// Final cleaning of the mesh (deletion of faces, update of every property, etc.).
-    void Finalize();
+    void Finalize(Mesh &clipped_mesh);
 
    private:
-    void AddVertexPositionWRTClippingSurfaceProperty();
+    void AddVertexPositionWRTClippingSurfaceProperty(Mesh &clipped_mesh);
 
 
    private:
 
-    /// Initial mesh.
-    Mesh *m_mesh;
+//    / Initial mesh.
+//    Mesh m_mesh;
 
     /// Clipping surface, by default the plane z = 0.
     std::unique_ptr<ClippingSurfaceType> m_clippingSurface;

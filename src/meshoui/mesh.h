@@ -139,7 +139,7 @@ namespace meshoui {
     /// This function flips the normals (face, vertice, halfedge).
     void FlipAllNormals();
 
-   private:
+//   private:
 
     /// Computes triangular faces surface integration of some polynomial integrands using analytical formulas
     /// established by transforming surface integrals into contour integrals and deriving analytical expressions.
