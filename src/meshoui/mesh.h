@@ -30,8 +30,8 @@ namespace meshoui {
   using VertexIter = OpenMesh::PolyConnectivity::VertexIter;
   using FaceIter = OpenMesh::PolyConnectivity::FaceIter;
 
-  template<class T>
-  using FPropHandleTMap = OpenMesh::FPropHandleT<std::unordered_map<VertexHandle, std::array<T, 2>>>;
+  template<class PropertyType>
+  using FPropHandleTMap = OpenMesh::FPropHandleT<std::unordered_map<VertexHandle, std::array<PropertyType, 2>>>;
 
   /**
   * Class for dealing with OpenMesh structures.
@@ -43,12 +43,12 @@ namespace meshoui {
 //    using Transform = Eigen::Transform<double, 3, Eig>; // TODO: faire quelque chose de dedie dans mathutils
 
     // OpenMesh property managers.
-    template<typename T>
-    using FaceProperty = OpenMesh::PropertyManager<OpenMesh::FPropHandleT<T>, meshoui::Mesh>;
-    template<typename T>
-    using VertexProperty = OpenMesh::PropertyManager<OpenMesh::VPropHandleT<T>, meshoui::Mesh>;
-    template<typename T>
-    using EdgeProperty = OpenMesh::PropertyManager<OpenMesh::EPropHandleT<T>, meshoui::Mesh>;
+    template<typename PropertyType>
+    using FaceProperty = OpenMesh::PropertyManager<OpenMesh::FPropHandleT<PropertyType>, meshoui::Mesh>;
+    template<typename PropertyType>
+    using VertexProperty = OpenMesh::PropertyManager<OpenMesh::VPropHandleT<PropertyType>, meshoui::Mesh>;
+    template<typename PropertyType>
+    using EdgeProperty = OpenMesh::PropertyManager<OpenMesh::EPropHandleT<PropertyType>, meshoui::Mesh>;
 
     /// Default constructor.
     Mesh() = default;
@@ -63,64 +63,64 @@ namespace meshoui {
     void UpdateAllProperties();
 
     /// This function returns a property about the faces of the mesh.
-    template<typename T>
-    FaceProperty<T> GetFaceProperty(const char *name) {
-      return OpenMesh::getProperty<meshoui::FaceHandle, T>(*this, name);
+    template<typename PropertyType>
+    FaceProperty<PropertyType> GetFaceProperty(const char *name) {
+      return OpenMesh::getProperty<meshoui::FaceHandle, PropertyType>(*this, name);
     }
 
     /// This function returns a property about the vertices of the mesh.
-    template<typename T>
-    VertexProperty<T> GetVertexProperty(const char *name) {
-      return OpenMesh::getProperty<meshoui::VertexHandle, T>(*this, name);
+    template<typename PropertyType>
+    VertexProperty<PropertyType> GetVertexProperty(const char *name) {
+      return OpenMesh::getProperty<meshoui::VertexHandle, PropertyType>(*this, name);
     }
 
     /// This function returns a property about the edges of the mesh.
-    template<typename T>
-    EdgeProperty<T> GetEdgeProperty(const char *name) {
-      return OpenMesh::getProperty<meshoui::EdgeHandle, T>(*this, name);
+    template<typename PropertyType>
+    EdgeProperty<PropertyType> GetEdgeProperty(const char *name) {
+      return OpenMesh::getProperty<meshoui::EdgeHandle, PropertyType>(*this, name);
     }
 
     /// This function creates a property about the faces of the mesh.
-    template<typename T>
-    FaceProperty<T> CreateFaceProperty(const char *name) {
-      return OpenMesh::getOrMakeProperty<meshoui::FaceHandle, T>(*this, name);
+    template<typename PropertyType>
+    FaceProperty<PropertyType> CreateFaceProperty(const char *name) {
+      return OpenMesh::getOrMakeProperty<meshoui::FaceHandle, PropertyType>(*this, name);
     }
 
     /// This function creates a property about the vertices of the mesh.
-    template<typename T>
-    VertexProperty<T> CreateVertexProperty(const char *name) {
-      return OpenMesh::getOrMakeProperty<meshoui::VertexHandle, T>(*this, name);
+    template<typename PropertyType>
+    VertexProperty<PropertyType> CreateVertexProperty(const char *name) {
+      return OpenMesh::getOrMakeProperty<meshoui::VertexHandle, PropertyType>(*this, name);
     }
 
     /// This function creates a property about the edges of the mesh.
-    template<typename T>
-    EdgeProperty<T> CreateEdgeProperty(const char *name) {
-      return OpenMesh::getOrMakeProperty<meshoui::EdgeHandle, T>(*this, name);
+    template<typename PropertyType>
+    EdgeProperty<PropertyType> CreateEdgeProperty(const char *name) {
+      return OpenMesh::getOrMakeProperty<meshoui::EdgeHandle, PropertyType>(*this, name);
     }
 
     /// This function creates a temporary property about the faces of the mesh.
-    template<typename T>
-    FaceProperty<T> CreateTemporaryFaceProperty() {
-      return OpenMesh::makeTemporaryProperty<meshoui::FaceHandle, T>(*this);
+    template<typename PropertyType>
+    FaceProperty<PropertyType> CreateTemporaryFaceProperty() {
+      return OpenMesh::makeTemporaryProperty<meshoui::FaceHandle, PropertyType>(*this);
     }
 
     /// This function creates a temporary property about the vertices of the mesh.
-    template<typename T>
-    VertexProperty<T> CreateTemporaryVertexProperty() {
-      return OpenMesh::makeTemporaryProperty<meshoui::VertexHandle, T>(*this);
+    template<typename PropertyType>
+    VertexProperty<PropertyType> CreateTemporaryVertexProperty() {
+      return OpenMesh::makeTemporaryProperty<meshoui::VertexHandle, PropertyType>(*this);
     }
 
     /// This function creates a temporary property about the edges of the mesh.
-    template<typename T>
-    EdgeProperty<T> CreateTemporaryEdgeProperty() {
-      return OpenMesh::makeTemporaryProperty<meshoui::EdgeHandle, T>(*this);
+    template<typename PropertyType>
+    EdgeProperty<PropertyType> CreateTemporaryEdgeProperty() {
+      return OpenMesh::makeTemporaryProperty<meshoui::EdgeHandle, PropertyType>(*this);
     }
 
     /// This function applies a symmetry by a plane of equation z = h.
     void SymmetryHorizontalPlane(const double &height);
 
     /// This function translates the mesh.
-    void Translate(const Vector3d& t);
+    void Translate(const Vector3d &t);
 
     /// This function rotates the mesh, based on Cardan angles
     void Rotate(double phi, double theta, double psi);

@@ -527,14 +527,22 @@ namespace meshoui {
 //            for (VertexHandle* vh_ptr : vh_to_update) {
 //                m_mesh->update_normal(*vh_ptr);
 //            }
-    m_mesh = nullptr;
 
+    // FIXME: il faut egalement detruire les pptes dynamiques ajoutees temporairement au maillage
+
+
+    m_mesh = nullptr;
   }
 
   template<typename ClippingSurface_>
   void Clipper<ClippingSurface_>::AddDynamicPropertiesToMesh() {
-    m_mesh->CreateVertexProperty<VertexPositionWRTClippingSurface>("vertex_position_wrt_clipping_surface");
-//    for (auto& )
+    // Dynamic property creation
+    auto vprop = m_mesh->CreateVertexProperty<VertexPositionWRTClippingSurface>("vertex_position_wrt_clipping_surface");
+
+    // Setting every vertex to undefined state for this property
+    for (const auto& vh : m_mesh->vertices()) {
+      m_mesh->property(*vprop, vh) = VP_UNDEFINED;
+    }
   }
 
 }  // end namespace meshoui
