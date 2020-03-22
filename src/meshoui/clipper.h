@@ -68,29 +68,7 @@ namespace meshoui {
 
   };
 
-
-
-//  /**
-//  * \class FrClippingWavesSurface
-//  * \brief Class for clipping a mesh by an arbitrary incident wave field.
-//  */
-//  class FrClippingWaveSurface : public FrClippingSurface {
-//
-//   private:
-//
-//    FrFreeSurface *m_freeSurface;   ///< free surface used for clipping
-//
-//   public:
-//
-//    explicit FrClippingWaveSurface(FrFreeSurface *freeSurface) : m_freeSurface(freeSurface) {};
-//
-//    /// This function gives the distance to the incident wave.
-//    double GetDistance(const FrMesh::Point &point) const override;
-//
-//    /// This function performs a bisection method to track the intersection node.
-//    FrMesh::Point GetIntersection(const FrMesh::Point &p0, const FrMesh::Point &p1) override;
-//  };
-
+  /// Enum flags to locate vertices with respect to clipping surface
   enum VertexPositionWRTClippingSurface {
     // On pourrait du coup plutot utiliser les fonctions d'ajout dynamique de proprietes !!
     VP_ABOVE_SURFACE = 0,
@@ -99,9 +77,11 @@ namespace meshoui {
     VP_UNDEFINED = -1
   };
 
+  /// Enum flags to specify how is located a triangle with respect to the clipping surface
+  /// Position code is composed of 3 digit AOU where A is the number of vertices above the clipping surface,
+  /// O the number of vertices on and U the number of vertices under.
   enum FacePositionType {
-    // Position code is composed of 3 digit AOU where A is the number of vertices above the clipping surface,
-    // O the number of vertices on and U the number of vertices under.
+
     FPT_003 = 3,  // TODO : simplifier la representation de cas en enum, on peut certainemet nommer de maniere unique les cas entierement mouille, sec ou a couper
     //  -----------  totally wet
     //       *
@@ -163,6 +143,7 @@ namespace meshoui {
     FPT_UNDEFINED = -1
   };
 
+  /// The clipper class which is mostly a fonctor
   template<typename ClippingSurfaceType>
   class Clipper {
 
@@ -214,10 +195,12 @@ namespace meshoui {
 
     void UpdateModifiedFaceProperties(FaceHandle fh);
 
-    void ProcessFace(const Mesh::FaceHandle &fh);
+    void ClipFace(const Mesh::FaceHandle &fh);
 
     bool HasProjection(const Mesh::FaceHandle &fh);
 
+    /// Performs the clipping of a halfedge, the computation of the intersection node,
+    /// the creation of new panels and the deletion of useless panels and vertices.
     void ProcessHalfEdge(Mesh::HalfedgeHandle heh);
 
     void FlagFaceToBeDeleted(const Mesh::FaceHandle &fh);
@@ -264,9 +247,9 @@ namespace meshoui {
 
   };
 
-
 }  // end namespace meshoui
 
+// Including the implementation file which is inlined as we are using a templated class
 #include "meshoui/clipper.hxx"
 
 #endif //MESHOUI_CLIPPER_H

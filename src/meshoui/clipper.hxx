@@ -100,21 +100,15 @@ namespace meshoui {
   template<typename ClippingSurface_>
   void Clipper<ClippingSurface_>::ClassifyVertices() {
 
-    // This function classify the vertices wrt the clipping surface.
-
+    // Adding a dynamci property to the mesh
     auto vprop = m_mesh->GetVertexProperty<VertexPositionWRTClippingSurface>("vertex_position_wrt_clipping_surface");
 
-
-    // Iterating on vertices to get their place wrt to plane
-
-    // Loop over the vertices.
     for (auto vh : m_mesh->vertices()) {
 
       // Computation of the distance to the plane and classification of the nodes.
       auto vPos = ClassifyVertex(vh);
 
       // Storage of the partition.
-//      m_mesh->data(vh).SetPositionType(vPos);
       m_mesh->property(*vprop, vh) = vPos; // TODO: verifier
 
     }
@@ -127,14 +121,9 @@ namespace meshoui {
 
   template<typename ClippingSurface_>
   void Clipper<ClippingSurface_>::Clip() {
-
-    // This function performs the clipping of the mesh wrt the incident wave field.
-
     // Loop over faces.
     for (Mesh::FaceIter fh_iter = m_mesh->faces_begin(); fh_iter != m_mesh->faces_end(); ++fh_iter) {
-      ProcessFace(*fh_iter);
-//        for (auto face : m_mesh->faces()) { // can't be used here; dunno why...
-//            ProcessFace(face);
+      ClipFace(*fh_iter);
     }
   }
 
@@ -142,8 +131,8 @@ namespace meshoui {
   void Clipper<ClippingSurface_>::UpdateModifiedFaceProperties(FaceHandle fh) {
     Mesh::FFIter ff_iter = m_mesh->ff_iter(fh);
     for (; ff_iter.is_valid(); ++ff_iter) {
-      m_mesh->update_normal(*ff_iter);
-//                m_mesh->CalcFacePolynomialIntegrals(*ff_iter); //FIXME
+      m_mesh->update_normal(*ff_iter); // TODO: remettre en place!  // FIXME: faire un UpdateProperties
+      m_mesh->CalcFacePolynomialIntegrals(*ff_iter); //FIXME
     }
   }
 
@@ -175,7 +164,7 @@ namespace meshoui {
       voh_iter = m_mesh->voh_iter(vh);
       for (; voh_iter.is_valid(); ++voh_iter) {
 
-        // Hafledge.
+        // outgoing halfedge
         oheh = *voh_iter;
 
         // Is the halfedge clipping the surface?
@@ -226,9 +215,6 @@ namespace meshoui {
   template<typename ClippingSurface_>
   VertexPositionWRTClippingSurface Clipper<ClippingSurface_>::ClassifyVertex(const VertexHandle &vh) const {
     double distance = GetVertexDistanceToSurface(vh);
-
-    // This function computes the distance wrt the clipping surface and classifies the nodes.
-
     // TODO: On peut projeter le vertex si distance est petit (si plus petit que meanEdgeLength * m_threshold)
 
     VertexPositionWRTClippingSurface vPos;
@@ -247,8 +233,6 @@ namespace meshoui {
   template<typename ClippingSurface_>
   FacePositionType
   Clipper<ClippingSurface_>::ClassifyFace(const FaceHandle &fh) { // TODO: renvoyer le resultat !!
-
-    /// This function classfies faces wrt the clipping surface.
 
     FacePositionType fPos;
     unsigned int nbAbove, nbUnder;
@@ -308,11 +292,7 @@ namespace meshoui {
   }
 
   template<typename ClippingSurface_>
-  void Clipper<ClippingSurface_>::ProcessFace(const FaceHandle &fh) {
-
-    /// This function performs the clipping or not of a single face.
-
-    // Not clipping a face several time // FIXME: ne resout pas le pb...
+  void Clipper<ClippingSurface_>::ClipFace(const FaceHandle &fh) {
 
     Mesh::HalfedgeHandle heh_down, heh_up;
     Mesh::FaceEdgeIter fe_iter;
@@ -340,8 +320,8 @@ namespace meshoui {
         // If HasProjection = True, some vertices are projected to the intersection nodes and no new face or vertex is added.
 
         if (HasProjection(fh)) {
-          // The function ProcessFase is run again to update the classfication?
-          ProcessFace(fh);
+          // The function ClipFace is run again to update the classfication?
+          ClipFace(fh);
         } else {
 
           // Clipping the panel, creation of new nodes on the intersection curve and new faces.
@@ -366,7 +346,7 @@ namespace meshoui {
 
         if (HasProjection(fh)) {
           // The function ProcessFase is run again to update the classfication?
-          ProcessFace(fh);
+          ClipFace(fh);
         } else {
           fe_iter = m_mesh->fe_iter(fh);
           for (; fe_iter.is_valid(); ++fe_iter) {
@@ -390,7 +370,7 @@ namespace meshoui {
 
         if (HasProjection(fh)) {
           // The function ProcessFase is run again to update the classfication?
-          ProcessFace(fh);
+          ClipFace(fh);
         } else {
 
           // TODO: avoir une methode qui a la fois ajouter le vertex et plitte l'edge...
@@ -422,8 +402,6 @@ namespace meshoui {
 
   template<typename ClippingSurface_>
   void Clipper<ClippingSurface_>::ProcessHalfEdge(HalfedgeHandle heh) {
-
-    /// This function performs the clipping of a halfedge, the computation of the intersection node, the creation of new panels and the deletion of useless panels and vertices.
 
     Mesh::VertexHandle vh;  // FIXME: au final, on va juste effectuer l'intersection vu qu'on va projeter les
 
