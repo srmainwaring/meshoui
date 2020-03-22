@@ -12,7 +12,7 @@ namespace meshoui {
       m_hmax(20.),
       m_detection_angle(25) {}
 
-  int Remesher::Apply(Mesh *mesh, const double &cell_size) {
+  int Remesher::Apply(Mesh *mesh) {
 
     MMGMesh mmg_mesh = nullptr;
     MMGSol mmg_sol = nullptr;

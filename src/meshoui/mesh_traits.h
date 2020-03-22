@@ -5,8 +5,8 @@
 // All rights reserved.
 // ==========================================================================
 
-#ifndef MESHOUI_MESHTRAITS_H
-#define MESHOUI_MESHTRAITS_H
+#ifndef MESHOUI_MESH_TRAITS_H
+#define MESHOUI_MESH_TRAITS_H
 
 #include <iostream>
 
@@ -229,4 +229,4 @@ namespace meshoui {
 
 } // end namespace meshoui
 
-#endif //MESHOUI_MESHTRAITS_H
+#endif //MESHOUI_MESH_TRAITS_H

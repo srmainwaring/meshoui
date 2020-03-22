@@ -34,11 +34,13 @@ namespace meshoui {
 
    private:
 
-    std::unique_ptr<Plane> m_plane;     ///< plane used for clipping
+    std::shared_ptr<Plane> m_plane;     ///< plane used for clipping
 
    public:
 
-    ClippingPlane() : m_plane(std::make_unique<Plane>()) {}
+    ClippingPlane() : m_plane(std::make_shared<Plane>()) {}
+
+    ClippingPlane(std::shared_ptr<Plane> plane) : m_plane(plane) {}
 
     // FIXME: les 2 methodes suivantes doivent reposer sur les methodes fournies par les objets geometriques
 
@@ -47,6 +49,8 @@ namespace meshoui {
 
     /// This function gives the intersection node position between an edge and the plane.
     Mesh::Point GetIntersection(const Mesh::Point &p0, const Mesh::Point &p1) override;
+
+    std::shared_ptr<Plane> GetPlane();
 
   };
 

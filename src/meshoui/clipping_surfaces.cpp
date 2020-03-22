@@ -15,5 +15,9 @@ namespace meshoui {
     return m_plane->GetIntersectionWithLine(p0, p1);
   }
 
+  std::shared_ptr<Plane> ClippingPlane::GetPlane() {
+    return m_plane;
+  }
+
 
 }  // end namespace meshoui

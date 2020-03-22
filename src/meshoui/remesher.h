@@ -79,7 +79,7 @@ namespace meshoui {
 
     void SetAngleDetectionThreshold(const double& val_deg);
 
-    int Apply(Mesh *mesh, const double &cell_size);
+    int Apply(Mesh *mesh);
 
    private:
 

@@ -89,7 +89,7 @@ namespace meshoui {
     FPT_UNDEFINED = -1
   };
 
-  /// The clipper class which is mostly a fonctor
+  /// The clipper class which is mostly a functor
   template<typename ClippingSurfaceType>
   class Clipper {
 
@@ -98,15 +98,15 @@ namespace meshoui {
     Clipper() : m_clippingSurface(std::make_unique<ClippingSurfaceType>()), m_mesh(nullptr) {}
 
     /// Performs the clipping on the specified mesh
-    void Apply(Mesh *mesh);
+    void Apply(Mesh *mesh); // FIXME: on veut une copie
 
-    /// Set the threshold used for crossing and classifying computations
-    /// \param eps threshold
-    void SetThreshold(double eps);
-
-    /// Set the threshold used for projection computations
-    /// \param projectionThresholdRatio threshold
-    void SetProjectionThresholdRatio(double projectionThresholdRatio);
+//    /// Set the threshold used for crossing and classifying computations
+//    /// \param eps threshold
+//    void SetThreshold(double eps);
+//
+//    /// Set the threshold used for projection computations
+//    /// \param projectionThresholdRatio threshold
+//    void SetProjectionThresholdRatio(double projectionThresholdRatio);
 
    private:
     /// Initialize the mesh clipper

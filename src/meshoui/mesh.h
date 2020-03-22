@@ -12,7 +12,7 @@
 #include <unordered_map>
 
 #include "maths.h"
-#include "meshTraits.h"
+#include "mesh_traits.h"
 
 #include "polygon.h"
 

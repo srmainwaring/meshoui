@@ -17,9 +17,9 @@ int main () {
 
   remesher.SetAngleDetectionThreshold(5);
   remesher.SetHausdorffParam(0.08);
-  remesher.SetConstantEdgeSize(4.);
+  remesher.SetConstantEdgeSize(2.5);
 
-  remesher.Apply(&mesh, 1);
+  remesher.Apply(&mesh);
 //  Show(mesh);
   Write_VTK(mesh, "remeshed_full.vtp");
 
@@ -30,11 +30,18 @@ int main () {
   Write_VTK(mesh, "clipped.vtp");
 
   // Remesh after clipping
-  remesher.Apply(&mesh, 1);
-  remesher.Apply(&mesh, 1);
+
+  remesher.SetConstantEdgeSize(5);
+  remesher.Apply(&mesh);
   Show(mesh);
   Write_VTK(mesh, "clipped_remeshed.vtp");
 
   Write_OBJ(mesh, "final.obj");
+
+
+//  clipper.ExtractClippedPolygonSet();
+
+
+
 
 }
