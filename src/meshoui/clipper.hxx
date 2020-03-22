@@ -5,58 +5,20 @@
 namespace meshoui {
 
   double ClippingPlane::GetDistance(const Mesh::Point &point) const {
-    return (point - m_plane->origin()).dot(m_plane->normal());
+    return m_plane->GetSignedDistanceToPoint(point);
   }
 
   Mesh::Point ClippingPlane::GetIntersection(const Mesh::Point &p0, const Mesh::Point &p1) {
-    // Find the abscissa on [P0P1] of the intersection with the plan :
-    // P_i = P(s_i) = P0 + s_i * P0P1
-    // s_i = normal . P0O / normal . P0P1
-    // O being a point on the plane
-
-//    Position P0 = {p0[0], p0[1], p0[2]};
-//    Position P1 = {p1[0], p1[1], p1[2]};
-
-    auto normal = m_plane->normal();
-
-    // check if P0P1 is parallel to the plan / or P0P1 null
-    auto p0p1 = (p1 - p0);
-    assert(p0p1.norm() > 1E-16);
-    assert(p0p1.dot(normal) != 0);
-
-    // P0O
-//    auto planeOrigin = m_plane->GetOrigin(NWU);
-
-    // Application of the horizontal translation.
-//    auto BodyPos = m_bodyPosition;
-//    BodyPos.GetZ() = 0.;
-//    planeOrigin -= BodyPos;
-
-//    Direction vector = planeOrigin - p0;
-
-    // s_i
-//    double s = (planeOrigin - p0).dot(normal) / p0p1.dot(normal);
-
-//     P_i
-//    auto intersection = p0 + (p1 - p0) * s;
-
-//    return {intersection.GetX(), intersection.GetY(), intersection.GetZ()};
-    return p0 + p0p1 * (m_plane->origin() - p0).dot(normal) / p0p1.dot(normal);
-
+    return m_plane->GetIntersectionWithLine(p0, p1);
   }
-
-//  FrClippingSurface *MeshClipper<ClippingSurfaceType>::GetClippingSurface() {
-//    return m_clippingSurface.get();
-//  }
 
   template<typename ClippingSurface_>
   void Clipper<ClippingSurface_>::Apply(Mesh *mesh) {
 
-    // Storage of the input mesh file.
     m_mesh = mesh;
 
     // Adding dynamic property for vertex positions wrt clipping surface
-    mesh->CreateVertexProperty<VertexPositionWRTClippingSurface>("vertex_position_wrt_clipping_surface");
+    AddDynamicPropertiesToMesh();
 
     // Partition of the mesh.
     Initialize();
@@ -78,13 +40,8 @@ namespace meshoui {
     m_Threshold = eps;
   }
 
-//  void Clipper<ClippingSurfaceType>::SetClippingSurface(std::shared_ptr<FrClippingSurface> clippingSurface) {
-//    m_clippingSurface = clippingSurface;
-//  }
   template<typename ClippingSurface_>
   void Clipper<ClippingSurface_>::Initialize() {
-
-    // This function initializes the clipper.
 
     // Vector to store the faces to delete.
     c_FacesToDelete.reserve(
@@ -100,7 +57,7 @@ namespace meshoui {
   template<typename ClippingSurface_>
   void Clipper<ClippingSurface_>::ClassifyVertices() {
 
-    // Adding a dynamci property to the mesh
+    // Adding a dynamic property to the mesh
     auto vprop = m_mesh->GetVertexProperty<VertexPositionWRTClippingSurface>("vertex_position_wrt_clipping_surface");
 
     for (auto vh : m_mesh->vertices()) {
@@ -138,8 +95,6 @@ namespace meshoui {
 
   template<typename ClippingSurface_>
   bool Clipper<ClippingSurface_>::HasProjection(const FaceHandle &fh) {
-
-    /// This function performs the clipping of a panel with the clipping surface.
 
     bool anyVertexProjected = false; // Initialization.
     double dist, edge_length;
@@ -201,8 +156,6 @@ namespace meshoui {
       if (anyVertexProjected) {
         // Placing vh on Pi.
         m_mesh->point(vh) = Pi_final;
-
-//        m_mesh->data(vh).SetOn();
         m_mesh->property(*vprop, vh) = VP_ON_SURFACE; // TODO: verifier
 
         break; // We anyVertexProjected only one vertex per face at a time as other will be processed by adjacent faces
@@ -214,7 +167,7 @@ namespace meshoui {
 
   template<typename ClippingSurface_>
   VertexPositionWRTClippingSurface Clipper<ClippingSurface_>::ClassifyVertex(const VertexHandle &vh) const {
-    double distance = GetVertexDistanceToSurface(vh);
+    double distance = m_clippingSurface->GetDistance(m_mesh->point(vh));
     // TODO: On peut projeter le vertex si distance est petit (si plus petit que meanEdgeLength * m_threshold)
 
     VertexPositionWRTClippingSurface vPos;
@@ -243,14 +196,12 @@ namespace meshoui {
     // Counting the number of vertices above and under the clipping surface.
     Mesh::FaceVertexIter fv_iter = m_mesh->fv_iter(fh);
     for (; fv_iter.is_valid(); ++fv_iter) {
-
       auto vpos = m_mesh->property(*vprop, *fv_iter);
 
-//      if (m_mesh->data(*fv_iter).IsAbove()) {
       if (vpos == VP_ABOVE_SURFACE) {
         ++nbAbove;
       }
-//      if (m_mesh->data(*fv_iter).IsUnder()) {
+
       if (vpos == VP_UNDER_SURFACE) {
         ++nbUnder;
       }
@@ -418,9 +369,6 @@ namespace meshoui {
 
   template<typename ClippingSurface_>
   void Clipper<ClippingSurface_>::FlagFaceToBeDeleted(const FaceHandle &fh) {
-
-    /// This function adds a face to the vector which stores the faces to delete.
-
     c_FacesToDelete.push_back(fh);
   }
 
@@ -439,19 +387,17 @@ namespace meshoui {
 
   template<typename ClippingSurface_>
   bool Clipper<ClippingSurface_>::IsEdgeCrossing(const EdgeHandle &eh) {
-
-    /// This function checks if an edge crossed the clipping surface or not.
-
     Mesh::HalfedgeHandle heh = m_mesh->halfedge_handle(eh, 0);
-    double dz_0 = GetVertexDistanceToSurface(m_mesh->from_vertex_handle(heh));
-    double dz_1 = GetVertexDistanceToSurface(m_mesh->to_vertex_handle(heh));
+
+    double dz_0 = m_clippingSurface->GetDistance(m_mesh->point(m_mesh->from_vertex_handle(heh)));
+    double dz_1 = m_clippingSurface->GetDistance(m_mesh->point(m_mesh->to_vertex_handle(heh)));
     double prod = dz_0 * dz_1;
     bool out;
 
     if (fabs(dz_0) < m_Threshold || fabs(dz_1) < m_Threshold) {
       out = false;
     } else {
-      // If prof is negative, the two vertices are not on the same side of the clipping surface.
+      // If prod is negative, the two vertices are not on the same side of the clipping surface.
       out = (prod < 0.);
     }
 
@@ -460,19 +406,14 @@ namespace meshoui {
 
   template<typename ClippingSurface_>
   bool Clipper<ClippingSurface_>::IsHalfEdgeCrossing(const HalfedgeHandle &heh) {
-
-    /// This function checks if a halfedge crossed the clipping surface or not.
-
     return IsEdgeCrossing(m_mesh->edge_handle(heh));
   }
 
   template<typename ClippingSurface_>
   bool Clipper<ClippingSurface_>::IsHalfEdgeDownCrossing(const HalfedgeHandle &heh) {
 
-    /// This function checks if a halfedge crossed the clipping surface downwardly.
-
-    double dz_from = GetVertexDistanceToSurface(m_mesh->from_vertex_handle(heh));
-    double dz_to = GetVertexDistanceToSurface(m_mesh->to_vertex_handle(heh));
+    double dz_from = m_clippingSurface->GetDistance(m_mesh->point(m_mesh->from_vertex_handle(heh)));
+    double dz_to = m_clippingSurface->GetDistance(m_mesh->point(m_mesh->to_vertex_handle(heh)));
     bool out;
     if (fabs(dz_from) < m_Threshold || fabs(dz_to) < m_Threshold) {
       out = false;
@@ -484,11 +425,10 @@ namespace meshoui {
 
   template<typename ClippingSurface_>
   bool Clipper<ClippingSurface_>::IsHalfEdgeUpCrossing(const HalfedgeHandle &heh) {
+    // FIXME: cette methode est boilerplate par rapport a sa version down crossing !!!
 
-    /// This function checks if a halfedge crossed the clipping surface upwardly.
-
-    double dz_from = GetVertexDistanceToSurface(m_mesh->from_vertex_handle(heh));
-    double dz_to = GetVertexDistanceToSurface(m_mesh->to_vertex_handle(heh));
+    double dz_from = m_clippingSurface->GetDistance(m_mesh->point(m_mesh->from_vertex_handle(heh)));
+    double dz_to = m_clippingSurface->GetDistance(m_mesh->point(m_mesh->to_vertex_handle(heh)));
     bool out;
     if (fabs(dz_from) < m_Threshold || fabs(dz_to) < m_Threshold) {
       out = false;
@@ -501,8 +441,6 @@ namespace meshoui {
   template<typename ClippingSurface_>
   HalfedgeHandle Clipper<ClippingSurface_>::FindUpcrossingHalfEdge(const FaceHandle &fh) {
 
-    /// This function tracks the halfedge which crosses the clipping surface upwardly.
-
     // TODO: throw error if no upcrossing halfedge is found
     Mesh::HalfedgeHandle heh = m_mesh->halfedge_handle(fh);
     while (!IsHalfEdgeUpCrossing(heh)) {
@@ -513,9 +451,6 @@ namespace meshoui {
 
   template<typename ClippingSurface_>
   HalfedgeHandle Clipper<ClippingSurface_>::FindDowncrossingHalfEdge(const FaceHandle &fh) {
-
-    /// This function tracks the halfedge which crosses the clipping surface downwardly.
-
     // TODO: throw error if no downcrossing halfedge is found
     Mesh::HalfedgeHandle heh = m_mesh->halfedge_handle(fh);
     unsigned int i = 0;
@@ -528,9 +463,6 @@ namespace meshoui {
 
   template<typename ClippingSurface_>
   VertexHandle Clipper<ClippingSurface_>::InsertIntersectionVertex(const HalfedgeHandle &heh) {
-
-    /// This function adds an intersection node of an edge as a new vertex of the mesh.
-
     Mesh::Point p0 = m_mesh->point(m_mesh->from_vertex_handle(heh));
     Mesh::Point p1 = m_mesh->point(m_mesh->to_vertex_handle(heh));
 
@@ -550,15 +482,6 @@ namespace meshoui {
   }
 
   template<typename ClippingSurface_>
-  double Clipper<ClippingSurface_>::GetVertexDistanceToSurface(const VertexHandle &vh) const {
-
-    /// This function gives the distance of a node to the clipping surface
-
-    return m_clippingSurface->GetDistance(m_mesh->point(vh));
-
-  }
-
-  template<typename ClippingSurface_>
   void Clipper<ClippingSurface_>::ApplyFaceDeletion() {
     for (Mesh::FaceHandle fh : c_FacesToDelete) {
       if (!m_mesh->status(fh).deleted()) {
@@ -570,9 +493,6 @@ namespace meshoui {
 
   template<typename ClippingSurface_>
   void Clipper<ClippingSurface_>::Finalize() {
-
-    /// This function cleans the clipped mesh (deletion of faces, update of every property, etc.).
-
     ApplyFaceDeletion();
     std::vector<VertexHandle *>
         vh_to_update;  // FIXME: ne fonctionne pas, il faut que ces vecteurs soient initialises avec des elements a tracker
@@ -611,5 +531,10 @@ namespace meshoui {
 
   }
 
+  template<typename ClippingSurface_>
+  void Clipper<ClippingSurface_>::AddDynamicPropertiesToMesh() {
+    m_mesh->CreateVertexProperty<VertexPositionWRTClippingSurface>("vertex_position_wrt_clipping_surface");
+//    for (auto& )
+  }
 
 }  // end namespace meshoui

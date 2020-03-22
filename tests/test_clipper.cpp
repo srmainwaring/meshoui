@@ -8,16 +8,16 @@ using namespace meshoui;
 
 int main () {
 
-  Mesh mesh("data/Aker.obj");
+  Mesh mesh("data/Ship.obj");
 //  Show(mesh);
   Write_VTK(mesh, "initial.vtp");
 
   // Remesh
   Remesher remesher;
 
-  remesher.SetAngleDetectionThreshold(3);
-  remesher.SetHausdorffParam(0.05);
-  remesher.SetConstantEdgeSize(1.);
+  remesher.SetAngleDetectionThreshold(5);
+  remesher.SetHausdorffParam(0.08);
+  remesher.SetConstantEdgeSize(4.);
 
   remesher.Apply(&mesh, 1);
 //  Show(mesh);

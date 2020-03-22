@@ -130,8 +130,8 @@ namespace meshoui {
 
     bool IsWatertight() const;
 
-    // FIXME: Pas forcement ici...
-    Planar3DPolygonSet ExtractIntersectionPolygons(std::shared_ptr<Plane> plane);
+//    // FIXME: Pas forcement ici...
+//    Planar3DPolygonSet ExtractIntersectionPolygons(std::shared_ptr<Plane> plane);
 
 
 

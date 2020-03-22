@@ -21,22 +21,12 @@ namespace meshoui {
   */
   class ClippingSurface {
 
-//   protected:
-
-//    double m_ThresholdDichotomy = 1e-4;     ///< threshold for the dichotomy in the intersection computation
-
-//    Point m_bodyPosition = {0., 0., 0.};   ///< horizontal position of the body, related to the mesh to be clipped
-
    public:
 
-//    /// Set the body position in world reference frame, for correction in ClippingWaveSurface::GetDistance
-//    /// \param bodyPos
-//    void SetBodyPosition(Vector3d bodyPos);
-
-    /// This function gives the distance to the clipping surface
+    /// Gives the distance to the clipping surface
     virtual double GetDistance(const Mesh::Point &point) const = 0;
 
-    /// This function gives the intersection node position between an edge and an incident wave field.
+    /// Gives the intersection point between the segment {p0, p1} and the clipping surface
     virtual Mesh::Point GetIntersection(const Mesh::Point &p0, const Mesh::Point &p1) = 0;
 
   };
@@ -56,15 +46,13 @@ namespace meshoui {
 
     ClippingPlane() : m_plane(std::make_unique<Plane>()) {}
 
-//    explicit ClippingPlane(const std::shared_ptr<Plane> &plane);;
-//
+    // FIXME: les 2 methodes suivantes doivent reposer sur les methodes fournies par les objets geometriques
+
     /// This function gives the distance to the plane.
     double GetDistance(const Mesh::Point &point) const override;
 
     /// This function gives the intersection node position between an edge and the plane.
     Mesh::Point GetIntersection(const Mesh::Point &p0, const Mesh::Point &p1) override;
-//
-//    geom::Plane *GetPlane() const;
 
   };
 
@@ -151,9 +139,6 @@ namespace meshoui {
 
     Clipper() : m_clippingSurface(std::make_unique<ClippingSurfaceType>()), m_mesh(nullptr) {}
 
-    /// This function gives the clipping surface.
-//    ClippingSurface *GetClippingSurface();
-
     /// Performs the clipping on the specified mesh
     void Apply(Mesh *mesh); // TODO:
 
@@ -165,12 +150,7 @@ namespace meshoui {
     /// \param projectionThresholdRatio threshold
     void SetProjectionThresholdRatio(double projectionThresholdRatio);
 
-    /// Set the clipping surface to be used
-    /// \param clippingSurface clipping surface
-//    void SetClippingSurface(std::shared_ptr<ClippingSurface> clippingSurface);
-
    private:
-
     /// Initialize the mesh clipper
     void Initialize();
 
@@ -203,29 +183,41 @@ namespace meshoui {
     /// the creation of new panels and the deletion of useless panels and vertices.
     void ProcessHalfEdge(Mesh::HalfedgeHandle heh);
 
+    /// Prepare face for deletion at the end of clipping procedure
     void FlagFaceToBeDeleted(const Mesh::FaceHandle &fh);
 
     void FlagVertexAdjacentFacesToBeDeleted(const Mesh::VertexHandle &vh);
 
+    /// Tells if the input edge is crossing the clipping surface
     bool IsEdgeCrossing(const Mesh::EdgeHandle &eh);
 
+    /// Tells if the input half-edge is crossing the clipping surface
     bool IsHalfEdgeCrossing(const Mesh::HalfedgeHandle &heh);
 
+    /// Tells if the input half-edge is crossing the clipping surface from above to below
     bool IsHalfEdgeDownCrossing(const Mesh::HalfedgeHandle &heh);
 
+    /// Tells if the input half-edge is crossing the clipping surface from below to above
     bool IsHalfEdgeUpCrossing(const Mesh::HalfedgeHandle &heh);
 
+    /// Finds the first half-edge that is crossing the clipping surface from below to above
     Mesh::HalfedgeHandle FindUpcrossingHalfEdge(const Mesh::FaceHandle &fh);
 
+    /// Finds the first half-edge that is crossing the clipping surface from above to below
     Mesh::HalfedgeHandle FindDowncrossingHalfEdge(const Mesh::FaceHandle &fh);
 
+    /// Insert a new vertex in the mesh that is intersection between the clipping surface and the input half-edge
     Mesh::VertexHandle InsertIntersectionVertex(const Mesh::HalfedgeHandle &heh);
 
-    double GetVertexDistanceToSurface(const Mesh::VertexHandle &vh) const;
+//    double GetVertexDistanceToSurface(const Mesh::VertexHandle &vh) const;
 
     void ApplyFaceDeletion();
 
+    /// Final cleaning of the mesh (deletion of faces, update of every property, etc.).
     void Finalize();
+
+   private:
+    void AddDynamicPropertiesToMesh();
 
 
    private:

@@ -13,7 +13,8 @@
 
 namespace meshoui {
 
-  double GetAngleBetweenVectors(const Vector3d &v1, const Vector3d &v2);
+  /// Returns the angle (rad) bewtween vector v1 and vector v2 around the common normal axis oriented as v1.cross(v2)
+  double GetAngleBetweenVectors(const Vector3d &v1, const Vector3d &v2); // TODO: dans mathutils
 
   /**
      * Class defining geometrically a plane, based on a point, considered as the plane origin and a normal vector
