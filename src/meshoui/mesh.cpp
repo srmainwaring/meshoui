@@ -10,8 +10,6 @@
 
 #include "mesh.h"
 
-
-
 namespace meshoui {
 
   Mesh::Mesh(const std::string &meshfile) {
@@ -135,10 +133,11 @@ namespace meshoui {
   }
 
   void Mesh::Rotate(double phi, double theta, double psi) {
-    auto euler_angles = Eigen::EulerAngles<double, Eigen::EulerSystemZYX>(psi, theta, phi); // FIXME: verifier qu'on a le resultat escompte
+    auto euler_angles = Eigen::EulerAngles<double, Eigen::EulerSystemZYX>(psi, theta,
+                                                                          phi); // FIXME: verifier qu'on a le resultat escompte
 
     auto vh_iter = vertices_begin();
-    for (; vh_iter!=vertices_end(); ++vh_iter) {
+    for (; vh_iter != vertices_end(); ++vh_iter) {
       point(*vh_iter) = euler_angles * point(*vh_iter);
     }
 
@@ -146,44 +145,29 @@ namespace meshoui {
   }
 
   void Mesh::FlipFaceNormals() {
-
-    // This function flips the face normals.
-
     for (FaceIter f_iter = faces_begin(); f_iter != faces_end(); ++f_iter) {
       Vector3d face_normal = normal(*f_iter);
       set_normal(*f_iter, -face_normal);
     }
-
   }
 
   void Mesh::FlipVertexNormals() {
     // FIXME: ok, si on symmetrize les normales doivent etre flippees mais ne peut on pas plutot recalculer en appelant
     // un update ?
-
-    // This function flips the vertex normals.
-
     for (VertexIter v_iter = vertices_begin(); v_iter != vertices_end(); ++v_iter) {
       Vector3d vertex_normal = normal(*v_iter);
       set_normal(*v_iter, -vertex_normal);
     }
-
   }
 
   void Mesh::FlipHalfedgeNormals() {
-
-    // This function flips the halfegde normals.
-
     for (HalfedgeIter he_iter = halfedges_begin(); he_iter != halfedges_end(); ++he_iter) {
       Vector3d halfedge_normal = normal(*he_iter);
       set_normal(*he_iter, -halfedge_normal);
     }
-
   }
 
   void Mesh::FlipAllNormals() {
-
-    // This function flips the normals (face, vertice, halfedge).
-
     FlipFaceNormals();
     FlipVertexNormals();
     FlipHalfedgeNormals();
