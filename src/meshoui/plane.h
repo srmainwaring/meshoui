@@ -33,6 +33,12 @@ namespace meshoui {
 
     Vector3d normal() const;
 
+    void Set(const Vector3d& origin, const Vector3d& normal);
+
+    void SetOrigin(const Vector3d& origin);
+
+    void SetNormal(const Vector3d& normal);
+
     double GetSignedDistanceToPoint(const Vector3d &point) const;
 
     Vector3d NormalProjectPointOnPlane(const Vector3d &point) const;
@@ -53,6 +59,7 @@ namespace meshoui {
 
     void BuildTransform();
 
+    void Update();
 
    private:
     HyperPlane m_hyperplane;

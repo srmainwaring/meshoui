@@ -8,9 +8,14 @@
 #ifndef MESHOUI_LOADER_H
 #define MESHOUI_LOADER_H
 
-#include "meshTraits.h"
 #include <OpenMesh/Core/Utils/PropertyManager.hh>
 #include <unordered_map>
+
+#include "maths.h"
+#include "meshTraits.h"
+
+#include "polygon.h"
+
 
 namespace meshoui {
 
@@ -34,6 +39,8 @@ namespace meshoui {
   class Mesh : public OpenMesh::TriMesh_ArrayKernelT<meshTraits> { // Mesh must be a triangular mesh.
 
    public:
+
+//    using Transform = Eigen::Transform<double, 3, Eig>; // TODO: faire quelque chose de dedie dans mathutils
 
     // OpenMesh property managers.
     template<typename T>
@@ -111,6 +118,22 @@ namespace meshoui {
 
     /// This function applies a symmetry by a plane of equation z = h.
     void SymmetryHorizontalPlane(const double &height);
+
+    /// This function translates the mesh.
+    void Translate(const Vector3d& t);
+
+    /// This function rotates the mesh, based on Cardan angles
+    void Rotate(double phi, double theta, double psi);
+
+    //TODO:
+//    void AffineTransform(const Eigen::Transform<double, 3, Eigen::Affine>& transform);
+
+    bool IsWatertight() const;
+
+    // FIXME: Pas forcement ici...
+    Planar3DPolygonSet ExtractIntersectionPolygons(std::shared_ptr<Plane> plane);
+
+
 
     /// This function flips the face normals.
     void FlipFaceNormals();

@@ -173,8 +173,8 @@ namespace meshoui {
     /// This function gives the clipping surface.
 //    ClippingSurface *GetClippingSurface();
 
-    /// This function initializes the MeshClipper object from an input mesh and performs the clipping.
-    void Apply(Mesh *mesh);
+    /// Performs the clipping on the specified mesh
+    void Apply(Mesh *mesh); // TODO:
 
     /// Set the threshold used for crossing and classifying computations
     /// \param eps threshold

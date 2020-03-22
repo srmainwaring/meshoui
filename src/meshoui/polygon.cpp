@@ -4,6 +4,10 @@
 
 #include "polygon.h"
 
+#include <utility>
+
+#include <utility>
+
 
 namespace meshoui {
 
@@ -71,6 +75,7 @@ namespace meshoui {
 
   void Planar2DPolygon::Update() const {
     UpdateSurfaceIntegrals();
+    c_is_up_to_date = true;
   }
 
   void Planar2DPolygon::UpdateSurfaceIntegrals() const {
@@ -144,7 +149,7 @@ namespace meshoui {
 
   Planar3DPolygon::Planar3DPolygon(std::shared_ptr<Plane> plane) :
       c_is_up_to_date(false),
-      m_plane(plane) {}
+      m_plane(std::move(plane)) {}
 
   void Planar3DPolygon::AddPoint(const Vector3d &point) {
     if (!m_plane->IsPointOnPlane(point)) {
@@ -152,6 +157,7 @@ namespace meshoui {
       exit(EXIT_FAILURE);
     }
     m_points.push_back(point);
+    c_is_up_to_date = false;
   }
 
   std::shared_ptr<Plane> Planar3DPolygon::GetPlane() const {
@@ -174,6 +180,7 @@ namespace meshoui {
   void Planar3DPolygon::Update() const {
     Generate2DPolygon();
     c_2D_polygon.Update();
+    c_is_up_to_date = true;
   }
 
 //  AABB2D Planar3DPolygon::GetBoundingBox() const {

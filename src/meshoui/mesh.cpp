@@ -6,9 +6,11 @@
 // ==========================================================================
 
 #include <iostream>
+#include <unsupported/Eigen/EulerAngles>
 
 #include "mesh.h"
-#include "maths.h"
+
+
 
 namespace meshoui {
 
@@ -32,9 +34,6 @@ namespace meshoui {
   }
 
   void Mesh::UpdateAllProperties() {
-
-    // This function updates some properties of faces and vertices (normals, centroids, face areas).
-
     // Computation of the normal vectors of faces, vertices and half edges.
     update_normals();
 
@@ -51,40 +50,99 @@ namespace meshoui {
 
   void Mesh::CalcFacePolynomialIntegrals(const Mesh::FaceHandle &fh) {
 
-    // This function computes the polynomial surface integrals over the faces.
+    using Array = Eigen::Array<double, 3, 1>;
+
+    Array P0, P1, P2;
+    Array t0, t1, t2;
+    Array f1, f2, f3;
+    Array g0, g1, g2;
+    Point e1, e2, cp;
+
+    double delta;
 
     // Getting one half-edge handle of the current face
     auto heh = halfedge_handle(fh);
 
     // Getting the origin vertex of heh
-    Vector3d P0 = point(from_vertex_handle(heh));
+    P0 = point(from_vertex_handle(heh));
 
     heh = next_halfedge_handle(heh);
-    Vector3d P1 = point(from_vertex_handle(heh));
+    P1 = point(from_vertex_handle(heh));
 
     heh = next_halfedge_handle(heh);
-    Vector3d P2 = point(from_vertex_handle(heh));
+    P2 = point(from_vertex_handle(heh));
 
-    Vector3d e1 = P1 - P0;
-    Vector3d e2 = P2 - P0;
-    Vector3d cp = cross(e1, e2);
-    double delta = cp.norm();
+    e1 = P1 - P0;
+    e2 = P2 - P0;
+    cp = cross(e1, e2);
+    delta = cp.norm();
+
+    // factorized terms (optimization terms :) )
+    t0 = P0 + P1;
+    f1 = t0 + P2;
+    t1 = P0 * P0;
+    f2 = t2 + P2 * f1;
+    t2 = t1 + P1 * t0;
+    f3 = P0 * t1 + P1 * t2 + P2 * f2;
+    g0 = f2 + P0 * (f1 + P0);
+    g1 = f2 + P1 * (f1 + P1);
+    g2 = f2 + P2 * (f1 + P2);
 
     // My Extended Eberly's Formulas.
     // Surface integrals are transformed into contour integrals.
-    data(fh).SetSurfaceIntegral(AREA, delta / 2.);
+    data(fh).SetSurfaceIntegral(POLY_1, delta / 2.);
+
+    data(fh).SetSurfaceIntegral(POLY_X, delta * f1[0] / 6.);
+    data(fh).SetSurfaceIntegral(POLY_Y, delta * f1[1] / 6.);
+    data(fh).SetSurfaceIntegral(POLY_Z, delta * f1[2] / 6.);
+
+    data(fh).SetSurfaceIntegral(POLY_YZ, delta * (6. * P0[1] * P0[2]
+                                                  + 3. * (P1[1] * P1[2] + P2[1] * P2[2])
+                                                  - P0[1] * f1[2] - P0[2] * f1[1]) / 12.);
+    data(fh).SetSurfaceIntegral(POLY_XZ, delta * (6. * P0[0] * P0[2]
+                                                  + 3. * (P1[0] * P1[2] + P2[0] * P2[2])
+                                                  - P0[0] * f1[2] - P0[2] * f1[0]) / 12.);
+    data(fh).SetSurfaceIntegral(POLY_XY, delta * (6. * P0[0] * P0[1]
+                                                  + 3. * (P1[0] * P1[1] + P2[0] * P2[1])
+                                                  - P0[0] * f1[1] - P0[1] * f1[0]) / 12.);
+
+    data(fh).SetSurfaceIntegral(POLY_X2, delta * f2[0] / 12.);
+    data(fh).SetSurfaceIntegral(POLY_Y2, delta * f2[1] / 12.);
+    data(fh).SetSurfaceIntegral(POLY_Z2, delta * f2[2] / 12.);
+
+    data(fh).SetSurfaceIntegral(POLY_X3, delta * f3[0] / 20.);
+    data(fh).SetSurfaceIntegral(POLY_Y3, delta * f3[1] / 20.);
+    data(fh).SetSurfaceIntegral(POLY_Z3, delta * f3[2] / 20.);
+
+    data(fh).SetSurfaceIntegral(POLY_X2Y, delta * (P0[1] * g0[0] + P1[1] * g1[0] + P2[1] * g2[0]) / 60.);
+    data(fh).SetSurfaceIntegral(POLY_Y2Z, delta * (P0[2] * g0[1] + P1[2] * g1[1] + P2[2] * g2[1]) / 60.);
+    data(fh).SetSurfaceIntegral(POLY_Z2X, delta * (P0[0] * g0[2] + P1[0] * g1[2] + P2[0] * g2[2]) / 60.);
 
   }
 
   void Mesh::SymmetryHorizontalPlane(const double &height) {
-
-    // This function applies a symmetry by a plane of equation z = h.
-
     // Symmetry of the mesh.
     for (VertexIter v_iter = vertices_begin(); v_iter != vertices_end(); ++v_iter) {
       point(*v_iter)[2] = 2 * height - point(*v_iter)[2];
     }
+  }
 
+  void Mesh::Translate(const Vector3d &t) {
+    for (VertexIter v_iter = vertices_begin(); v_iter != vertices_end(); ++v_iter) {
+      point(*v_iter) += t;
+    }
+    UpdateAllProperties();
+  }
+
+  void Mesh::Rotate(double phi, double theta, double psi) {
+    auto euler_angles = Eigen::EulerAngles<double, Eigen::EulerSystemZYX>(psi, theta, phi); // FIXME: verifier qu'on a le resultat escompte
+
+    auto vh_iter = vertices_begin();
+    for (; vh_iter!=vertices_end(); ++vh_iter) {
+      point(*vh_iter) = euler_angles * point(*vh_iter);
+    }
+
+    UpdateAllProperties();
   }
 
   void Mesh::FlipFaceNormals() {
@@ -99,6 +157,8 @@ namespace meshoui {
   }
 
   void Mesh::FlipVertexNormals() {
+    // FIXME: ok, si on symmetrize les normales doivent etre flippees mais ne peut on pas plutot recalculer en appelant
+    // un update ?
 
     // This function flips the vertex normals.
 

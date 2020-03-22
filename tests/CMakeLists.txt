@@ -9,6 +9,7 @@ set(TESTS
         test_clipper
         test_mmg
         test_plane
+        test_polygon
         )
 
 foreach (test ${TESTS})

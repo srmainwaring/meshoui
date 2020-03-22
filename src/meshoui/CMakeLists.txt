@@ -4,7 +4,6 @@ set(MESHOUI_SRC_FILES
         mesh.cpp
         vtkmesh.cpp
         remesher.cpp
-        boundary_polygon.cpp
         polygon.cpp
         plane.cpp
         )

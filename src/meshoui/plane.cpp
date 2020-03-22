@@ -13,18 +13,34 @@ namespace meshoui {
   }
 
   Plane::Plane() : m_origin(0., 0., 0.), m_hyperplane({0., 0., 1.}, 0.) {
-    BuildTransform();
+    Update();
   }
 
   Plane::Plane(const Vector3d &origin, const Vector3d &normal) :
       m_origin(origin),
-      m_hyperplane(normal, origin.dot(normal)) {  // FIXME: retirer le - si pas besoin
-    BuildTransform();
+      m_hyperplane(normal.normalized(), origin.dot(normal.normalized())) {  // FIXME: retirer le - si pas besoin
+    Update();
   }
 
   Vector3d Plane::origin() const { return m_origin; }
 
   Vector3d Plane::normal() const { return m_hyperplane.normal(); }
+
+  void Plane::Set(const Vector3d& origin, const Vector3d& normal) {
+    SetOrigin(origin);
+    SetNormal(normal);
+  }
+
+  void Plane::SetOrigin(const Vector3d& origin) {
+    m_origin = origin;
+    Update();
+  }
+
+  void Plane::SetNormal(const Vector3d& normal) {
+    m_hyperplane.normal() = normal.normalized();
+    m_hyperplane.offset() = m_origin.dot(m_hyperplane.normal());
+    Update();
+  }
 
   double Plane::GetSignedDistanceToPoint(const Vector3d &point) const {
     return m_hyperplane.signedDistance(point) - 2 * m_hyperplane.offset();
@@ -90,4 +106,9 @@ namespace meshoui {
     c_transform = transform.inverse();
 
   }
+
+  void Plane::Update() {
+    BuildTransform();
+  }
+
 }  // end namespace meshoui

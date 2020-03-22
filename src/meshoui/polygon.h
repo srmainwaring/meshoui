@@ -128,7 +128,11 @@ namespace meshoui {
 
     Planar2DPolygon Get2DPolygon() const;
 
-   private:
+    bool IsEmpty() const {
+      return m_points.empty();
+    }
+
+//   private:
     void Generate2DPolygon() const;
 
     void Update() const;
@@ -140,6 +144,30 @@ namespace meshoui {
     // Cache attributes
     mutable bool c_is_up_to_date;
     mutable Planar2DPolygon c_2D_polygon;
+
+  };
+
+
+  class Planar3DPolygonSet {
+
+   public:
+    explicit Planar3DPolygonSet(std::shared_ptr<Plane> common_plane) : m_common_plane(std::move(common_plane)) {}
+
+    void AddPolygon(const Planar3DPolygon& polygon) {
+      if (polygon.GetPlane() != m_common_plane) {
+        std::cerr << "In a Planar3DPolygonSet every added polygon MUST share the same Plane" << std::endl;
+        exit(EXIT_FAILURE);
+      }
+      m_poygons.push_back(polygon);
+    }
+
+    std::shared_ptr<Plane> GetPlane() const {
+      return m_common_plane;
+    }
+
+   private:
+    std::shared_ptr<Plane> m_common_plane;
+    std::vector<Planar3DPolygon> m_poygons;
 
   };
 
