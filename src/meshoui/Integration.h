@@ -23,12 +23,12 @@ namespace meshoui {
    public:
 
     /// Constructor of the class.
-    Integration(IntegrandOnFace<T> *F, const int &order, meshoui::Mesh *mesh)
+    Integration(IntegrandOnFace<T> *F, const int &order, Mesh *mesh)
         : m_integrator(F, order), m_order(order), m_mesh(mesh) {
     }
 
     /// This function computes the surface integration over a face.
-    T Compute(const FaceHandle &fh) {
+    T Compute(const Mesh::FaceHandle &fh) {
 
       // Vertices of the triangle.
       auto heh = m_mesh->halfedge_handle(fh);

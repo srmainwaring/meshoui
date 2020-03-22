@@ -140,7 +140,7 @@ namespace meshoui {
     Clipper() : m_clippingSurface(std::make_unique<ClippingSurfaceType>()), m_mesh(nullptr) {}
 
     /// Performs the clipping on the specified mesh
-    void Apply(Mesh *mesh); // TODO:
+    void Apply(Mesh *mesh);
 
     /// Set the threshold used for crossing and classifying computations
     /// \param eps threshold
@@ -173,7 +173,7 @@ namespace meshoui {
     /// Clip the mesh with the given clipping surface
     void Clip();
 
-    void UpdateModifiedFaceProperties(FaceHandle fh);
+    void UpdateModifiedFaceProperties(Mesh::FaceHandle fh);
 
     void ClipFace(const Mesh::FaceHandle &fh);
 
