@@ -11,19 +11,19 @@
 #include "maths.h"
 #include "mesh.h"
 #include "MathUtils/Integration2dTriangle.h"
-#include "IntegrandOnFace.h"
+#include "integrand_on_face.h"
 
 namespace meshoui {
   /**
   * Class for dealing integration over the faces.
   */
   template<typename T>
-  class Integration {
+  class integration {
 
    public:
 
     /// Constructor of the class.
-    Integration(IntegrandOnFace<T> *F, const int &order, Mesh *mesh)
+    integration(IntegrandOnFace<T> *F, const int &order, Mesh *mesh)
         : m_integrator(F, order), m_order(order), m_mesh(mesh) {
     }
 

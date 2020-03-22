@@ -6,6 +6,7 @@ set(MESHOUI_SRC_FILES
         remesher.cpp
         polygon.cpp
         plane.cpp
+        clipping_surfaces.cpp
         )
 
 

@@ -14,48 +14,6 @@
 
 namespace meshoui {
 
-
-  /**
-  * \class FrClippingSurface
-  * \brief Class for dealing with the clipping incident wave field.
-  */
-  class ClippingSurface {
-
-   public:
-
-    /// Gives the distance to the clipping surface
-    virtual double GetDistance(const Mesh::Point &point) const = 0;
-
-    /// Gives the intersection point between the segment {p0, p1} and the clipping surface
-    virtual Mesh::Point GetIntersection(const Mesh::Point &p0, const Mesh::Point &p1) = 0;
-
-  };
-
-
-  /**
-  * \class FrClippingPlane
-  * \brief Class used when the clipping incident wave field is a HORIZONTAL plane.
-  */
-  class ClippingPlane : public ClippingSurface {
-
-   private:
-
-    std::unique_ptr<Plane> m_plane;     ///< plane used for clipping
-
-   public:
-
-    ClippingPlane() : m_plane(std::make_unique<Plane>()) {}
-
-    // FIXME: les 2 methodes suivantes doivent reposer sur les methodes fournies par les objets geometriques
-
-    /// This function gives the distance to the plane.
-    double GetDistance(const Mesh::Point &point) const override;
-
-    /// This function gives the intersection node position between an edge and the plane.
-    Mesh::Point GetIntersection(const Mesh::Point &p0, const Mesh::Point &p1) override;
-
-  };
-
   /// Enum flags to locate vertices with respect to clipping surface
   enum VertexPositionWRTClippingSurface {
     // On pourrait du coup plutot utiliser les fonctions d'ajout dynamique de proprietes !!
@@ -217,7 +175,7 @@ namespace meshoui {
     void Finalize();
 
    private:
-    void AddDynamicPropertiesToMesh();
+    void AddVertexPositionWRTClippingSurfaceProperty();
 
 
    private:

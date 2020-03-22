@@ -4,21 +4,13 @@
 
 namespace meshoui {
 
-  double ClippingPlane::GetDistance(const Mesh::Point &point) const {
-    return m_plane->GetSignedDistanceToPoint(point);
-  }
-
-  Mesh::Point ClippingPlane::GetIntersection(const Mesh::Point &p0, const Mesh::Point &p1) {
-    return m_plane->GetIntersectionWithLine(p0, p1);
-  }
-
   template<typename ClippingSurface_>
   void Clipper<ClippingSurface_>::Apply(Mesh *mesh) {
 
     m_mesh = mesh;
 
     // Adding dynamic property for vertex positions wrt clipping surface
-    AddDynamicPropertiesToMesh();
+    AddVertexPositionWRTClippingSurfaceProperty();
 
     // Partition of the mesh.
     Initialize();
@@ -537,7 +529,7 @@ namespace meshoui {
   }
 
   template<typename ClippingSurface_>
-  void Clipper<ClippingSurface_>::AddDynamicPropertiesToMesh() {
+  void Clipper<ClippingSurface_>::AddVertexPositionWRTClippingSurfaceProperty() {
     // Dynamic property creation
     auto vprop = m_mesh->CreateVertexProperty<VertexPositionWRTClippingSurface>("vertex_position_wrt_clipping_surface");
 

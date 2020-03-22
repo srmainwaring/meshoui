@@ -23,7 +23,7 @@ int main() {
 
   // Integrator.
   IntegrandTest myFunction;
-  auto myIntegrator = Integration<double>(&myFunction, order, &mesh);
+  auto myIntegrator = integration<double>(&myFunction, order, &mesh);
 
   // Analytical integration.
   double analytical_result = 1./3.;
