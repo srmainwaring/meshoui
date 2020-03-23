@@ -90,15 +90,24 @@ namespace meshoui {
   };
 
   /// The clipper class which is mostly a functor
-  template<typename ClippingSurfaceType>
+  template<class ClippingSurfaceType>
   class Clipper {
 
    public:
 
-    Clipper() : m_clippingSurface(std::make_unique<ClippingSurfaceType>()) {} // FIXME: plutot shared_ptr pour clipping surface !!
+    explicit Clipper(std::shared_ptr<ClippingSurfaceType> clipping_surface) :
+        m_clippingSurface(clipping_surface),
+        m_Threshold(1e-4),
+        m_ProjectionThresholdRatio(1e-3) {}
 
-    /// Performs the clipping on the specified mesh
-    Mesh Apply(const Mesh &mesh); // FIXME: on veut une copie
+    /// Returns a clipped copy of the mesh by the clipping surface (does not modifies the input mesh)
+    Mesh ClipCopy(const Mesh &mesh);
+
+    /// Clips the input mesh inplace with respect to the clipping surface
+    void ClipIt(Mesh &mesh);
+
+    // TODO: remettre en place les capacites de projection qui ont ete desactivees en imposant des valeurs les
+    // invalidant dans le constructeur...
 
 //    /// Set the threshold used for crossing and classifying computations
 //    /// \param eps threshold
@@ -184,10 +193,10 @@ namespace meshoui {
 //    Mesh m_mesh;
 
     /// Clipping surface, by default the plane z = 0.
-    std::unique_ptr<ClippingSurfaceType> m_clippingSurface;
+    std::shared_ptr<ClippingSurfaceType> m_clippingSurface;
 
-    double m_Threshold = 1e-4;
-    double m_ProjectionThresholdRatio = 1 / 4.;
+    double m_Threshold;
+    double m_ProjectionThresholdRatio;
 
     /// Vector to store the faces which are on and/or above the incident free surface and have to be deleted.
     std::vector<Mesh::FaceHandle> c_FacesToDelete;

@@ -12,7 +12,13 @@ namespace meshoui {
       m_hmax(20.),
       m_detection_angle(25) {}
 
-  int Remesher::Apply(Mesh *mesh) {
+  Mesh Remesher::RemeshCopy(const Mesh &mesh) {
+    Mesh remeshed_mesh = Mesh(mesh);
+    RemeshIt(remeshed_mesh);
+    return remeshed_mesh;
+  }
+
+  int Remesher::RemeshIt(Mesh &mesh) {
 
     MMGMesh mmg_mesh = nullptr;
     MMGSol mmg_sol = nullptr;
@@ -21,7 +27,7 @@ namespace meshoui {
     Initialize(mmg_mesh, mmg_sol);
 
     // Generate a MMGMesh from meshoui::Mesh
-    OMesh2MMGMesh(*mesh, mmg_mesh, mmg_sol);
+    OMesh2MMGMesh(mesh, mmg_mesh, mmg_sol);
 
     // Check if the number of given entities match with mesh size
     Check(mmg_mesh, mmg_sol);
@@ -47,18 +53,15 @@ namespace meshoui {
     // The new remeshed meshoui mesh
     Mesh output_mesh;
 
-    vtkSmartPointer<vtkPolyData> polydata;
-
+//    vtkSmartPointer<vtkPolyData> polydata;
 
 
     // Adding properties to get insights into feature edges and valence of each vertex
     auto feature_vertex_prop = output_mesh.CreateVertexProperty<bool>("is_feature_vertex");
 
-
     int nb_vertices, nb_triangles, nb_edges; // TODO: voir ce que nb_edges...
 
     if (MMGS_Get_meshSize(mmg_mesh, &nb_vertices, &nb_triangles, &nb_edges) != 1) exit(EXIT_FAILURE);
-
 
     /**
      * Vocabulaire:
@@ -75,12 +78,14 @@ namespace meshoui {
       perror("  ## Memory problem: calloc");
       exit(EXIT_FAILURE);
     }
+
     /* Table to know if a vertex/tetra/tria/edge is is_required */
     int *is_required = (int *) calloc(MAX3(nb_vertices, nb_triangles, nb_edges) + 1, sizeof(int));
     if (!is_required) {
       perror("  ## Memory problem: calloc");
       exit(EXIT_FAILURE);
     }
+
     /* Table to know if a coponant is corners and/or is_required */
     int *ridge_edges = (int *) calloc(nb_edges + 1, sizeof(int));
     if (!ridge_edges) {
@@ -108,9 +113,6 @@ namespace meshoui {
 //      if (mmg_mesh->point[k].tag & MG_CRN & corners[k]) {
 //        std::cout << k << " is a corner" << std::endl;
 //      }
-
-
-
 
       // add vertices to the output_mesh
       output_mesh.add_vertex(Point);
@@ -235,7 +237,7 @@ namespace meshoui {
     Finalize(mmg_mesh, mmg_sol);
 
     // Replacing old mesh by remeshed one
-    *mesh = output_mesh;
+    mesh = output_mesh;
 
 
     return err_code;

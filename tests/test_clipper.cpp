@@ -16,26 +16,29 @@ int main () {
   Remesher remesher;
 
   remesher.SetAngleDetectionThreshold(5);
-  remesher.SetHausdorffParam(0.08);
-  remesher.SetConstantEdgeSize(2.5);
+  remesher.SetHausdorffParam(0.5);
+  remesher.SetConstantEdgeSize(1);
 
-  remesher.Apply(&mesh);
+  remesher.RemeshIt(mesh);
 //  Show(mesh);
   Write_VTK(mesh, "remeshed_full.vtp");
 
   // Clip
-  Clipper<ClippingPlane> clipper;
-  mesh = clipper.Apply(mesh);
+  auto plane = std::make_shared<Plane>(Vector3d{0., 0., 0.}, Vector3d {0., 0., 1.}); // FIXME: pourquoi ce constructeur ne fonctionen pas ???
+  Clipper<ClippingPlane> clipper(std::make_shared<ClippingPlane>(plane));
+  clipper.ClipIt(mesh);
 //  Show(mesh);
   Write_VTK(mesh, "clipped.vtp");
 
   // Remesh after clipping
 
-  remesher.SetConstantEdgeSize(5);
-  remesher.Apply(&mesh);
+  remesher.SetHausdorffParam(0.05);
+  remesher.SetConstantEdgeSize(4);
+  remesher.RemeshIt(mesh);
+  remesher.RemeshIt(mesh);
+
   Show(mesh);
   Write_VTK(mesh, "clipped_remeshed.vtp");
-
   Write_OBJ(mesh, "final.obj");
 
 

@@ -79,7 +79,9 @@ namespace meshoui {
 
     void SetAngleDetectionThreshold(const double& val_deg);
 
-    int Apply(Mesh *mesh);
+    Mesh RemeshCopy(const Mesh &mesh);
+
+    int RemeshIt(Mesh &mesh);
 
    private:
 

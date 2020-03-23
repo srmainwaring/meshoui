@@ -1,7 +1,4 @@
-
 include(FetchContent)
-
-#    set(FETCHCONTENT_QUIET OFF)
 
 FetchContent_Declare(mmg
         GIT_REPOSITORY ${mmg_URL}
@@ -17,9 +14,7 @@ if(NOT mmg)
     set(BUILD_SHARED_LIBS ON CACHE BOOL "" FORCE)
     set(BUILD "MMG" CACHE STRING "" FORCE)
 
-
     add_subdirectory(${mmg_SOURCE_DIR} ${mmg_BINARY_DIR})
-
 else()
     message(STATUS "mmg already populated")
 endif()

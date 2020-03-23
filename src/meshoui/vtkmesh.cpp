@@ -131,7 +131,7 @@ namespace meshoui {
     face_normal.reserve(mesh->n_faces());
     auto f_iter = mesh->faces_begin();
     for (; f_iter != mesh->faces_end(); ++f_iter) {
-      face_normal.push_back(mesh->normal(*f_iter));
+      face_normal.emplace_back(mesh->normal(*f_iter));
     }
     AddField("face_normal", face_normal, meshoui::VTKMesh::CELL);
 
@@ -145,7 +145,7 @@ namespace meshoui {
     vertex_normal.reserve(mesh->n_vertices());
     auto v_iter = mesh->vertices_begin();
     for (; v_iter != mesh->vertices_end(); ++v_iter) {
-      vertex_normal.push_back(mesh->normal(*v_iter));
+      vertex_normal.emplace_back(mesh->normal(*v_iter));
     }
     AddField("vertex_normal", vertex_normal, meshoui::VTKMesh::VERTEX);
 
@@ -198,7 +198,7 @@ namespace meshoui {
     // Building render window.
     vtkSmartPointer<vtkRenderWindow> renderWindow = vtkSmartPointer<vtkRenderWindow>::New();
     renderWindow->SetSize(1024, 768);
-    renderWindow->SetWindowName("Helios viewer");
+    renderWindow->SetWindowName("Meshoui viewer");
     renderWindow->AddRenderer(renderer);
 
     // Building interactor.
@@ -216,7 +216,8 @@ namespace meshoui {
     widget->SetEnabled(1);
     widget->InteractiveOn();
 
-    // Building command annotations.
+    // Building command annotations. // FIXME: si des options ne sont pas implementees, pourquoi les afficher ??
+    // TODO: implementer chacune des options en suivant l'implementation de meshmagick
     const char *command_text = "left mouse : rotate\n"
                                "right mouse : zoom\n"
                                "middle mouse : pan\n"

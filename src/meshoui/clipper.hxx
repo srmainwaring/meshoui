@@ -6,22 +6,13 @@
 
 namespace meshoui {
 
-  template<typename ClippingSurfaceType>
-  Mesh Clipper<ClippingSurfaceType>::Apply(const Mesh &mesh) {
+  template<class ClippingSurfaceType>
+  Mesh Clipper<ClippingSurfaceType>::ClipCopy(const Mesh &mesh) {
 
+    // Making a copy of the mesh
     Mesh clipped_mesh = Mesh(mesh);
 
-    // Adding dynamic property for vertex positions wrt clipping surface
-    AddVertexPositionWRTClippingSurfaceProperty(clipped_mesh);
-
-    // Partition of the mesh.
-    Initialize(clipped_mesh);
-
-    // Clipping.
-    Clip(clipped_mesh);
-
-    // Clipped mesh cleaning (deletion of faces, update of every property, etc.).
-    Finalize(clipped_mesh);
+    ClipIt(clipped_mesh);
 
     return clipped_mesh;
   }
@@ -35,6 +26,21 @@ namespace meshoui {
 //  void Clipper<ClippingSurfaceType>::SetThreshold(double eps) {
 //    m_Threshold = eps;
 //  }
+
+  template<typename ClippingSurfaceType>
+  void Clipper<ClippingSurfaceType>::ClipIt(Mesh &mesh) {
+    // Adding dynamic property for vertex positions wrt clipping surface
+    AddVertexPositionWRTClippingSurfaceProperty(mesh);
+
+    // Partition of the mesh.
+    Initialize(mesh);
+
+    // Clipping.
+    Clip(mesh);
+
+    // Clipped mesh cleaning (deletion of faces, update of every property, etc.).
+    Finalize(mesh);
+  }
 
   template<typename ClippingSurfaceType>
   void Clipper<ClippingSurfaceType>::Initialize(Mesh &clipped_mesh) {
