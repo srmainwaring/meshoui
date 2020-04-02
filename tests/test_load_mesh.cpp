@@ -7,7 +7,45 @@ using namespace meshoui;
 
 int main() {
 
-  meshoui::Mesh mesh("../../../Helios/docs/input_files/Sphere.obj");
+  meshoui::Mesh mesh;
+
+  enum loading_method {FILES, VECTORS};
+  loading_method loading = VECTORS;
+  switch (loading) {
+    case FILES: {
+      mesh.Load("../../../Helios/docs/input_files/Sphere.obj");
+      break;
+    }
+    case VECTORS: {
+      // Build a box
+      std::vector<meshoui::Vector3d> vertices;
+      vertices.emplace_back(-1, -1,  1);
+      vertices.emplace_back(1, -1,  1);
+      vertices.emplace_back(1,  1,  1);
+      vertices.emplace_back(-1,  1,  1);
+      vertices.emplace_back(-1, -1, -1);
+      vertices.emplace_back(1, -1, -1);
+      vertices.emplace_back(1,  1, -1);
+      vertices.emplace_back(-1,  1, -1);
+      std::vector<Eigen::VectorXi> faces;
+      faces.emplace_back(Eigen::Vector3i(0,1,2));
+      faces.emplace_back(Eigen::Vector3i(2,3,0));
+      faces.emplace_back(Eigen::Vector3i(0,4,1));
+      faces.emplace_back(Eigen::Vector3i(1,4,5));
+      faces.emplace_back(Eigen::Vector3i(1,5,2));
+      faces.emplace_back(Eigen::Vector3i(2,5,6));
+      faces.emplace_back(Eigen::Vector3i(2,6,3));
+      faces.emplace_back(Eigen::Vector3i(3,6,7));
+      faces.emplace_back(Eigen::Vector3i(3,7,0));
+      faces.emplace_back(Eigen::Vector3i(0,7,4));
+      faces.emplace_back(Eigen::Vector3i(6,5,4));
+      faces.emplace_back(Eigen::Vector3i(7,6,4));
+      // Load it
+      mesh.Load(vertices, faces);
+      break;
+    }
+  }
+
 
   // VTKMesh.
   VTKMesh vtkmesh(mesh);

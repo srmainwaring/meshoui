@@ -8,7 +8,8 @@ using namespace meshoui;
 int main() {
 
   // Mesh.
-  meshoui::Mesh mesh("../../../Helios/docs/input_files/Face_test_integration.obj");
+  meshoui::Mesh mesh;
+  mesh.Load("../../../Helios/docs/input_files/Face_test_integration.obj");
 
   // Order of the integration.
   int order = 2;

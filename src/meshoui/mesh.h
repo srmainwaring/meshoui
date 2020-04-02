@@ -11,6 +11,7 @@
 #include "meshTraits.h"
 #include <OpenMesh/Core/Utils/PropertyManager.hh>
 #include <unordered_map>
+#include "math.h"
 
 namespace meshoui {
 
@@ -44,7 +45,9 @@ namespace meshoui {
       using EdgeProperty = OpenMesh::PropertyManager<OpenMesh::EPropHandleT<T>, meshoui::Mesh>;
 
       /// Constructor of the class.
-      explicit Mesh(const std::string &meshfile);
+//      explicit Mesh(const std::string &meshfile);
+
+      void Load(const std::vector<Vector3d> &vertices, const std::vector<Eigen::VectorXi> & faces);
 
       /// This function loads the mesh file.
       void Load(const std::string &meshfile);

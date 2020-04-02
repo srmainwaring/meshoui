@@ -8,7 +8,8 @@ using namespace meshoui;
 int main() {
 
   // Mesh.
-  meshoui::Mesh mesh("../../../Helios/docs/input_files/Sphere.obj");
+  meshoui::Mesh mesh;
+  mesh.Load("../../../Helios/docs/input_files/Sphere.obj");
 
   // VTKMesh.
   VTKMesh vtkmesh(mesh);
