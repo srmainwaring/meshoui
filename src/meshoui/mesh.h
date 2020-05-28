@@ -19,21 +19,24 @@
 
 namespace meshoui {
 
+  /// OpenMesh handles.
+  using FaceHandle = OpenMesh::FaceHandle;
+  using VertexHandle = OpenMesh::VertexHandle;
+  using HalfedgeHandle = OpenMesh::HalfedgeHandle;
+  using EdgeHandle = OpenMesh::EdgeHandle;
+  using FPropHandleTDouble = OpenMesh::FPropHandleT<double>;
+  using VPropHandleTDouble = OpenMesh::VPropHandleT<double>;
+  using EPropHandleTDouble = OpenMesh::EPropHandleT<double>;
+  using VertexIter = OpenMesh::PolyConnectivity::VertexIter;
+  using FaceIter = OpenMesh::PolyConnectivity::FaceIter;
+
+  template<class PropertyType>
+  using FPropHandleTMap = OpenMesh::FPropHandleT<std::unordered_map<VertexHandle, std::array<PropertyType, 2>>>;
+
   /**
   * Class for dealing with OpenMesh structures.
   */
   class Mesh : public OpenMesh::TriMesh_ArrayKernelT<meshTraits> { // Mesh must be a triangular mesh.
-
-   public:
-    using FaceHandle = OpenMesh::FaceHandle;
-    using VertexHandle = OpenMesh::VertexHandle;
-    using HalfedgeHandle = OpenMesh::HalfedgeHandle;
-    using EdgeHandle = OpenMesh::EdgeHandle;
-    using FPropHandleTDouble = OpenMesh::FPropHandleT<double>;
-    using VPropHandleTDouble = OpenMesh::VPropHandleT<double>;
-    using EPropHandleTDouble = OpenMesh::EPropHandleT<double>;
-    using VertexIter = OpenMesh::PolyConnectivity::VertexIter;
-    using FaceIter = OpenMesh::PolyConnectivity::FaceIter;
 
    public:
 
