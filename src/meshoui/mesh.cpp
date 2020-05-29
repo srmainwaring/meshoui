@@ -75,13 +75,15 @@ namespace meshoui {
     cp = cross(e1, e2);
     delta = cp.norm();
 
-    // factorized terms (optimization terms :) )
+    // Factorized terms.
     t0 = P0 + P1;
-    f1 = t0 + P2;
     t1 = P0 * P0;
-    f2 = t2 + P2 * f1;
     t2 = t1 + P1 * t0;
+
+    f1 = t0 + P2;
+    f2 = t2 + P2 * f1;
     f3 = P0 * t1 + P1 * t2 + P2 * f2;
+
     g0 = f2 + P0 * (f1 + P0);
     g1 = f2 + P1 * (f1 + P1);
     g2 = f2 + P2 * (f1 + P2);
