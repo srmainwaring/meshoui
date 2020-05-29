@@ -88,7 +88,7 @@ namespace meshoui {
     g1 = f2 + P1 * (f1 + P1);
     g2 = f2 + P2 * (f1 + P2);
 
-    // My Extended Eberly's Formulas.
+    // Extended Eberly's Formulas.
     // Surface integrals are transformed into contour integrals.
     data(fh).SetSurfaceIntegral(POLY_1, delta / 2.);
 
@@ -96,15 +96,9 @@ namespace meshoui {
     data(fh).SetSurfaceIntegral(POLY_Y, delta * f1[1] / 6.);
     data(fh).SetSurfaceIntegral(POLY_Z, delta * f1[2] / 6.);
 
-    data(fh).SetSurfaceIntegral(POLY_YZ, delta * (6. * P0[1] * P0[2]
-                                                  + 3. * (P1[1] * P1[2] + P2[1] * P2[2])
-                                                  - P0[1] * f1[2] - P0[2] * f1[1]) / 12.);
-    data(fh).SetSurfaceIntegral(POLY_XZ, delta * (6. * P0[0] * P0[2]
-                                                  + 3. * (P1[0] * P1[2] + P2[0] * P2[2])
-                                                  - P0[0] * f1[2] - P0[2] * f1[0]) / 12.);
-    data(fh).SetSurfaceIntegral(POLY_XY, delta * (6. * P0[0] * P0[1]
-                                                  + 3. * (P1[0] * P1[1] + P2[0] * P2[1])
-                                                  - P0[0] * f1[1] - P0[1] * f1[0]) / 12.);
+    data(fh).SetSurfaceIntegral(POLY_XY, delta * (f1[0] * f1[1] + P0[0] * P0[1] + P1[0] * P1[1] + P2[0] * P2[1]) / 24.);
+    data(fh).SetSurfaceIntegral(POLY_XZ, delta * (f1[0] * f1[2] + P0[0] * P0[2] + P1[0] * P1[2] + P2[0] * P2[2]) / 24.);
+    data(fh).SetSurfaceIntegral(POLY_YZ, delta * (f1[1] * f1[2] + P0[1] * P0[2] + P1[1] * P1[2] + P2[1] * P2[2]) / 24.);
 
     data(fh).SetSurfaceIntegral(POLY_X2, delta * f2[0] / 12.);
     data(fh).SetSurfaceIntegral(POLY_Y2, delta * f2[1] / 12.);
