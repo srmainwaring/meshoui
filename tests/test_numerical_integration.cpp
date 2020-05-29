@@ -3,7 +3,7 @@
 
 using namespace meshoui;
 
-// Test for checking the surface integration.
+// Test for checking the numerical surface integration.
 
 int main() {
 

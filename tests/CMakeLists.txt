@@ -1,7 +1,7 @@
 
 set(TESTS
         test_load_mesh
-        test_integration
+        test_numerical_integration
         test_symmetry_horizontal_plane
         test_clipper
         test_mmg
