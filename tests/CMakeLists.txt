@@ -7,6 +7,7 @@ set(TESTS
         test_mmg
         test_plane
         test_polygon
+        test_analytical_surface_integration
         )
 
 foreach (test ${TESTS})
