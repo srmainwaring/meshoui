@@ -1,3 +1,9 @@
+// ==========================================================================
+// Helios
+//
+// Copyright (c) D-ICE Engineering.
+// All rights reserved.
+// ==========================================================================
 
 #include "meshoui/meshoui.h"
 
@@ -8,7 +14,7 @@ using namespace meshoui;
 int main() {
 
   // Mesh.
-  meshoui::Mesh mesh("../../../Helios/docs/input_files/Face_test_integration.obj");
+  meshoui::Mesh mesh("../../data/Face_test_integration.obj");
 
   // Order of the integration.
   int order = 2;

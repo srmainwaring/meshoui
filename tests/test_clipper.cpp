@@ -1,14 +1,19 @@
+// ==========================================================================
+// MeshOui
 //
-// Created by frongere on 18/03/2020.
-//
+// Copyright (c) D-ICE Engineering.
+// All rights reserved.
+// ==========================================================================
 
 #include "meshoui/meshoui.h"
 
 using namespace meshoui;
 
+// Test for checking the mesh clipping and remeshing.
+
 int main () {
 
-  Mesh mesh("data/Ship.obj");
+  Mesh mesh("../../data/Ship.obj");
 //  Show(mesh);
   Write_VTK(mesh, "initial.vtp");
 

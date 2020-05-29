@@ -1,10 +1,15 @@
+// ==========================================================================
+// Helios
 //
-// Created by frongere on 21/03/2020.
-//
+// Copyright (c) D-ICE Engineering.
+// All rights reserved.
+// ==========================================================================
 
 #include "meshoui/meshoui.h"
 
 using namespace meshoui;
+
+// Test for checking the use of polygons.
 
 int main() {
 
