@@ -96,14 +96,14 @@ namespace meshoui {
     data(fh).SetSurfaceIntegral(POLY_Y, delta * f1[1] / 6.);
     data(fh).SetSurfaceIntegral(POLY_Z, delta * f1[2] / 6.);
 
-    data(fh).SetSurfaceIntegral(POLY_XY, delta * (f1[0] * f1[1] + P0[0] * P0[1] + P1[0] * P1[1] + P2[0] * P2[1]) / 24.);
-    data(fh).SetSurfaceIntegral(POLY_XZ, delta * (f1[0] * f1[2] + P0[0] * P0[2] + P1[0] * P1[2] + P2[0] * P2[2]) / 24.);
-    data(fh).SetSurfaceIntegral(POLY_YZ, delta * (f1[1] * f1[2] + P0[1] * P0[2] + P1[1] * P1[2] + P2[1] * P2[2]) / 24.);
-
     data(fh).SetSurfaceIntegral(POLY_X2, delta * f2[0] / 12.);
     data(fh).SetSurfaceIntegral(POLY_Y2, delta * f2[1] / 12.);
     data(fh).SetSurfaceIntegral(POLY_Z2, delta * f2[2] / 12.);
 
+    data(fh).SetSurfaceIntegral(POLY_XY, delta * (f1[0] * f1[1] + P0[0] * P0[1] + P1[0] * P1[1] + P2[0] * P2[1]) / 24.);
+    data(fh).SetSurfaceIntegral(POLY_XZ, delta * (f1[0] * f1[2] + P0[0] * P0[2] + P1[0] * P1[2] + P2[0] * P2[2]) / 24.);
+    data(fh).SetSurfaceIntegral(POLY_YZ, delta * (f1[1] * f1[2] + P0[1] * P0[2] + P1[1] * P1[2] + P2[1] * P2[2]) / 24.);
+    
     data(fh).SetSurfaceIntegral(POLY_X3, delta * f3[0] / 20.);
     data(fh).SetSurfaceIntegral(POLY_Y3, delta * f3[1] / 20.);
     data(fh).SetSurfaceIntegral(POLY_Z3, delta * f3[2] / 20.);

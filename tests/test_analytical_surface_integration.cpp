@@ -11,117 +11,103 @@ using namespace meshoui;
 
 // Test for checking the analytical surface integrations.
 
-// POLY_1.
-class Integrand_POLY_1 : public IntegrandOnFace<double> {
+// All integral computations in a single integrand.
+class Integrand : public IntegrandOnFace<VectorN> {
  public:
-  Integrand_POLY_1() {}
-  double Evaluate(const Vector3d &x) const override {
-    return 1;
-  }
-};
-
-// POLY_X, POLY_Y and POLY_Z.
-class Integrand_POLY_LIN : public IntegrandOnFace<Vector3d> {
- public:
-  Integrand_POLY_LIN() {}
-  Vector3d Evaluate(const Vector3d &x) const override {
-    return x;
-  }
-};
-
-// POLY_XY, POLY_XZ, POLY_YZ, POLY_X2, POLY_Y2, POLY_Z2.
-class Integrand_POLY_QUAD : public IntegrandOnFace<Matrix33> {
- public:
-  Integrand_POLY_QUAD() {}
-  Matrix33 Evaluate(const Vector3d &x) const override {
-    return (x * x.transpose());
+  Integrand() {}
+  VectorN Evaluate(const Vector3d &x) const override {
+    VectorN integrand = VectorN(16);
+    integrand[0] = 1.;
+    integrand[1] = x[0];
+    integrand[2] = x[1];
+    integrand[3] = x[2];
+    integrand[4] = x[0] * x[0];
+    integrand[5] = x[1] * x[1];
+    integrand[6] = x[2] * x[2];
+    integrand[7] = x[0] * x[1];
+    integrand[8] = x[0] * x[2];
+    integrand[9] = x[1] * x[2];
+    integrand[10] = x[0] * x[0] * x[0];
+    integrand[11] = x[1] * x[1] * x[1];
+    integrand[12] = x[2] * x[2] * x[2];
+    integrand[13] = x[0] * x[0] * x[1];
+    integrand[14] = x[1] * x[1] * x[2];
+    integrand[15] = x[2] * x[2] * x[0];
+    return integrand;
   }
 };
 
 int main() {
 
-  //TODO: Verifier les integrales cubiques.
-
   // Mesh.
   meshoui::Mesh mesh("../../data/Sphere.obj");
+
+  // Number of integrations.
+  int num_int = 16;
 
   // Order of the integration.
   int order = 5;
 
-  // Fields.
-  std::vector<double> poly_1_err;
-  poly_1_err.reserve(mesh.n_faces());
-  std::vector<double> poly_X_err;
-  poly_X_err.reserve(mesh.n_faces());
-  std::vector<double> poly_Y_err;
-  poly_Y_err.reserve(mesh.n_faces());
-  std::vector<double> poly_Z_err;
-  poly_Z_err.reserve(mesh.n_faces());
-  std::vector<double> poly_XY_err;
-  poly_XY_err.reserve(mesh.n_faces());
-  std::vector<double> poly_XZ_err;
-  poly_XZ_err.reserve(mesh.n_faces());
-  std::vector<double> poly_YZ_err;
-  poly_YZ_err.reserve(mesh.n_faces());
-  std::vector<double> poly_X2_err;
-  poly_X2_err.reserve(mesh.n_faces());
-  std::vector<double> poly_Y2_err;
-  poly_Y2_err.reserve(mesh.n_faces());
-  std::vector<double> poly_Z2_err;
-  poly_Z2_err.reserve(mesh.n_faces());
+  // Error initialization.
+  std::vector<std::vector<double>> error;
+  error.reserve(num_int);
+  std::vector<double> error_tmp;
+  error_tmp.reserve(mesh.n_faces());
+  for (int i = 0; i < num_int; ++i){
+    error.push_back(error_tmp);
+  }
 
-  // Numerical integration.
   auto f_iter = mesh.faces_begin();
   for(; f_iter != mesh.faces_end(); ++f_iter) {
 
-    // POLY_1.
-    Integrand_POLY_1 my_Integrand_POLY_1;
-    auto my_Integrator_POLY_1 = integration<double>(&my_Integrand_POLY_1, order, &mesh);
-    double poly_1_num = my_Integrator_POLY_1.Compute(*f_iter);
-    double poly_1_ana = mesh.data(*f_iter).GetSurfaceIntegral(POLY_1);
-    poly_1_err.push_back(abs(poly_1_num - poly_1_ana));
+    // Numerical integrations.
+    Integrand my_Integrand;
+    auto my_Integrator = integration<VectorN>(&my_Integrand, order, &mesh);
+    VectorN int_num = my_Integrator.Compute(*f_iter);
 
-    // POLY_X, POLY_Y and POLY_Z.
-    Integrand_POLY_LIN my_Integrand_POLY_LIN;
-    auto my_Integrator_POLY_LIN = integration<Vector3d>(&my_Integrand_POLY_LIN, order, &mesh);
-    Vector3d poly_LIN_num = my_Integrator_POLY_LIN.Compute(*f_iter);
-    double poly_X_ana = mesh.data(*f_iter).GetSurfaceIntegral(POLY_X);
-    double poly_Y_ana = mesh.data(*f_iter).GetSurfaceIntegral(POLY_Y);
-    double poly_Z_ana = mesh.data(*f_iter).GetSurfaceIntegral(POLY_Z);
-    poly_X_err.push_back(abs(poly_LIN_num[0] - poly_X_ana));
-    poly_Y_err.push_back(abs(poly_LIN_num[1] - poly_Y_ana));
-    poly_Z_err.push_back(abs(poly_LIN_num[2] - poly_Z_ana));
+    // Analytical computations.
+    VectorN int_ana = VectorN::Zero(num_int);
+    int_ana[0] = mesh.data(*f_iter).GetSurfaceIntegral(POLY_1);
+    int_ana[1] = mesh.data(*f_iter).GetSurfaceIntegral(POLY_X);
+    int_ana[2] = mesh.data(*f_iter).GetSurfaceIntegral(POLY_Y);
+    int_ana[3] = mesh.data(*f_iter).GetSurfaceIntegral(POLY_Z);
+    int_ana[4] = mesh.data(*f_iter).GetSurfaceIntegral(POLY_X2);
+    int_ana[5] = mesh.data(*f_iter).GetSurfaceIntegral(POLY_Y2);
+    int_ana[6] = mesh.data(*f_iter).GetSurfaceIntegral(POLY_Z2);
+    int_ana[7] = mesh.data(*f_iter).GetSurfaceIntegral(POLY_XY);
+    int_ana[8] = mesh.data(*f_iter).GetSurfaceIntegral(POLY_XZ);
+    int_ana[9] = mesh.data(*f_iter).GetSurfaceIntegral(POLY_YZ);
+    int_ana[10] = mesh.data(*f_iter).GetSurfaceIntegral(POLY_X3);
+    int_ana[11] = mesh.data(*f_iter).GetSurfaceIntegral(POLY_Y3);
+    int_ana[12] = mesh.data(*f_iter).GetSurfaceIntegral(POLY_Z3);
+    int_ana[13] = mesh.data(*f_iter).GetSurfaceIntegral(POLY_X2Y);
+    int_ana[14] = mesh.data(*f_iter).GetSurfaceIntegral(POLY_Y2Z);
+    int_ana[15] = mesh.data(*f_iter).GetSurfaceIntegral(POLY_Z2X);
 
-    // POLY_XY, POLY_XZ, POLY_YZ, POLY_X2, POLY_Y2, POLY_Z2.
-    Integrand_POLY_QUAD my_Integrand_POLY_QUAD;
-    auto my_Integrator_POLY_QUAD = integration<Matrix33>(&my_Integrand_POLY_QUAD, order, &mesh);
-    Matrix33 poly_QUAD_num = my_Integrator_POLY_QUAD.Compute(*f_iter);
-    double poly_XY_ana = mesh.data(*f_iter).GetSurfaceIntegral(POLY_XY);
-    double poly_XZ_ana = mesh.data(*f_iter).GetSurfaceIntegral(POLY_XZ);
-    double poly_YZ_ana = mesh.data(*f_iter).GetSurfaceIntegral(POLY_YZ);
-    double poly_X2_ana = mesh.data(*f_iter).GetSurfaceIntegral(POLY_X2);
-    double poly_Y2_ana = mesh.data(*f_iter).GetSurfaceIntegral(POLY_Y2);
-    double poly_Z2_ana = mesh.data(*f_iter).GetSurfaceIntegral(POLY_Z2);
-    poly_XY_err.push_back(abs(poly_QUAD_num(0, 1) - poly_XY_ana));
-    poly_XZ_err.push_back(abs(poly_QUAD_num(0, 2) - poly_XZ_ana));
-    poly_YZ_err.push_back(abs(poly_QUAD_num(1, 2) - poly_YZ_ana));
-    poly_X2_err.push_back(abs(poly_QUAD_num(0, 0) - poly_X2_ana));
-    poly_Y2_err.push_back(abs(poly_QUAD_num(1, 1) - poly_Y2_ana));
-    poly_Z2_err.push_back(abs(poly_QUAD_num(2, 2) - poly_Z2_ana));
+    // Absolute errors.
+    for (int i = 0; i < num_int; ++i){
+      error[i].push_back(abs(int_num[i] - int_ana[i]) / int_ana[i]);
+    }
   }
 
   // VTKMesh.
   VTKMesh vtkmesh(mesh);
-  vtkmesh.AddField("POLY_1_error", poly_1_err, VTKMesh::CELL);
-  vtkmesh.AddField("POLY_X_error", poly_X_err, VTKMesh::CELL);
-  vtkmesh.AddField("POLY_Y_error", poly_Y_err, VTKMesh::CELL);
-  vtkmesh.AddField("POLY_Z_error", poly_Z_err, VTKMesh::CELL);
-  vtkmesh.AddField("POLY_XY_error", poly_XY_err, VTKMesh::CELL);
-  vtkmesh.AddField("POLY_XZ_error", poly_XZ_err, VTKMesh::CELL);
-  vtkmesh.AddField("POLY_YZ_error", poly_YZ_err, VTKMesh::CELL);
-  vtkmesh.AddField("POLY_X2_error", poly_X2_err, VTKMesh::CELL);
-  vtkmesh.AddField("POLY_Y2_error", poly_Y2_err, VTKMesh::CELL);
-  vtkmesh.AddField("POLY_Z2_error", poly_Z2_err, VTKMesh::CELL);
+  vtkmesh.AddField("01_POLY_1_error", error[0], VTKMesh::CELL);
+  vtkmesh.AddField("02_POLY_X_error", error[1], VTKMesh::CELL);
+  vtkmesh.AddField("03_POLY_Y_error", error[2], VTKMesh::CELL);
+  vtkmesh.AddField("04_POLY_Z_error", error[3], VTKMesh::CELL);
+  vtkmesh.AddField("05_POLY_X2_error", error[4], VTKMesh::CELL);
+  vtkmesh.AddField("06_POLY_Y2_error", error[5], VTKMesh::CELL);
+  vtkmesh.AddField("07_POLY_Z2_error", error[6], VTKMesh::CELL);
+  vtkmesh.AddField("08_POLY_XY_error", error[7], VTKMesh::CELL);
+  vtkmesh.AddField("09_POLY_XZ_error", error[8], VTKMesh::CELL);
+  vtkmesh.AddField("10_POLY_YZ_error", error[9], VTKMesh::CELL);
+  vtkmesh.AddField("11_POLY_X3_error", error[10], VTKMesh::CELL);
+  vtkmesh.AddField("12_POLY_Y3_error", error[11], VTKMesh::CELL);
+  vtkmesh.AddField("13_POLY_Z3_error", error[12], VTKMesh::CELL);
+  vtkmesh.AddField("14_POLY_X2Y_error", error[13], VTKMesh::CELL);
+  vtkmesh.AddField("15_POLY_Y2Z_error", error[14], VTKMesh::CELL);
+  vtkmesh.AddField("16_POLY_Z2X_error", error[15], VTKMesh::CELL);
 
   // Writing.
   vtkmesh.Write("Comparison_Surface_integration_triangle.vtp");
