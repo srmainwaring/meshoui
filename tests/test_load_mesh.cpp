@@ -1,3 +1,9 @@
+// ==========================================================================
+// Helios
+//
+// Copyright (c) D-ICE Engineering.
+// All rights reserved.
+// ==========================================================================
 
 #include "meshoui/meshoui.h"
 
@@ -46,6 +52,7 @@ int main() {
     }
   }
 
+  //meshoui::Mesh mesh("../../data/Sphere.obj");
 
   // VTKMesh.
   VTKMesh vtkmesh(mesh);
@@ -58,7 +65,7 @@ int main() {
 
   auto f_iter = mesh.faces_begin();
   for (; f_iter != mesh.faces_end(); ++f_iter) {
-    faces_areas.push_back(mesh.data(*f_iter).GetSurfaceIntegral(meshoui::AREA));
+    faces_areas.push_back(mesh.data(*f_iter).GetSurfaceIntegral(meshoui::POLY_1));
     face_centroid_z.push_back(mesh.calc_face_centroid(*f_iter)[2]);
   }
 

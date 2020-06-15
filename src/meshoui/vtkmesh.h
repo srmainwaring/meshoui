@@ -8,7 +8,7 @@
 #ifndef MESHOUI_VTKMESH_H
 #define MESHOUI_VTKMESH_H
 
-#include "math.h"
+#include "maths.h"
 #include "mesh.h"
 
 #include <vtkCellArray.h>
@@ -63,24 +63,23 @@ namespace meshoui {
 
     /// This function adds data of type T to either the faces or the vertices of the vtk mesh.
     template<typename T>
-    void AddDynamicField(Mesh* mesh, const char* PropertyName, WHERE where){
+    void AddDynamicField(Mesh *mesh, const char *PropertyName, WHERE where) {
 
       std::vector<T> data;
 
-      if(where == CELL) {
+      if (where == CELL) {
         auto property = OpenMesh::getProperty<OpenMesh::FaceHandle, T>(*mesh, PropertyName);
         data.reserve(mesh->n_faces());
         auto f_iter = mesh->faces_begin();
         for (; f_iter != mesh->faces_end(); ++f_iter) {
-          data.push_back(mesh->property(*property,*f_iter));
+          data.push_back(mesh->property(*property, *f_iter));
         }
-      }
-      else if(where == VERTEX){
+      } else if (where == VERTEX) {
         auto property = OpenMesh::getProperty<OpenMesh::VertexHandle, T>(*mesh, PropertyName);
         data.reserve(mesh->n_vertices());
         auto v_iter = mesh->vertices_begin();
         for (; v_iter != mesh->vertices_end(); ++v_iter) {
-          data.push_back(mesh->property(*property,*v_iter));
+          data.push_back(mesh->property(*property, *v_iter));
         }
       }
 
@@ -89,13 +88,13 @@ namespace meshoui {
     }
 
     /// This function adds the field of the face normals to the vtk mesh.
-    void AddFaceNormalField(meshoui::Mesh* mesh);
+    void AddFaceNormalField(meshoui::Mesh *mesh);
 
     /// This function adds the field of the vertex normals to the vtk mesh.
-    void AddVertexNormalField(meshoui::Mesh* mesh);
+    void AddVertexNormalField(meshoui::Mesh *mesh);
 
     /// This function adds the field of the edge lengths to the vtk mesh.
-    void AddEdgeLengthField(meshoui::Mesh* mesh);
+    void AddEdgeLengthField(meshoui::Mesh *mesh);
 
    private:
 
@@ -106,6 +105,14 @@ namespace meshoui {
     vtkSmartPointer<vtkPolyData> m_polydata; // Polydata structure of VTK.
 
   };
+
+  void Show(Mesh &mesh);
+
+  void Write_VTK(Mesh &mesh, const std::string &vtp_filename);
+
+
+  void Write_OBJ(Mesh &mesh, const std::string &obj_filename);
+
 
 }  // end namespace meshoui
 

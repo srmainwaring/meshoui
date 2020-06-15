@@ -123,7 +123,7 @@ namespace meshoui {
 
   }
 
-  void VTKMesh::AddFaceNormalField(meshoui::Mesh* mesh){
+  void VTKMesh::AddFaceNormalField(meshoui::Mesh *mesh) {
 
     // This function adds the field of the face normals to the vtk mesh.
 
@@ -131,13 +131,13 @@ namespace meshoui {
     face_normal.reserve(mesh->n_faces());
     auto f_iter = mesh->faces_begin();
     for (; f_iter != mesh->faces_end(); ++f_iter) {
-      face_normal.push_back(mesh->normal(*f_iter));
+      face_normal.emplace_back(mesh->normal(*f_iter));
     }
     AddField("face_normal", face_normal, meshoui::VTKMesh::CELL);
 
   }
 
-  void VTKMesh::AddVertexNormalField(meshoui::Mesh* mesh){
+  void VTKMesh::AddVertexNormalField(meshoui::Mesh *mesh) {
 
     // This function adds the field of the vertex normals to the vtk mesh.
 
@@ -145,13 +145,13 @@ namespace meshoui {
     vertex_normal.reserve(mesh->n_vertices());
     auto v_iter = mesh->vertices_begin();
     for (; v_iter != mesh->vertices_end(); ++v_iter) {
-      vertex_normal.push_back(mesh->normal(*v_iter));
+      vertex_normal.emplace_back(mesh->normal(*v_iter));
     }
     AddField("vertex_normal", vertex_normal, meshoui::VTKMesh::VERTEX);
 
   }
 
-  void VTKMesh::AddEdgeLengthField(meshoui::Mesh* mesh){
+  void VTKMesh::AddEdgeLengthField(meshoui::Mesh *mesh) {
 
     // This function adds the field of the edge lengths to the vtk mesh.
 
@@ -165,7 +165,7 @@ namespace meshoui {
       // Mean of the edge lenthes linked to the vertex.
       double mean_edge_length = 0;
       int nb_edge = 0;
-      for (meshoui::Mesh::VertexEdgeIter ve_it = mesh->ve_iter(*v_iter); ve_it.is_valid(); ++ve_it){
+      for (meshoui::Mesh::VertexEdgeIter ve_it = mesh->ve_iter(*v_iter); ve_it.is_valid(); ++ve_it) {
 
         mean_edge_length += mesh->property(*edge_length, *ve_it);
         nb_edge += 1;
@@ -187,7 +187,7 @@ namespace meshoui {
     writer->Write();
   }
 
-  void VTKMesh::Visualize(){
+  void VTKMesh::Visualize() {
 
     // This function displays the mesh in a window.
 
@@ -198,13 +198,13 @@ namespace meshoui {
     // Building render window.
     vtkSmartPointer<vtkRenderWindow> renderWindow = vtkSmartPointer<vtkRenderWindow>::New();
     renderWindow->SetSize(1024, 768);
-    renderWindow->SetWindowName("Helios viewer");
+    renderWindow->SetWindowName("Meshoui viewer");
     renderWindow->AddRenderer(renderer);
 
     // Building interactor.
     vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
     renderWindowInteractor->SetRenderWindow(renderWindow);
-    dynamic_cast<vtkInteractorStyleSwitch*>(
+    dynamic_cast<vtkInteractorStyleSwitch *>(
         renderWindowInteractor->GetInteractorStyle())->SetCurrentStyleToTrackballCamera();
 
     // Building axes view.
@@ -216,7 +216,8 @@ namespace meshoui {
     widget->SetEnabled(1);
     widget->InteractiveOn();
 
-    // Building command annotations.
+    // Building command annotations. // FIXME: si des options ne sont pas implementees, pourquoi les afficher ??
+    // TODO: implementer chacune des options en suivant l'implementation de meshmagick
     const char *command_text = "left mouse : rotate\n"
                                "right mouse : zoom\n"
                                "middle mouse : pan\n"
@@ -263,5 +264,23 @@ namespace meshoui {
     renderWindowInteractor->Start();
 
   }
+
+  void Show(Mesh &mesh) {
+    VTKMesh vtk_mesh(mesh);
+    vtk_mesh.Visualize();
+  }
+
+  void Write_VTK(Mesh& mesh, const std::string& vtp_filename) {
+    VTKMesh vtk_mesh(mesh);
+    vtk_mesh.Write(vtp_filename);
+  }
+
+  void Write_OBJ(Mesh &mesh, const std::string &obj_filename) {
+    if (!OpenMesh::IO::write_mesh(mesh, obj_filename)) {
+      std::cerr << "Could not write file " << obj_filename << std::endl;
+      exit(EXIT_FAILURE);
+    }
+  }
+
 
 } // end namespace meshoui

@@ -5,8 +5,8 @@
 // All rights reserved.
 // ==========================================================================
 
-#ifndef MESHOUI_MATH_H
-#define MESHOUI_MATH_H
+#ifndef MESHOUI_MATHS_H
+#define MESHOUI_MATHS_H
 
 #include "MathUtils/Constants.h"
 
@@ -20,16 +20,17 @@
 
 namespace meshoui {
 
-    // Vectors.
-    using Vector3d = mathutils::Vector3d<double>;
-    using Vector6d = mathutils::Vector6d<double>;
-    using VectorN = mathutils::VectorN<double>;
+  // Vectors.
+  using Vector2d = Eigen::Vector2d;
+  using Vector3d = mathutils::Vector3d<double>;
+  using Vector6d = mathutils::Vector6d<double>;
+  using VectorN = mathutils::VectorN<double>;
 
-    // Matrices.
-    using Matrix33 = mathutils::Matrix33<double>;
-    using Matrix66 = mathutils::Matrix66<double>;
-    using MatrixMN = mathutils::MatrixMN<double>;
+  // Matrices.
+  using Matrix33 = mathutils::Matrix33<double>;
+  using Matrix66 = mathutils::Matrix66<double>;
+  using MatrixMN = mathutils::MatrixMN<double>;
 
 }
 
-#endif // MESHOUI_MATH_H
+#endif //MESHOUI_MATHS_H

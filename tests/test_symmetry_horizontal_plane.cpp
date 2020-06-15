@@ -1,3 +1,9 @@
+// ==========================================================================
+// Helios
+//
+// Copyright (c) D-ICE Engineering.
+// All rights reserved.
+// ==========================================================================
 
 #include "meshoui/meshoui.h"
 
@@ -37,5 +43,7 @@ int main() {
 
   // Writing.
   vtkmesh_symmetrized.Write("Mesh_symmetrized.vtp");
+
+  return 0;
 
 }
