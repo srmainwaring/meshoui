@@ -13,9 +13,11 @@ using namespace meshoui;
 
 int main() {
 
+  // TODO: It is necessary to check this test. The feature of symmetrysing is not guaranteed.
+
   // Mesh.
   meshoui::Mesh mesh;
-  mesh.Load("../../../Helios/docs/input_files/Sphere.obj");
+  mesh.Load("../../data/Sphere.obj");
 
   // VTKMesh.
   VTKMesh vtkmesh(mesh);

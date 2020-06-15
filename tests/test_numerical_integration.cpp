@@ -15,7 +15,7 @@ int main() {
 
   // Mesh.
   meshoui::Mesh mesh;
-  mesh.Load("../../../Helios/docs/input_files/Face_test_integration.obj");
+  mesh.Load("../../data/Face_test_integration.obj");
 
   // Order of the integration.
   int order = 2;

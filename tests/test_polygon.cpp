@@ -24,6 +24,5 @@ int main() {
 
 //  double area = polygon.GetArea();
 
-
   return 0;
 }

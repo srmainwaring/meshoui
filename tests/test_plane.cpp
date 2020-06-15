@@ -16,16 +16,13 @@ int main() {
   Vector3d origin(2, 0, 0);
 //  Vector3d origin(0, 0, -2);
 
-
   Vector3d normal(1, 0, 1);
   normal.normalize();
-
 
   Plane plane(origin, normal);
 
   Vector3d proj = plane.GetPlaneFrameOrigin(); // {1, 0, 1}
   double alpha = GetAngleBetweenVectors({0., 0., 1.}, normal) * MU_180_PI; // 45
-
 
   // Transform validation
   Vector3d point(0, 0, 2);
@@ -43,12 +40,8 @@ int main() {
   double d3 = plane.GetSignedDistanceToPoint({0, 0, 2}); // 0
   double d4 = plane.GetSignedDistanceToPoint(plane.GetPlaneFrameOrigin()); // 0
 
-
   assert(plane.IsPointOnPlane({2, 0, 0}));
   assert(plane.IsPointOnPlane(origin));
-
-
-
 
   return 0;
 

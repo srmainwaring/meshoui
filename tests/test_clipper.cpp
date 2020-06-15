@@ -13,7 +13,9 @@ using namespace meshoui;
 
 int main () {
 
-  Mesh mesh("../../data/Ship.obj");
+  Mesh mesh;
+  mesh.Load("../../data/Ship.obj");
+
 //  Show(mesh);
   Write_VTK(mesh, "initial.vtp");
 
@@ -46,10 +48,6 @@ int main () {
   Write_VTK(mesh, "clipped_remeshed.vtp");
   Write_OBJ(mesh, "final.obj");
 
-
 //  clipper.ExtractClippedPolygonSet();
-
-
-
 
 }
