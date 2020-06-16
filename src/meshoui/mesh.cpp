@@ -12,22 +12,19 @@
 
 namespace meshoui {
 
-//  Mesh::Mesh(const std::string &meshfile) {
-//
-//    // Constructor of the class.
-//
-//    Load(meshfile);
-//  }
-
   void Mesh::Load(const std::vector<Vector3d> &vertices, const std::vector<Eigen::VectorXi> &faces) {
-    //load vertices
+
+    // This function loads the mesh from a set of vertices and faces.
+
+    // Vertices.
     VertexHandle vertexHandle[vertices.size()];
     int iv = 0;
     for (const auto &vertex : vertices) {
       vertexHandle[iv] = add_vertex(vertex);
       iv++;
     }
-    //load (triangular) faces
+
+    // Faces.
     for (const auto& face : faces) {
       std::vector<VertexHandle> face_vhandles;
       face_vhandles.clear();
@@ -37,12 +34,13 @@ namespace meshoui {
       add_face(face_vhandles);
     }
 
-      UpdateAllProperties();
+    UpdateAllProperties();
+
   }
 
   void Mesh::Load(const std::string &meshfile) {
 
-    // This function loads the mesh file.
+    // This function loads the mesh from an input file.
 
     if (!OpenMesh::IO::read_mesh(*this, meshfile)) {
       std::cerr << "Meshfile " << meshfile << " could not be read\n";

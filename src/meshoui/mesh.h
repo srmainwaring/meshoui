@@ -39,7 +39,7 @@ namespace meshoui {
 
    public:
 
-    // OpenMesh property managers.
+    /// OpenMesh property managers.
     template<typename PropertyType>
     using FaceProperty = OpenMesh::PropertyManager<OpenMesh::FPropHandleT<PropertyType>, Mesh>;
     template<typename PropertyType>
@@ -47,22 +47,20 @@ namespace meshoui {
     template<typename PropertyType>
     using EdgeProperty = OpenMesh::PropertyManager<OpenMesh::EPropHandleT<PropertyType>, Mesh>;
 
-      /// Constructor of the class.
-//      explicit Mesh(const std::string &meshfile);
+    /// This function loads the mesh from a set of vertices and faces.
+    void Load(const std::vector<Vector3d> &vertices, const std::vector<Eigen::VectorXi> & faces);
 
-      void Load(const std::vector<Vector3d> &vertices, const std::vector<Eigen::VectorXi> & faces);
+    /// This function loads the mesh from an input file.
+    void Load(const std::string &meshfile);
 
-      /// This function loads the mesh file.
-      void Load(const std::string &meshfile);
+    /// This function updates some properties of faces and vertices (normals, centroids, face areas).
+    void UpdateAllProperties();
 
-      /// This function updates some properties of faces and vertices (normals, centroids, face areas).
-      void UpdateAllProperties();
-
-      /// This function returns a property about the faces of the mesh.
-      template<typename PropertyType>
-      FaceProperty<PropertyType> GetFaceProperty(const char* name){
-        return OpenMesh::getProperty<meshoui::FaceHandle, PropertyType>(*this, name);
-      }
+    /// This function returns a property about the faces of the mesh.
+    template<typename PropertyType>
+    FaceProperty<PropertyType> GetFaceProperty(const char* name){
+      return OpenMesh::getProperty<meshoui::FaceHandle, PropertyType>(*this, name);
+    }
 
     /// This function returns a property about the vertices of the mesh.
     template<typename PropertyType>
