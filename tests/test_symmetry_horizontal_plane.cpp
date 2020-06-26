@@ -11,6 +11,7 @@ int main() {
   meshoui::Mesh mesh;
   mesh.Load("../../../Helios/docs/input_files/Sphere.obj");
 
+#ifdef MESHOUI_USE_VTK
   // VTKMesh.
   VTKMesh vtkmesh(mesh);
   vtkmesh.AddFaceNormalField(&mesh);
@@ -18,6 +19,7 @@ int main() {
 
   // Writing.
   vtkmesh.Write("Mesh.vtp");
+#endif
 
   // Symmetry plane of equation z = 0;
   double height = 0;
@@ -30,6 +32,7 @@ int main() {
   mesh.FlipFaceNormals();
   mesh.FlipVertexNormals();
 
+#ifdef MESHOUI_USE_VTK
   // VTKMesh.
   VTKMesh vtkmesh_symmetrized(mesh);
   vtkmesh_symmetrized.AddFaceNormalField(&mesh);
@@ -37,5 +40,6 @@ int main() {
 
   // Writing.
   vtkmesh_symmetrized.Write("Mesh_symmetrized.vtp");
+#endif
 
 }

@@ -10,7 +10,11 @@
 
 #include "math.h"
 #include "mesh.h"
+
+#ifdef MESHOUI_USE_VTK
 #include "vtkmesh.h"
+#endif
+
 #include "Integration.h"
 #include "IntegrandOnFace.h"
 

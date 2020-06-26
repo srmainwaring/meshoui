@@ -34,6 +34,7 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 # MESHOUI options
 #=============================================================================
 option(MESHOUI_BUILD_TESTS "Activate build tests" ON)
+option(MESHOUI_USE_VTK "Enable VTK Support" ON)
 
 # =============================================================================
 # MESHOUI DEPENDENCIES
@@ -44,8 +45,12 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/URL.conf.cmake)
 include(Add_OpenMesh)
 include(Add_MathUtils)
 
-find_package(VTK 6.0 REQUIRED NO_MODULE)
-include(${VTK_USE_FILE})
+
+message(STATUS "MESHOUI USE VTK : ${MESHOUI_USE_VTK}" )
+
+if (MESHOUI_USE_VTK)
+    include(Add_VTK)
+endif()
 
 #=============================================================================
 # Adding the MESHOUI project sources

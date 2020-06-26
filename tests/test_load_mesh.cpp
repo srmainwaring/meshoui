@@ -47,6 +47,8 @@ int main() {
   }
 
 
+#ifdef MESHOUI_USE_VTK
+
   // VTKMesh.
   VTKMesh vtkmesh(mesh);
 
@@ -78,6 +80,8 @@ int main() {
 
   // Visualization.
   vtkmesh.Visualize();
+
+#endif
 
   return 0;
 }
