@@ -3,8 +3,12 @@ message(STATUS "    ...meshoui TESTS :")
 
 set(MESHOUI_TESTS
         test_load_mesh
-        test_integration
         test_symmetry_horizontal_plane
+        test_clipper
+        test_mmg
+        test_plane
+        test_polygon
+        test_analytical_surface_integration
         )
 
  foreach (test ${MESHOUI_TESTS})
@@ -25,6 +29,9 @@ set(subdirs
 foreach (subdir ${subdirs})
     add_subdirectory(${subdir})
 endforeach ()
+
+# Data
+file(COPY ${PROJECT_SOURCE_DIR}/data DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 ## TODO : pour le moment pour chaque target, ajouter les 2 lignes suivantes
 #

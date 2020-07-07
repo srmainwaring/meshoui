@@ -5,8 +5,8 @@
 // All rights reserved.
 // ==========================================================================
 
-#ifndef MESHOUI_INTEGRANDONFACE_H
-#define MESHOUI_INTEGRANDONFACE_H
+#ifndef MESHOUI_INTEGRAND_ON_FACE_H
+#define MESHOUI_INTEGRAND_ON_FACE_H
 
 #include "MathUtils/Integrand.h"
 
@@ -16,7 +16,7 @@ namespace meshoui {
   * Class for handling the function (integrand) to be integrated on a face.
   */
   template<typename T>
- class IntegrandOnFace : public mathutils::Integrand<T> {
+  class IntegrandOnFace : public mathutils::Integrand<T> {
 
    public:
 
@@ -28,4 +28,4 @@ namespace meshoui {
 
 }
 
-#endif //MESHOUI_INTEGRANDONFACE_H
+#endif //MESHOUI_INTEGRAND_ON_FACE_H

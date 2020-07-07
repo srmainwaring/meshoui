@@ -1,0 +1,15 @@
+# Wavefront OBJ file exported by Meshmagick (Copyright Ecole Centrale de Nantes)
+# File Created: Mon Sep 30 17:30:24 2019
+
+
+# Vertices: 3
+
+v         0.000000	       0.000000	       0.000000
+v         1.000000	       0.500000	       0.000000
+v         0.000000	       1.000000	       0.000000
+
+
+
+# Faces: 1
+
+f           1           2           3

@@ -1,13 +1,21 @@
 
 # TODO : ajouter les fichiers source cpp dans la variable suivante :
-if (HDB5IO_USE_VTK)
+if (MESHOUI_USE_VTK)
 	set(MESHOUI_SRC_FILES
 		mesh.cpp
 		vtkmesh.cpp
+		remesher.cpp
+		polygon.cpp
+		plane.cpp
+		clipping_surfaces.cpp
 			)
-	else()
+else()
 	set(MESHOUI_SRC_FILES
-			mesh.cpp
+		mesh.cpp
+		remesher.cpp
+		polygon.cpp
+		plane.cpp
+		clipping_surfaces.cpp
 			)
 endif()
 
@@ -17,6 +25,7 @@ target_sources(meshoui PRIVATE ${MESHOUI_SRC_FILES})
 target_link_libraries(meshoui
 	OpenMeshCore
 	MathUtils::MathUtils
+	Mmg::libmmgs_so
 	)
 
 if (MESHOUI_USE_VTK)

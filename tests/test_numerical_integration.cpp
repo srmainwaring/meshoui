@@ -1,15 +1,20 @@
+// ==========================================================================
+// Helios
+//
+// Copyright (c) D-ICE Engineering.
+// All rights reserved.
+// ==========================================================================
 
 #include "meshoui/meshoui.h"
 
 using namespace meshoui;
 
-// Test for checking the surface integration.
+// Test for checking the numerical surface integration.
 
 int main() {
 
   // Mesh.
-  meshoui::Mesh mesh;
-  mesh.Load("../../../Helios/docs/input_files/Face_test_integration.obj");
+  meshoui::Mesh mesh("../../data/Face_test_integration.obj");
 
   // Order of the integration.
   int order = 2;
@@ -24,7 +29,7 @@ int main() {
 
   // Integrator.
   IntegrandTest myFunction;
-  auto myIntegrator = Integration<double>(&myFunction, order, &mesh);
+  auto myIntegrator = integration<double>(&myFunction, order, &mesh);
 
   // Analytical integration.
   double analytical_result = 1./3.;
