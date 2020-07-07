@@ -14,40 +14,36 @@ using namespace meshoui;
 int main() {
 
   // Two methods for loading: using vertices and faces (input_load = true) or using an input mesh file (input_load = false).
-  bool input_loading = true;
 
-  meshoui::Mesh mesh;
-  if(input_loading) {
-      // Building a box.
-      std::vector<meshoui::Vector3d> vertices;
-      vertices.emplace_back(-1, -1, 1);
-      vertices.emplace_back(1, -1, 1);
-      vertices.emplace_back(1, 1, 1);
-      vertices.emplace_back(-1, 1, 1);
-      vertices.emplace_back(-1, -1, -1);
-      vertices.emplace_back(1, -1, -1);
-      vertices.emplace_back(1, 1, -1);
-      vertices.emplace_back(-1, 1, -1);
-      std::vector<Eigen::VectorXi> faces;
-      faces.emplace_back(Eigen::Vector3i(0, 1, 2));
-      faces.emplace_back(Eigen::Vector3i(2, 3, 0));
-      faces.emplace_back(Eigen::Vector3i(0, 4, 1));
-      faces.emplace_back(Eigen::Vector3i(1, 4, 5));
-      faces.emplace_back(Eigen::Vector3i(1, 5, 2));
-      faces.emplace_back(Eigen::Vector3i(2, 5, 6));
-      faces.emplace_back(Eigen::Vector3i(2, 6, 3));
-      faces.emplace_back(Eigen::Vector3i(3, 6, 7));
-      faces.emplace_back(Eigen::Vector3i(3, 7, 0));
-      faces.emplace_back(Eigen::Vector3i(0, 7, 4));
-      faces.emplace_back(Eigen::Vector3i(6, 5, 4));
-      faces.emplace_back(Eigen::Vector3i(7, 6, 4));
+  // Building a box.
+  std::vector<meshoui::Vector3d> vertices;
+  vertices.emplace_back(-1, -1, 1);
+  vertices.emplace_back(1, -1, 1);
+  vertices.emplace_back(1, 1, 1);
+  vertices.emplace_back(-1, 1, 1);
+  vertices.emplace_back(-1, -1, -1);
+  vertices.emplace_back(1, -1, -1);
+  vertices.emplace_back(1, 1, -1);
+  vertices.emplace_back(-1, 1, -1);
+  std::vector<Eigen::VectorXi> faces;
+  faces.emplace_back(Eigen::Vector3i(0, 1, 2));
+  faces.emplace_back(Eigen::Vector3i(2, 3, 0));
+  faces.emplace_back(Eigen::Vector3i(0, 4, 1));
+  faces.emplace_back(Eigen::Vector3i(1, 4, 5));
+  faces.emplace_back(Eigen::Vector3i(1, 5, 2));
+  faces.emplace_back(Eigen::Vector3i(2, 5, 6));
+  faces.emplace_back(Eigen::Vector3i(2, 6, 3));
+  faces.emplace_back(Eigen::Vector3i(3, 6, 7));
+  faces.emplace_back(Eigen::Vector3i(3, 7, 0));
+  faces.emplace_back(Eigen::Vector3i(0, 7, 4));
+  faces.emplace_back(Eigen::Vector3i(6, 5, 4));
+  faces.emplace_back(Eigen::Vector3i(7, 6, 4));
 
-      // Loading it.
-      mesh.Load(vertices, faces);
-  }
-  else {
-    mesh.Load("../../data/Sphere.obj");
-  }
+  // Loading it.
+  meshoui::Mesh mesh(vertices, faces);
+
+  // Or reading from file
+//  meshoui::Mesh mesh("../../data/Sphere.obj");
 
   // VTKMesh.
   VTKMesh vtkmesh(mesh);

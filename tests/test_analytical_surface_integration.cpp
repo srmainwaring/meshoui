@@ -40,8 +40,7 @@ class Integrand : public IntegrandOnFace<VectorN> {
 int main() {
 
   // Mesh.
-  meshoui::Mesh mesh;
-  mesh.Load("../../data/Sphere.obj");
+  meshoui::Mesh mesh("../../data/Sphere.obj");
 
   // Number of integrations.
   int num_int = 16;

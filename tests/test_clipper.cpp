@@ -13,8 +13,7 @@ using namespace meshoui;
 
 int main () {
 
-  Mesh mesh;
-  mesh.Load("../../data/Ship.obj");
+  Mesh mesh("../../data/Ship.obj");
 
 //  Show(mesh);
   Write_VTK(mesh, "initial.vtp");

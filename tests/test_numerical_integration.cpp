@@ -14,8 +14,7 @@ using namespace meshoui;
 int main() {
 
   // Mesh.
-  meshoui::Mesh mesh;
-  mesh.Load("../../data/Face_test_integration.obj");
+  meshoui::Mesh mesh("../../data/Face_test_integration.obj");
 
   // Order of the integration.
   int order = 2;

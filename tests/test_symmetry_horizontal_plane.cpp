@@ -16,8 +16,7 @@ int main() {
   // TODO: It is necessary to check this test. The feature of symmetrysing is not guaranteed.
 
   // Mesh.
-  meshoui::Mesh mesh;
-  mesh.Load("../../data/Sphere.obj");
+  meshoui::Mesh mesh("../../data/Sphere.obj");
 
   // VTKMesh.
   VTKMesh vtkmesh(mesh);

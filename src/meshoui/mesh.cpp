@@ -12,7 +12,7 @@
 
 namespace meshoui {
 
-  void Mesh::Load(const std::vector<Vector3d> &vertices, const std::vector<Eigen::VectorXi> &faces) {
+  Mesh::Mesh(const std::vector<Vector3d> &vertices, const std::vector<Eigen::VectorXi> &faces) {
 
     // This function loads the mesh from a set of vertices and faces.
 
@@ -38,7 +38,7 @@ namespace meshoui {
 
   }
 
-  void Mesh::Load(const std::string &meshfile) {
+  Mesh::Mesh(const std::string &meshfile) {
 
     // This function loads the mesh from an input file.
 
