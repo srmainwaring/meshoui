@@ -47,11 +47,19 @@ namespace meshoui {
     template<typename PropertyType>
     using EdgeProperty = OpenMesh::PropertyManager<OpenMesh::EPropHandleT<PropertyType>, Mesh>;
 
+    Mesh() = default;
+
     /// Constructor of the class.
     explicit Mesh(const std::string &meshfile);
 
     /// Constructor of the class.
     Mesh(const std::vector<Vector3d> &vertices, const std::vector<Eigen::VectorXi> & faces);
+
+    /// Constructor of the class.
+    void Load(const std::string &meshfile);
+
+    /// Constructor of the class.
+    void Load(const std::vector<Vector3d> &vertices, const std::vector<Eigen::VectorXi> & faces);
 
     /// This function updates some properties of faces and vertices (normals, centroids, face areas).
     void UpdateAllProperties();
