@@ -21,7 +21,7 @@ endif(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 # Define project name and specify version information
 #-----------------------------------------------------------------------------
 project(meshoui)
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 #-----------------------------------------------------------------------------
 # Setting the configuration of the build (Debug, Release...)
@@ -34,6 +34,7 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 # MESHOUI options
 #=============================================================================
 option(MESHOUI_BUILD_TESTS "Activate build tests" ON)
+option(MESHOUI_BUILD_TOOLS "Activate build tools" ON)
 
 # =============================================================================
 # MESHOUI DEPENDENCIES
@@ -60,4 +61,12 @@ if (${MESHOUI_BUILD_TESTS})
     enable_testing()
     include(Add_googletest)
     add_subdirectory(tests)
+endif()
+
+#=============================================================================
+# Adding tools
+#=============================================================================
+if (${MESHOUI_BUILD_TOOLS})
+    include(Add_cxxopt)
+    add_subdirectory(tools)
 endif()
