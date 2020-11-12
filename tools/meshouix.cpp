@@ -9,7 +9,7 @@
 
 namespace fs = std::filesystem;
 
-bool has_obj_extension(const std::string& file) {
+bool has_obj_extension(const std::string &file) {
   return fs::path(file).extension() == ".obj";
 }
 
@@ -22,6 +22,8 @@ int main(int argc, char *argv[]) {
       ("i,input", "Input mesh file with obj file format", cxxopts::value<std::string>())
       ("o,output", "Ouput mesh file with remeshing applied with obj file format", cxxopts::value<std::string>())
 
+      ("c,clip", "First clip the input mesh by the plane Oxy", cxxopts::value<bool>()->default_value("false"))
+
 
       ("a,angle", "Angle detection threshold in degrees", cxxopts::value<double>()->default_value("40"))
       ("p,haussdorf", "Haussdorf Parameter", cxxopts::value<double>()->default_value("0.5"))
@@ -31,8 +33,7 @@ int main(int argc, char *argv[]) {
 
       ("show", "Show result in vtk figure", cxxopts::value<bool>()->default_value("false"))
 
-      ("h,help", "Print help")
-      ;
+      ("h,help", "Print help");
 
   // TODO: ajouter une option de clipping par le plan horizontal en z=0
 
@@ -49,8 +50,7 @@ int main(int argc, char *argv[]) {
   std::cout << std::endl;
 
   // If help options, print it and exit
-  if (result.count("help"))
-  {
+  if (result.count("help")) {
     std::cout << options.help() << std::endl;
     exit(EXIT_SUCCESS);
   }
@@ -77,22 +77,19 @@ int main(int argc, char *argv[]) {
   std::cout << "Reading file " << input_file << std::endl;
   meshoui::Mesh mesh(input_file);
 
-
-  std::string output_file;
-  if (result.count("output")) {
-    output_file = result["output"].as<std::string>();
-    if (!has_obj_extension(input_file)) {
-      std::cerr << "Output file (" << output_file << ") must have a .obj extension" << std::endl;
-      exit(EXIT_FAILURE);
-    }
-  } else {
-    // No output file name has been given, building one from the input file
-    output_file = (std::string) fs::path(input_file).stem() + "_rem.obj";
+  if (result.count("clip")) {
+    std::cout << "Clipping the mesh by plane Oxy" << std::endl;
+    auto plane = std::make_shared<meshoui::Plane>(meshoui::Vector3d{0., 0., 0.},
+                                                  meshoui::Vector3d{0., 0.,
+                                                                    1.}); // FIXME: pourquoi ce constructeur ne fonctionen pas ???
+    meshoui::Clipper<meshoui::ClippingPlane> clipper(std::make_shared<meshoui::ClippingPlane>(plane));
+    clipper.ClipIt(mesh);
   }
+
 
   // Output for current options
   std::cout << std::endl;
-  std::cout << "Remeshing of ??? with the following parameters:" << std::endl;
+  std::cout << "Remeshing with the following parameters:" << std::endl;
   std::cout << "\t* Angle detection threshold (deg)    " << angle_threshold << std::endl;
   std::cout << "\t* Haussdorf parameter                " << haussdorf_param << std::endl;
   std::cout << "\t* Constant edge length (m)           " << edge_length << std::endl;
@@ -112,7 +109,21 @@ int main(int argc, char *argv[]) {
     meshoui::Show(mesh);
   }
 
+
   if (!result.count("no-writing")) {
+
+    std::string output_file;
+    if (result.count("output")) {
+      output_file = result["output"].as<std::string>();
+      if (!has_obj_extension(input_file)) {
+        std::cerr << "Output file (" << output_file << ") must have a .obj extension" << std::endl;
+        exit(EXIT_FAILURE);
+      }
+    } else {
+      // No output file name has been given, building one from the input file
+      output_file = (std::string) fs::path(input_file).stem() + "_rem.obj";
+    }
+
     // TODO: donner la possibilite de ne rien ecrire... (-nw)
     std::cout << "Writing remeshed file to " << output_file << std::endl;
     meshoui::Write_OBJ(mesh, output_file);
