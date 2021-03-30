@@ -12,7 +12,7 @@ if(NOT mmg)
 
     # mmg BUILD OPTIONS
     set(BUILD_SHARED_LIBS ON CACHE BOOL "" FORCE)
-    set(BUILD "MMG" CACHE STRING "" FORCE)
+    set(BUILD "MMGS" CACHE STRING "" FORCE)
 
     add_subdirectory(${mmg_SOURCE_DIR} ${mmg_BINARY_DIR})
 else()

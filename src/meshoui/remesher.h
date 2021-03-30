@@ -11,7 +11,6 @@
 
 // Temporaire
 #include "meshoui/maths.h"
-#include "vtkmesh.h"
 
 
 #define MAX0(a, b)     (((a) > (b)) ? (a) : (b))
