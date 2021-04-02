@@ -60,7 +60,7 @@ endif()
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/URL.conf.cmake)
 
 include(Add_OpenMesh)
-include(Add_MathUtils)
+include(Add_mathutils)
 include(Add_mmg)
 
 

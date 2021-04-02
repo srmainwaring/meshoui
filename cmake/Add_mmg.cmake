@@ -6,15 +6,15 @@ FetchContent_Declare(mmg
         )
 
 FetchContent_GetProperties(mmg)
-if(NOT mmg)
-    message(STATUS "Downloading, Configuring and Generating 'mmg' dependency")
+if (NOT mmg)
+    message(STATUS "******* FETCHING mmg dependency from ${PROJECT_NAME} (requested version: ${mmg_TAG}) *******")
     FetchContent_Populate(mmg)
 
     # mmg BUILD OPTIONS
     set(BUILD_SHARED_LIBS ON CACHE BOOL "" FORCE)
-    set(BUILD "MMGS" CACHE STRING "" FORCE)
+    set(BUILD "MMGS" CACHE STRING "")
 
     add_subdirectory(${mmg_SOURCE_DIR} ${mmg_BINARY_DIR})
-else()
+else ()
     message(STATUS "mmg already populated")
-endif()
+endif ()
