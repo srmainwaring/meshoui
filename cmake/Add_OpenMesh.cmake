@@ -15,7 +15,7 @@ if (NOT OpenMesh_FOUND)
         FetchContent_Populate(OpenMesh)
 
         # OpenMesh BUILD OPTIONS
-        set(BUILD_APPS OFF CACHE BOOL "" FORCE)
+        set(BUILD_APPS OFF CACHE BOOL "")
 
         add_subdirectory(${openmesh_SOURCE_DIR} ${openmesh_BINARY_DIR})
     else()

@@ -17,8 +17,8 @@ if (NOT mathutils_FOUND)
         FetchContent_Populate(mathutils)
 
         # MathUtils BUILD OPTIONS
-        set(MATHUTILS_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-        set(ADD_MATPLOTLIB_CPP ON CACHE BOOL "" FORCE)
+        set(MATHUTILS_BUILD_TESTS OFF CACHE BOOL "")
+        set(MATHUTILS_BUILD_BOOST_TESTS OFF CACHE BOOL "")
 
         add_subdirectory(${mathutils_SOURCE_DIR} ${mathutils_BINARY_DIR})
     else()
