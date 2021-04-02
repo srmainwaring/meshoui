@@ -37,6 +37,22 @@ option(MESHOUI_BUILD_TESTS "Activate build tests" ON)
 option(MESHOUI_BUILD_TOOLS "Activate build tools" ON)
 option(MESHOUI_USE_VTK "Enable VTK Support" ON)
 
+
+#=============================================================================
+# Retrieving the current Git revision
+#=============================================================================
+set(PRE_CONFIGURE_FILE ${CMAKE_CURRENT_SOURCE_DIR}/src/meshoui/version.cpp.in CACHE FILEPATH "" FORCE)
+set(POST_CONFIGURE_FILE ${CMAKE_CURRENT_BINARY_DIR}/src/meshoui/version.cpp CACHE FILEPATH "" FORCE)
+set(GIT_WORKING_DIR ${CMAKE_CURRENT_SOURCE_DIR} CACHE FILEPATH "" FORCE)
+set(GIT_STATE_FILE ${CMAKE_CURRENT_BINARY_DIR}/git-state-hash CACHE FILEPATH "" FORCE)
+include(cmake/git_watcher.cmake)
+
+if (NOT EXISTS ${POST_CONFIGURE_FILE})
+    configure_file(${PRE_CONFIGURE_FILE} ${POST_CONFIGURE_FILE})
+endif()
+
+
+
 # =============================================================================
 # MESHOUI DEPENDENCIES
 # =============================================================================

@@ -23,4 +23,6 @@
 #include "plane.h"
 #include "polygon.h"
 
+#include "version.h"
+
 #endif // MESHOUI_MESHOUI_H
