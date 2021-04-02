@@ -202,4 +202,11 @@ namespace meshoui {
     FlipHalfedgeNormals();
   }
 
+  void Write_OBJ(Mesh &mesh, const std::string &obj_filename) {
+    if (!OpenMesh::IO::write_mesh(mesh, obj_filename)) {
+      std::cerr << "Could not write file " << obj_filename << std::endl;
+      exit(EXIT_FAILURE);
+    }
+  }
+
 } // end namespace meshoui

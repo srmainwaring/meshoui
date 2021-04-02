@@ -154,6 +154,9 @@ namespace meshoui {
 
   };
 
+
+  void Write_OBJ(Mesh &mesh, const std::string &obj_filename);
+
 } // end namespace meshoui
 
 #endif // MESHOUI_LOADER_H
