@@ -1,3 +1,8 @@
+stages:
+  - build
+  - test
+
+
 image: diceengineering/hydro:latest
 
 build:
@@ -21,4 +26,4 @@ build:
 
 test:
   script:
-    make test
+    - make test
