@@ -5,7 +5,6 @@ set(MESHOUI_TESTS
         test_analytical_surface_integration
         test_clipper
         test_load_mesh
-#        test_mmg
         test_numerical_integration
         test_plane
         test_polygon
@@ -28,10 +27,9 @@ foreach (test ${MESHOUI_TESTS})
         endif ()
     endif()
 
-#    add_test(NAME ${test} COMMAND ${test})
+    add_test(NAME ${test} COMMAND ${test})
 
 endforeach ()
-
 
 # Data
 file(COPY ${PROJECT_SOURCE_DIR}/data DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
