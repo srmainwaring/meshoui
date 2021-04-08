@@ -16,20 +16,9 @@ build:
     - rm -rf build
     - mkdir build
     - cd build
-    - cmake ..
+    - cmake .. -DMESHOUI_USE_MMG=ON -DUSE_VTK=ON
     - make all test -j4
 
-
-#upload-doc:
-#
-##  before_script:
-##    - apt-get update
-##    - apt-get install -y python3 python3-pip
-##    - pip3 install awscli
-##    - pip3 install sphinx sphinx-rtd-theme
-#
-#  script:
-#    - cd docs/theory_manual
-#    - make html
-#    - aws s3 rm --recursive s3://developer-internal.d-ice.net/$CI_PROJECT_NAME
-#    - aws s3 cp --recursive _build/html s3://developer-internal.d-ice.net/$CI_PROJECT_NAME
+test:
+  script:
+    make test

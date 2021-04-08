@@ -21,7 +21,7 @@ endif (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 option(MESHOUI_BUILD_TESTS "Activate build tests" ON)
 option(MESHOUI_BUILD_TOOLS "Activate build tools" ON)
 option(MESHOUI_USE_MMG "Enable Remeshing MMG lib" OFF)
-option(USE_VTK "Enable VTK Support" ON)
+option(USE_VTK "Enable VTK Support" OFF)
 option(BUILD_SHARED_LIBS "Shared lib version" OFF)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
