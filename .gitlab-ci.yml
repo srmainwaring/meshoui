@@ -1,12 +1,6 @@
-stages:
-  - build
-  - test
-
-
 image: diceengineering/hydro:latest
 
 build:
-  stage: build
   before_script:
     # check this out: https://docs.gitlab.com/ee/ci/ssh_keys/
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
@@ -24,8 +18,3 @@ build:
     - cd build
     - cmake .. -DMESHOUI_USE_MMG=ON -DUSE_VTK=ON
     - make all test -j4
-
-test:
-  stage: test
-  script:
-    - make test
