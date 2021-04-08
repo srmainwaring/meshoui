@@ -6,6 +6,8 @@
 // ==========================================================================
 
 #include "meshoui/meshoui.h"
+#include "gtest/gtest.h"
+
 
 using namespace meshoui;
 
@@ -37,7 +39,9 @@ class Integrand : public IntegrandOnFace<VectorN> {
   }
 };
 
-int main() {
+
+TEST(SurfaceIntegration, SurfaceIntegration) {
+
 
   // Mesh.
   meshoui::Mesh mesh("../../data/Sphere.obj");
@@ -87,9 +91,11 @@ int main() {
     // Absolute errors.
     for (int i = 0; i < num_int; ++i){
       error[i].push_back(abs(int_num[i] - int_ana[i]) / int_ana[i]);
+      EXPECT_NEAR(int_num[i], int_ana[i], 1e-15);
     }
   }
 
+  #ifdef USE_VTK
   // VTKMesh.
   VTKMesh vtkmesh(mesh);
   vtkmesh.AddField("01_POLY_1_error", error[0], VTKMesh::CELL);
@@ -111,6 +117,6 @@ int main() {
 
   // Writing.
   vtkmesh.Write("Comparison_Surface_integration_triangle.vtp");
+  #endif
 
-  return 0;
 }

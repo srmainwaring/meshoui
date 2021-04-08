@@ -1,5 +1,10 @@
 
-if (MESHOUI_USE_MMG)
-    add_executable(meshouix meshouix.cpp meshouix.cpp)
-    target_link_libraries(meshouix meshoui cxxopts)
+if (MESHOUI_USE_MMG AND USE_VTK)
+    add_executable(meshouix meshouix.cpp)
+    target_link_libraries(meshouix PRIVATE meshoui cxxopts ${VTK_LIBRARIES})
+    if (BUILD_SHARED_LIBS)
+        target_link_libraries(meshouix PRIVATE  Mmg::libmmgs_so)
+    else ()
+        target_link_libraries(meshouix PRIVATE  Mmg::libmmgs_a)
+    endif ()
 endif ()

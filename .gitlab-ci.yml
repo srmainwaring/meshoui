@@ -1,0 +1,35 @@
+image: diceengineering/hydro:latest
+
+build:
+  before_script:
+    # check this out: https://docs.gitlab.com/ee/ci/ssh_keys/
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh
+    - echo "$GITLAB_CI_SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 700 ~/.ssh
+    - chmod 700 ~/.ssh/id_rsa
+    - ssh-add
+    # also add the known hosts so we don't have to accept when connecting to the host
+    - echo "$GITLAB_CI_SSH_KNOWN_HOST" | tr -d '\r' > ~/.ssh/known_hosts
+  script:
+    - rm -rf build
+    - mkdir build
+    - cd build
+    - cmake ..
+    - make all test -j4
+
+
+#upload-doc:
+#
+##  before_script:
+##    - apt-get update
+##    - apt-get install -y python3 python3-pip
+##    - pip3 install awscli
+##    - pip3 install sphinx sphinx-rtd-theme
+#
+#  script:
+#    - cd docs/theory_manual
+#    - make html
+#    - aws s3 rm --recursive s3://developer-internal.d-ice.net/$CI_PROJECT_NAME
+#    - aws s3 cp --recursive _build/html s3://developer-internal.d-ice.net/$CI_PROJECT_NAME

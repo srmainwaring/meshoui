@@ -22,6 +22,9 @@ option(MESHOUI_BUILD_TESTS "Activate build tests" ON)
 option(MESHOUI_BUILD_TOOLS "Activate build tools" ON)
 option(MESHOUI_USE_MMG "Enable Remeshing MMG lib" OFF)
 option(USE_VTK "Enable VTK Support" ON)
+option(BUILD_SHARED_LIBS "Shared lib version" OFF)
+
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 #=============================================================================
 # Retrieving the current Git revision

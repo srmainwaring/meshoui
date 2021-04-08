@@ -13,11 +13,14 @@ using namespace meshoui;
 
 int main () {
 
+  #ifdef USE_VTK
+
   Mesh mesh("../../data/Ship.obj");
 
 //  Show(mesh);
   Write_VTK(mesh, "initial.vtp");
 
+  #ifdef USE_MMG
   // Remesh
   Remesher remesher;
 
@@ -28,6 +31,7 @@ int main () {
   remesher.RemeshIt(mesh);
 //  Show(mesh);
   Write_VTK(mesh, "remeshed_full.vtp");
+  #endif
 
   // Clip
   auto plane = std::make_shared<Plane>(Vector3d{0., 0., 0.}, Vector3d {0., 0., 1.}); // FIXME: pourquoi ce constructeur ne fonctionen pas ???
@@ -38,15 +42,17 @@ int main () {
 
   // Remesh after clipping
 
+  #ifdef USE_MMG
   remesher.SetHausdorffParam(0.05);
   remesher.SetConstantEdgeSize(4);
   remesher.RemeshIt(mesh);
   remesher.RemeshIt(mesh);
+  #endif
 
-  Show(mesh);
+//  Show(mesh);
   Write_VTK(mesh, "clipped_remeshed.vtp");
   Write_OBJ(mesh, "final.obj");
 
-//  clipper.ExtractClippedPolygonSet();
+  #endif
 
 }

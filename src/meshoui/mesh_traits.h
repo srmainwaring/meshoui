@@ -124,45 +124,63 @@ namespace meshoui {
       /// This function gives the surface integral of a face.
       const double GetSurfaceIntegral(IntegrandType type) const {
         // TODO: abandonner les enums pour les integrandes et preferer les accessors voir mieux, des fonctors...
+        double si;
         switch (type) {
           case POLY_1:
-            return m_integrals.m_int_1; // This is the surface area...
+            si = m_integrals.m_int_1; // This is the surface area...
+            break;
           case POLY_X:
-            return m_integrals.m_int_x;
+            si = m_integrals.m_int_x;
+            break;
           case POLY_Y:
-            return m_integrals.m_int_y;
+            si = m_integrals.m_int_y;
+            break;
           case POLY_Z:
-            return m_integrals.m_int_z;
+            si = m_integrals.m_int_z;
+            break;
           case POLY_YZ:
-            return m_integrals.m_int_yz;
+            si = m_integrals.m_int_yz;
+            break;
           case POLY_XZ:
-            return m_integrals.m_int_xz;
+            si = m_integrals.m_int_xz;
+            break;
           case POLY_XY:
-            return m_integrals.m_int_xy;
+            si = m_integrals.m_int_xy;
+            break;
           case POLY_X2:
-            return m_integrals.m_int_x2;
+            si = m_integrals.m_int_x2;
+            break;
           case POLY_Y2:
-            return m_integrals.m_int_y2;
+            si = m_integrals.m_int_y2;
+            break;
           case POLY_Z2:
-            return m_integrals.m_int_z2;
+            si = m_integrals.m_int_z2;
+            break;
           case POLY_X3:
-            return m_integrals.m_int_x3;
+            si = m_integrals.m_int_x3;
+            break;
           case POLY_Y3:
-            return m_integrals.m_int_y3;
+            si = m_integrals.m_int_y3;
+            break;
           case POLY_Z3:
-            return m_integrals.m_int_z3;
+            si = m_integrals.m_int_z3;
+            break;
           case POLY_X2Y:
-            return m_integrals.m_int_x2y;
+            si = m_integrals.m_int_x2y;
+            break;
           case POLY_Y2Z:
-            return m_integrals.m_int_y2z;
+            si = m_integrals.m_int_y2z;
+            break;
           case POLY_Z2X:
-            return m_integrals.m_int_z2x;
+            si = m_integrals.m_int_z2x;
+            break;
           case UNDEFINED_INTEGRAND:
             std::cerr << "Cannot return value of an UNDEFINED_INTEGRAND" << std::endl;
             break;
           default:
             throw std::runtime_error("Cannot return value of an UNDEFINED_INTEGRAND");
         }
+        return si;
       }
 
       void SetSurfaceIntegral(IntegrandType type, const double &val) {
