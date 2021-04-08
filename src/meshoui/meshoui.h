@@ -11,15 +11,21 @@
 #include "maths.h"
 #include "mesh.h"
 
-#ifdef MESHOUI_USE_VTK
+#ifdef USE_VTK
+
 #include "vtkmesh.h"
+
 #endif
 
 #include "integration.h"
 #include "integrand_on_face.h"
 #include "clipping_surfaces.h"
 #include "clipper.h"
+
+#ifdef USE_MMG
 #include "remesher.h"
+#endif
+
 #include "plane.h"
 #include "polygon.h"
 

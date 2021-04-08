@@ -19,4 +19,4 @@ set(cxxopts_URL https://github.com/jarro2783/cxxopts.git)
 set(cxxopts_TAG v2.2.1 CACHE STRING "cxxopts version")
 
 # VTK
-set(VTK_TAG 6.0)
+set(VTK_TAG 8.2 CACHE STRING "VTK version")
