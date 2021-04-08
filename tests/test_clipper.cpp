@@ -6,12 +6,13 @@
 // ==========================================================================
 
 #include "meshoui/meshoui.h"
+#include "gtest/gtest.h"
 
 using namespace meshoui;
 
 // Test for checking the mesh clipping and remeshing.
 
-int main () {
+TEST(meshoui_tests, clipper) {
 
   #ifdef USE_VTK
 

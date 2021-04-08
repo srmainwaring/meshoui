@@ -5,7 +5,7 @@ set(MESHOUI_TESTS
         test_analytical_surface_integration
         test_clipper
         test_load_mesh
-        test_mmg
+#        test_mmg
         test_numerical_integration
         test_plane
         test_polygon
@@ -16,7 +16,7 @@ foreach (test ${MESHOUI_TESTS})
     message(STATUS "        ...add ${test}")
 
     add_executable(${test} ${test}.cpp)
-    target_link_libraries(${test} PUBLIC meshoui gtest_main)
+    target_link_libraries(${test} PUBLIC meshoui gtest gtest_main)
     if (USE_VTK)
         target_link_libraries(${test} PRIVATE ${VTK_LIBRARIES})
     endif ()
@@ -28,7 +28,7 @@ foreach (test ${MESHOUI_TESTS})
         endif ()
     endif()
 
-    add_test(NAME ${test} COMMAND ${test})
+#    add_test(NAME ${test} COMMAND ${test})
 
 endforeach ()
 

@@ -40,7 +40,7 @@ class Integrand : public IntegrandOnFace<VectorN> {
 };
 
 
-TEST(SurfaceIntegration, SurfaceIntegration) {
+TEST(meshoui_tests, AnalitycalIntegration) {
 
 
   // Mesh.
