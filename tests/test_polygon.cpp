@@ -5,13 +5,14 @@
 // All rights reserved.
 // ==========================================================================
 
+#include "gtest/gtest.h"
 #include "meshoui/meshoui.h"
 
 using namespace meshoui;
 
 // Test for checking the use of polygons.
 
-int main() {
+TEST(meshoui_tests, polygon) {
 
   Planar3DPolygon polygon(std::make_shared<Plane>());
 
@@ -24,5 +25,4 @@ int main() {
 
 //  double area = polygon.GetArea();
 
-  return 0;
 }

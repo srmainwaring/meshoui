@@ -45,7 +45,7 @@ int main() {
   // Or reading from file
 //  meshoui::Mesh mesh("../../data/Sphere.obj");
 
-#ifdef MESHOUI_USE_VTK
+#ifdef USE_VTK
 
   // VTKMesh.
   VTKMesh vtkmesh(mesh);
@@ -77,7 +77,7 @@ int main() {
   vtkmesh.Write("mesh_field.vtp");
 
   // Visualization.
-  vtkmesh.Visualize();
+//  vtkmesh.Visualize();
 
 #endif
 

@@ -5,13 +5,14 @@
 // All rights reserved.
 // ==========================================================================
 
+#include "gtest/gtest.h"
 #include "meshoui/meshoui.h"
 
 using namespace meshoui;
 
 // Test for checking the use of planes.
 
-int main() {
+TEST(meshoui_tests, plane) {
 
   Vector3d origin(2, 0, 0);
 //  Vector3d origin(0, 0, -2);
@@ -40,9 +41,7 @@ int main() {
   double d3 = plane.GetSignedDistanceToPoint({0, 0, 2}); // 0
   double d4 = plane.GetSignedDistanceToPoint(plane.GetPlaneFrameOrigin()); // 0
 
-  assert(plane.IsPointOnPlane({2, 0, 0}));
-  assert(plane.IsPointOnPlane(origin));
-
-  return 0;
+  ASSERT_TRUE(plane.IsPointOnPlane({2, 0, 0}));
+  ASSERT_TRUE(plane.IsPointOnPlane(origin));
 
 }

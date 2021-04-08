@@ -5,13 +5,14 @@
 // All rights reserved.
 // ==========================================================================
 
+#include "gtest/gtest.h"
 #include "meshoui/meshoui.h"
 
 using namespace meshoui;
 
 // Test for checking the symmetry of the mesh by a horizontal plane z = h.
 
-int main() {
+TEST(meshoui_tests, symmetry) {
 
   // TODO: It is necessary to check this test. The feature of symmetrysing is not guaranteed.
 
@@ -48,7 +49,5 @@ int main() {
   // Writing.
   vtkmesh_symmetrized.Write("Mesh_symmetrized.vtp");
 #endif
-
-  return 0;
 
 }
