@@ -1,9 +1,4 @@
-
-if (BUILD_SHARED_LIBS)
-    add_library(meshoui SHARED)
-else ()
-    add_library(meshoui STATIC)
-endif ()
+add_library(meshoui)
 
 target_sources(meshoui PRIVATE
         mesh.cpp

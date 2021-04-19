@@ -18,11 +18,13 @@ endif (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 #=============================================================================
 # OPTIONS
 #=============================================================================
+cmake_policy(SET CMP0077 NEW)
+
+option(BUILD_SHARED_LIBS "Shared lib version" OFF)
 option(MESHOUI_BUILD_TESTS "Activate build tests" ON)
 option(MESHOUI_BUILD_TOOLS "Activate build tools" ON)
 option(MESHOUI_USE_MMG "Enable Remeshing MMG lib" OFF)
 option(USE_VTK "Enable VTK Support" OFF)
-option(BUILD_SHARED_LIBS "Shared lib version" OFF)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
