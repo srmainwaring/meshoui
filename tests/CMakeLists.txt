@@ -9,6 +9,7 @@ set(MESHOUI_TESTS
         test_plane
         test_polygon
         test_symmetry_horizontal_plane
+        test_merger
         )
 
 foreach (test ${MESHOUI_TESTS})
