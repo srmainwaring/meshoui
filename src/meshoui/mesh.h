@@ -61,70 +61,70 @@ namespace meshoui {
     /// Constructor of the class.
     void Load(const std::vector<Vector3d> &vertices, const std::vector<Eigen::VectorXi> & faces);
 
-    /// This function updates some properties of faces and vertices (normals, centroids, face areas).
+    /// This method updates some properties of faces and vertices (normals, centroids, face areas).
     void UpdateAllProperties();
 
-    /// This function returns a property about the faces of the mesh.
+    /// This method returns a property about the faces of the mesh.
     template<typename PropertyType>
     FaceProperty<PropertyType> GetFaceProperty(const char* name){
       return OpenMesh::getProperty<meshoui::FaceHandle, PropertyType>(*this, name);
     }
 
-    /// This function returns a property about the vertices of the mesh.
+    /// This method returns a property about the vertices of the mesh.
     template<typename PropertyType>
     VertexProperty<PropertyType> GetVertexProperty(const char *name) {
       return OpenMesh::getProperty<VertexHandle, PropertyType>(*this, name);
     }
 
-    /// This function returns a property about the edges of the mesh.
+    /// This method returns a property about the edges of the mesh.
     template<typename PropertyType>
     EdgeProperty<PropertyType> GetEdgeProperty(const char *name) {
       return OpenMesh::getProperty<EdgeHandle, PropertyType>(*this, name);
     }
 
-    /// This function creates a property about the faces of the mesh.
+    /// This method creates a property about the faces of the mesh.
     template<typename PropertyType>
     FaceProperty<PropertyType> CreateFaceProperty(const char *name) {
       return OpenMesh::getOrMakeProperty<FaceHandle, PropertyType>(*this, name);
     }
 
-    /// This function creates a property about the vertices of the mesh.
+    /// This method creates a property about the vertices of the mesh.
     template<typename PropertyType>
     VertexProperty<PropertyType> CreateVertexProperty(const char *name) {
       return OpenMesh::getOrMakeProperty<VertexHandle, PropertyType>(*this, name);
     }
 
-    /// This function creates a property about the edges of the mesh.
+    /// This method creates a property about the edges of the mesh.
     template<typename PropertyType>
     EdgeProperty<PropertyType> CreateEdgeProperty(const char *name) {
       return OpenMesh::getOrMakeProperty<EdgeHandle, PropertyType>(*this, name);
     }
 
-    /// This function creates a temporary property about the faces of the mesh.
+    /// This method creates a temporary property about the faces of the mesh.
     template<typename PropertyType>
     FaceProperty<PropertyType> CreateTemporaryFaceProperty() {
       return OpenMesh::makeTemporaryProperty<FaceHandle, PropertyType>(*this);
     }
 
-    /// This function creates a temporary property about the vertices of the mesh.
+    /// This method creates a temporary property about the vertices of the mesh.
     template<typename PropertyType>
     VertexProperty<PropertyType> CreateTemporaryVertexProperty() {
       return OpenMesh::makeTemporaryProperty<VertexHandle, PropertyType>(*this);
     }
 
-    /// This function creates a temporary property about the edges of the mesh.
+    /// This method creates a temporary property about the edges of the mesh.
     template<typename PropertyType>
     EdgeProperty<PropertyType> CreateTemporaryEdgeProperty() {
       return OpenMesh::makeTemporaryProperty<EdgeHandle, PropertyType>(*this);
     }
 
-    /// This function applies a symmetry by a plane of equation z = h.
+    /// This method applies a symmetry by a plane of equation z = h.
     void SymmetryHorizontalPlane(const double &height);
 
-    /// This function translates the mesh.
+    /// This method translates the mesh.
     void Translate(const Vector3d &t);
 
-    /// This function rotates the mesh, based on Cardan angles
+    /// This method rotates the mesh, based on Cardan angles
     void Rotate(double phi, double theta, double psi);
 
     //TODO:
@@ -133,16 +133,16 @@ namespace meshoui {
     // TODO
 //    bool IsWatertight() const;
 
-    /// This function flips the face normals.
+    /// This method flips the face normals.
     void FlipFaceNormals();
 
-    /// This function flips the vertex normals.
+    /// This method flips the vertex normals.
     void FlipVertexNormals();
 
-    /// This function flips the halfegde normals.
+    /// This method flips the halfegde normals.
     void FlipHalfedgeNormals();
 
-    /// This function flips the normals (face, vertice, halfedge).
+    /// This method flips the normals (face, vertice, halfedge).
     void FlipAllNormals();
 
 //   private:
