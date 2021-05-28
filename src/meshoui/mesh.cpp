@@ -22,7 +22,7 @@ namespace meshoui {
 
   void Mesh::Load(const std::vector<Vector3d> &vertices, const std::vector<Eigen::VectorXi> &faces) {
 
-    // This function loads the mesh from a set of vertices and faces.
+    // This method loads the mesh from a set of vertices and faces.
 
     // Vertices.
     VertexHandle vertexHandle[vertices.size()];
@@ -48,7 +48,7 @@ namespace meshoui {
 
   void Mesh::Load(const std::string &meshfile) {
 
-    // This function loads the mesh from an input file.
+    // This method loads the mesh from an input file.
 
     if (!OpenMesh::IO::read_mesh(*this, meshfile)) {
       std::cerr << "Meshfile " << meshfile << " could not be read\n";
@@ -60,7 +60,7 @@ namespace meshoui {
 
   void Mesh::UpdateAllProperties() {
 
-    // This function updates some properties of faces and vertices (normals, centroids, face areas).
+    // This method updates some properties of faces and vertices (normals, centroids, face areas).
 
     // Computation of the normal vectors of faces, vertices and half edges.
     update_normals();
@@ -195,13 +195,58 @@ namespace meshoui {
 
   void Mesh::FlipAllNormals() {
 
-    // This function flips the normals (face, vertice, halfedge).
+    // This method flips the normals (face, vertice, halfedge).
 
     FlipFaceNormals();
     FlipVertexNormals();
     FlipHalfedgeNormals();
   }
 
+  meshoui::Mesh Merger(meshoui::Mesh mesh_1, meshoui::Mesh mesh_2) {
+
+    // This function merges two meshes into a single mesh.
+
+    // Initialization.
+    std::vector<Vector3d> vertices;
+    vertices.reserve(mesh_1.n_vertices() + mesh_2.n_vertices());
+    std::vector<Eigen::VectorXi> faces;
+    faces.reserve(mesh_1.n_faces() + mesh_2.n_faces());
+
+    // Mesh 1 - Vertices.
+    for (VertexIter v_iter = mesh_1.vertices_begin(); v_iter != mesh_1.vertices_end(); ++v_iter) {
+      vertices.push_back(mesh_1.point(*v_iter));
+    }
+
+    // Mesh 2 - Vertices.
+    for (VertexIter v_iter = mesh_2.vertices_begin(); v_iter != mesh_2.vertices_end(); ++v_iter) {
+      vertices.push_back(mesh_2.point(*v_iter));
+    }
+
+    // Mesh 1 - Faces.
+    for (FaceIter f_iter = mesh_1.faces_begin(); f_iter != mesh_1.faces_end(); ++f_iter) {
+      Eigen::VectorXi face = Eigen::VectorXi::Zero(3);
+      int index = 0;
+      for (Mesh::FaceVertexIter fv_it = mesh_1.fv_begin(*f_iter); fv_it.is_valid(); ++fv_it) {
+        face(index) = fv_it->idx();
+        ++index;
+      }
+      faces.push_back(face);
+    }
+
+    // Mesh 2 - Faces.
+    for (FaceIter f_iter = mesh_2.faces_begin(); f_iter != mesh_2.faces_end(); ++f_iter) {
+      Eigen::VectorXi face = Eigen::VectorXi::Zero(3);
+      int index = 0;
+      for (Mesh::FaceVertexIter fv_it = mesh_2.fv_begin(*f_iter); fv_it.is_valid(); ++fv_it) {
+        face(index) = fv_it->idx() + mesh_1.n_vertices(); // Add the vertices of mesh 2 after those of mesh 1.
+        ++index;
+      }
+      faces.push_back(face);
+    }
+
+    return Mesh(vertices, faces);
+
+  }
   void Write_OBJ(Mesh &mesh, const std::string &obj_filename) {
     if (!OpenMesh::IO::write_mesh(mesh, obj_filename)) {
       std::cerr << "Could not write file " << obj_filename << std::endl;

@@ -154,6 +154,9 @@ namespace meshoui {
 
   };
 
+  /// This function merges two meshes into a single mesh.
+  meshoui::Mesh Merger(meshoui::Mesh mesh_1, meshoui::Mesh mesh_2);
+
 
   void Write_OBJ(Mesh &mesh, const std::string &obj_filename);
 
