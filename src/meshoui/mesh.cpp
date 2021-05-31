@@ -282,4 +282,8 @@ namespace meshoui {
     }
   }
 
+  meshoui::Mesh operator+(Mesh &mesh_1, Mesh &mesh_2) {
+    return Merge(mesh_1, mesh_2);
+  }
+
 } // end namespace meshoui
