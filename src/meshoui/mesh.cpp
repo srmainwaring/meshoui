@@ -202,7 +202,7 @@ namespace meshoui {
     FlipHalfedgeNormals();
   }
 
-  meshoui::Mesh Merger(meshoui::Mesh mesh_1, meshoui::Mesh mesh_2) {
+  meshoui::Mesh Merge(meshoui::Mesh &mesh_1, meshoui::Mesh &mesh_2) {
 
     // This function merges two meshes into a single mesh.
 
@@ -248,28 +248,27 @@ namespace meshoui {
 
   }
 
-  meshoui::Mesh Merger(std::vector<meshoui::Mesh> meshes) {
+  meshoui::Mesh Merge(std::vector<meshoui::Mesh*> meshes) {
 
     // This function merges several meshes into a single mesh.
 
     // Warning message.
     if(meshes.size() < 2){
-      std::cout << "Merger: at least two meshes are necessary for merging." << std::endl;
+      std::cout << "Merge: at least two meshes are necessary for merging." << std::endl;
       exit(0);
     }
 
     // Sub-vector.
     auto second_mesh = meshes.cbegin() + 1;
     auto last_mesh = meshes.cend();
-    auto meshes_from_second_one = std::vector<meshoui::Mesh>(second_mesh, last_mesh);
+    auto meshes_from_second_one = std::vector<meshoui::Mesh*>(second_mesh, last_mesh);
 
     // First merge.
-    auto merged_mesh = Merger(meshes.at(0), meshes.at(1));
+    auto merged_mesh = Merge(*meshes.at(0), *meshes.at(1));
 
     // Other merges.
-    int i_mesh = 0;
     for (auto& mesh : meshes_from_second_one) {
-      merged_mesh = Merger(merged_mesh, mesh);
+      merged_mesh = Merge(merged_mesh, *mesh);
     }
 
     return merged_mesh;
