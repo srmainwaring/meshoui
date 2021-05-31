@@ -160,6 +160,10 @@ namespace meshoui {
   /// This function merges several meshes into a single mesh.
   meshoui::Mesh Merge(std::vector<meshoui::Mesh*> meshes);
 
+  meshoui::Mesh operator+(meshoui::Mesh &mesh_1, meshoui::Mesh &mesh_2) {
+    return Merge(mesh_1, mesh_2);
+  }
+
   void Write_OBJ(Mesh &mesh, const std::string &obj_filename);
 
 } // end namespace meshoui

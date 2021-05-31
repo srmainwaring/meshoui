@@ -42,6 +42,8 @@ TEST(meshoui_tests, merger) {
   auto mesh_merged = Merge(meshes);
   Show(mesh_merged);
 
+  auto merged = *mesh_1 + *mesh_2;
+
   Write_VTK(mesh_merged, "Merged_mesh.vtp");
 
   #endif
