@@ -43,7 +43,11 @@ int main() {
   meshoui::Mesh mesh(vertices, faces);
 
   // Or reading from file
-//  meshoui::Mesh mesh("../../data/Sphere.obj");
+  meshoui::Mesh mesh_2("../../data/Sphere.obj");
+
+  // Or construction by copy.
+  meshoui::Mesh mesh_3(mesh_2);
+  Show(mesh_3);
 
 #ifdef USE_VTK
 

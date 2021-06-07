@@ -53,6 +53,9 @@ namespace meshoui {
     explicit Mesh(const std::string &meshfile);
 
     /// Constructor of the class.
+    Mesh(const Mesh& mesh);
+
+    /// Constructor of the class.
     Mesh(const std::vector<Vector3d> &vertices, const std::vector<Eigen::VectorXi> & faces);
 
     /// Constructor of the class.

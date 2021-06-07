@@ -13,7 +13,37 @@
 namespace meshoui {
 
   Mesh::Mesh(const std::string &meshfile) {
+    // Constructor of the class.
     Load(meshfile);
+  }
+
+  Mesh::Mesh(const Mesh& mesh) {
+
+    // Constructor of the class.
+
+    // Vertices.
+    for (VertexIter v_iter = mesh.vertices_begin(); v_iter != mesh.vertices_end(); ++v_iter) {
+      add_vertex(mesh.point(*v_iter));
+    }
+
+    // Faces.
+    for (FaceIter f_iter = mesh.faces_begin(); f_iter != mesh.faces_end(); ++f_iter) {
+
+      auto heh = mesh.halfedge_handle(*f_iter);
+      std::vector<VertexHandle> face_vhandles;
+      face_vhandles.clear();
+      face_vhandles.push_back(mesh.from_vertex_handle(heh));
+      heh = mesh.next_halfedge_handle(heh);
+      face_vhandles.push_back(mesh.from_vertex_handle(heh));
+      heh = mesh.next_halfedge_handle(heh);
+      face_vhandles.push_back(mesh.from_vertex_handle(heh));
+      add_face(face_vhandles);
+
+    }
+
+    // Properties.
+    UpdateAllProperties();
+
   }
 
   Mesh::Mesh(const std::vector<meshoui::Vector3d> &vertices, const std::vector<Eigen::VectorXi> &faces) {
