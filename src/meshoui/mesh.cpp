@@ -232,6 +232,34 @@ namespace meshoui {
     FlipHalfedgeNormals();
   }
 
+  void Mesh::Vertices_Faces(std::vector<Vector3d> &vertices, std::vector<Eigen::VectorXi> &faces) {
+
+    // This method returns the tables of vertices and faces of a mesh.
+
+    // Initialization.
+    vertices.clear();
+    vertices.reserve(n_vertices());
+    faces.clear();
+    faces.reserve(n_faces());
+
+    // Vertices.
+    for (VertexIter v_iter = vertices_begin(); v_iter != vertices_end(); ++v_iter) {
+      vertices.push_back(point(*v_iter));
+    }
+
+    // Faces.
+    for (FaceIter f_iter = faces_begin(); f_iter != faces_end(); ++f_iter) {
+      Eigen::VectorXi face = Eigen::VectorXi::Zero(3);
+      int index = 0;
+      for (Mesh::FaceVertexIter fv_it = fv_begin(*f_iter); fv_it.is_valid(); ++fv_it) {
+        face(index) = fv_it->idx();
+        ++index;
+      }
+      faces.push_back(face);
+    }
+
+  }
+
   meshoui::Mesh Merge(meshoui::Mesh &mesh_1, meshoui::Mesh &mesh_2) {
 
     // This function merges two meshes into a single mesh.

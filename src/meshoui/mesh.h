@@ -148,12 +148,13 @@ namespace meshoui {
     /// This method flips the normals (face, vertice, halfedge).
     void FlipAllNormals();
 
-//   private:
-
     /// Computes triangular faces surface integration of some polynomial integrands using analytical formulas
     /// established by transforming surface integrals into contour integrals and deriving analytical expressions.
     /// Extended from Eberly... https://d-ice.gitlab.host/common/technical_reports/mesh-integrals
     void CalcFacePolynomialIntegrals(const Mesh::FaceHandle &fh);
+
+    /// This method returns the tables of vertices and faces of a mesh.
+    void Vertices_Faces(std::vector<Vector3d> &vertices, std::vector<Eigen::VectorXi> &faces);
 
   };
 

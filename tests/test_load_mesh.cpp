@@ -47,7 +47,18 @@ int main() {
 
   // Or construction by copy.
   meshoui::Mesh mesh_3(mesh_2);
+  assert(mesh_2.n_vertices() == mesh_3.n_vertices());
+  assert(mesh_2.n_faces() == mesh_3.n_faces());
   Show(mesh_3);
+
+  // Or using vertices and faces.
+  std::vector<meshoui::Vector3d> vertices_tmp;
+  std::vector<Eigen::VectorXi> faces_tmp;
+  mesh_3.Vertices_Faces(vertices_tmp, faces_tmp);
+  meshoui::Mesh mesh_4(vertices_tmp, faces_tmp);
+  assert(mesh_3.n_vertices() == mesh_4.n_vertices());
+  assert(mesh_3.n_faces() == mesh_4.n_faces());
+  Show(mesh_4);
 
 #ifdef USE_VTK
 
