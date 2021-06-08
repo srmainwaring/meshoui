@@ -291,15 +291,15 @@ namespace meshoui {
     } else { // Two meshes and more.
 
       // Sub-vector.
-      auto second_mesh = meshes.cbegin() + 1;
+      auto third_mesh = meshes.cbegin() + 2;
       auto last_mesh = meshes.cend();
-      auto meshes_from_second_one = std::vector<meshoui::Mesh *>(second_mesh, last_mesh);
+      auto meshes_from_third_one = std::vector<meshoui::Mesh *>(third_mesh, last_mesh);
 
       // First merge.
       auto merged_mesh = Merge(*meshes.at(0), *meshes.at(1));
 
       // Other merges.
-      for (auto &mesh : meshes_from_second_one) {
+      for (auto &mesh : meshes_from_third_one) {
         merged_mesh = Merge(merged_mesh, *mesh);
       }
 
