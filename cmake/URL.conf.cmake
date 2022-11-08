@@ -6,7 +6,7 @@ set(googletest_TAG release-1.10.0 CACHE STRING "")
 # set(mathutils_URL git@frydom-ce.org:ce/mathutils.git)
 # set(mathutils_TAG v1.6.1 CACHE STRING "MathUtils version")
 set(mathutils_URL https://github.com/srmainwaring/mathutils.git)
-set(mathutils_TAG 4661e678c5905c6ce58d99886c2fbb6b7dd27882 CACHE STRING "MathUtils version")
+set(mathutils_TAG ca9efea4fbb21898851dfdceb99936310834c475 CACHE STRING "MathUtils version")
 
 # OpenMesh
 set(openmesh_URL "https://www.graphics.rwth-aachen.de:9000/OpenMesh/OpenMesh.git")
