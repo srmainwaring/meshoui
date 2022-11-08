@@ -19,6 +19,7 @@ namespace meshoui {
   class IntegrandOnFace : public mathutils::Integrand<T> {
 
    public:
+    virtual ~IntegrandOnFace() {}
 
     /// This function evalutes the integrand at the point x.
     virtual T Evaluate(const Vector3d &x) const = 0;

@@ -16,6 +16,7 @@ namespace meshoui {
   class ClippingSurface {
 
    public:
+    virtual ~ClippingSurface() {}
 
     /// Gives the distance to the clipping surface
     virtual double GetDistance(const Mesh::Point &point) const = 0;
@@ -37,6 +38,7 @@ namespace meshoui {
     std::shared_ptr<Plane> m_plane;     ///< plane used for clipping
 
    public:
+    virtual ~ClippingPlane() {}
 
     ClippingPlane() : m_plane(std::make_shared<Plane>()) {}
 
